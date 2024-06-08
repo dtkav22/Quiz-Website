@@ -8,7 +8,6 @@ public class TestQuizTask extends TestCase {
     public void testQuestionResponseTask() {
         Question q = new Question("is test?");
         Answer ans = new Answer("yes");
-        QuestionAnsPair QA = new QuestionAnsPair(q, ans);
         QuestionResponseTask QR = new QuestionResponseTask(q, ans);
         assertEquals(1, QR.getListSize());
         assertEquals(QR.getQaAt(0), QR.getQA());
@@ -17,13 +16,25 @@ public class TestQuizTask extends TestCase {
     public void testFillBlankTask() {
         Question q = new Question("This is test sample//smpl, where this sample//smpl is important.");
         Answer ans = new Answer("sample//smpl");
-        FillBlankTask QR = new FillBlankTask(q, ans);
-        assertEquals(1, QR.getListSize());
-        assertEquals(QR.getQaAt(0), QR.getQA());
+        FillBlankTask FB = new FillBlankTask(q, ans);
+        assertEquals(1, FB.getListSize());
+        assertEquals(FB.getQaAt(0), FB.getQA());
 
-        String[] list = QR.getFillableQuestionText();
+        String[] list = FB.getFillableQuestionText();
         assertEquals("This is test ", list[0]);
         assertEquals(", where this ", list[1]);
         assertEquals(" is important.", list[2]);
+    }
+
+    public void testMultipleChoiceTask() {
+        Question q = new Question("is 5 more than 4?");
+        ArrayList<String> wrongAnswers = new ArrayList<>();
+        wrongAnswers.add("no");
+        wrongAnswers.add("equals");
+        Answer ans = new Answer("yes", wrongAnswers);
+        MultipleChoiceTask MC = new MultipleChoiceTask(q, ans);
+        assertEquals(1, MC.getListSize());
+        assertTrue(MC.isCorrectAnswer("yes"));
+        assertEquals(((QuizTask)MC).getQaAt(0), MC.getQA());
     }
 }

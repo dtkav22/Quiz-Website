@@ -10,4 +10,8 @@ public abstract class QuizTask {
     public QuestionAnsPair getQaAt(int i) {
         return list.get(i);
     }
+
+    public boolean isCorrectAnswer(String answer) {
+        return getQaAt(0).getAnswer().isCorrect(answer);
+    }
 }
