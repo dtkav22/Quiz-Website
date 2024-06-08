@@ -49,10 +49,10 @@ INSERT into quizzes_table (quiz_author)
 VALUES ('OOP team');
 
 INSERT into tasks_table (task_type, quiz_id)
-VALUES (1, 1),
+VALUES (0, 1),
+       (1, 1),
        (2, 1),
-       (3, 1),
-       (1, 1);
+       (0, 1);
 
 INSERT INTO questions_table(task_id, question_text, image)
 VALUES(1, 'Who was the first president of Geeorgia?', NULL),
