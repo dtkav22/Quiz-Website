@@ -90,7 +90,7 @@ public class QuizStorage {
             stm.setString(2, String.valueOf(QA.getQuestion().getImgUrl()));
             stm.setString(3, taskId);
             stm.executeUpdate();
-            ResultSet res = con.createStatement().executeQuery("SELECT MAX(task_id) FROM tasks_table");
+            ResultSet res = con.createStatement().executeQuery("SELECT MAX(question_id) FROM questions_table");
             if(res.next()) {
                 String id = res.getString(1);
                 String ans_query = "INSERT INTO answers_table (answer_text, isCorrect, answer_order, question_id) VALUES(?, ?, ?, ?)";
