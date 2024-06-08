@@ -3,16 +3,20 @@ package Quiz;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import static Quiz.TaskTypes.FILL_BLANK;
+
 public class FillBlankTask extends QuizTask{
     public static final String BLANK = "<blank>";
 
     public FillBlankTask(QuestionAnsPair QA) {
         list = new ArrayList<>();
         list.add(QA);
+        type = FILL_BLANK;
     }
 
     public FillBlankTask(Question q, Answer ans) {
         this(new QuestionAnsPair(q, ans));
+        type = FILL_BLANK;
     }
 
     public QuestionAnsPair getQA() {

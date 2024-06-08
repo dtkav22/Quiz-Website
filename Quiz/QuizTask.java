@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public abstract class QuizTask {
     ArrayList<QuestionAnsPair> list;
+    int type;
     public int getListSize() {
         return list.size();
     }
