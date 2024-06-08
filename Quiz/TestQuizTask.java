@@ -37,4 +37,13 @@ public class TestQuizTask extends TestCase {
         assertTrue(MC.isCorrectAnswer("yes"));
         assertEquals(((QuizTask)MC).getQaAt(0), MC.getQA());
     }
+
+    public void testPictureResponseTask() {
+        Question q = new Question("is this bird?", "imgUrlSimulation");
+        Answer ans = new Answer("no");
+        PictureResponseTask PR = new PictureResponseTask(q, ans);
+        assertEquals(1, PR.getListSize());
+        assertEquals(PR.getQaAt(0), PR.getQA());
+        assertTrue(PR.isCorrectAnswer("no"));
+    }
 }
