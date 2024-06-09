@@ -46,7 +46,7 @@ public class QuizStorage {
             PreparedStatement stm = con.prepareStatement(query);
             stm.setString(1, quiz.author);
             stm.executeUpdate();
-            ResultSet res = con.createStatement().executeQuery("SELECT MAX(quiz_id) FROM quizzes_table");
+            ResultSet res = con.createStatement().executeQuery("SELECT LAST_INSERT_ID();");
             if(res.next()) {
                 String id = res.getString(1);
                 for(int i = 0; i < quiz.tasks.size(); i++) {
@@ -58,6 +58,7 @@ public class QuizStorage {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
     }
 
     private void addTask(QuizTask task, Connection con, String quizId) {
@@ -67,7 +68,7 @@ public class QuizStorage {
             stm.setString(1, String.valueOf(task.getType()));
             stm.setString(2, quizId);
             stm.executeUpdate();
-            ResultSet res = con.createStatement().executeQuery("SELECT MAX(task_id) FROM tasks_table");
+            ResultSet res = con.createStatement().executeQuery("SELECT LAST_INSERT_ID();");
             if(res.next()) {
                 String id = res.getString(1);
                 for(int i = 0; i < task.getListSize(); i++) {
@@ -90,7 +91,7 @@ public class QuizStorage {
             stm.setString(2, String.valueOf(QA.getQuestion().getImgUrl()));
             stm.setString(3, taskId);
             stm.executeUpdate();
-            ResultSet res = con.createStatement().executeQuery("SELECT MAX(question_id) FROM questions_table");
+            ResultSet res = con.createStatement().executeQuery("SELECT LAST_INSERT_ID();");
             if(res.next()) {
                 String id = res.getString(1);
                 String ans_query = "INSERT INTO answers_table (answer_text, isCorrect, answer_order, question_id) VALUES(?, ?, ?, ?)";
@@ -130,6 +131,7 @@ public class QuizStorage {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
     }
     private ArrayList<QuizTask> getTask(Connection con, String quiz_id) {
         String query = "select * from tasks_table where quiz_id = '" + quiz_id + "';";
@@ -203,5 +205,6 @@ public class QuizStorage {
         Quiz quiz = new Quiz("OOP TEAM 2", task);
         QuizStorage.getInstance().addQuiz(quiz);
     }
+
 
 }
