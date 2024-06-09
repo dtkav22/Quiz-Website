@@ -12,9 +12,9 @@ import java.util.Arrays;
 import static Quiz.TaskTypes.*;
 
 public class QuizStorage {
-    static QuizStorage instance;
-    private ArrayList<Quiz> quizzes;
-    public QuizStorage() {
+    private static QuizStorage instance;
+    private final ArrayList<Quiz> quizzes;
+    private QuizStorage() {
         quizzes = new ArrayList<Quiz>();
     };
 
