@@ -37,7 +37,7 @@ public class QuizStorage {
         return quizzes.get(index);
     }
 
-    synchronized public void addQuiz(Quiz quiz) {
+    public void addQuiz(Quiz quiz) {
         quizzes.add(quiz);
         /// adding quiz in base
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
