@@ -7,17 +7,16 @@ import java.util.ArrayList;
 public class TestQuestionAnsPair extends TestCase {
     public void testSample() {
         String qTxt = "is this testSample1?";
-        Question question = new Question(qTxt);
         Answer answer = new Answer("yes");
-        QuestionAnsPair QA = new QuestionAnsPair(question, answer);
+        Question question = new Question(answer, qTxt);
 
         assertEquals(qTxt, question.getQuestionText());
         assertNull(question.getImgUrl());
         assertEquals("yes", answer.getCorrectAnswerAt(0));
         assertEquals(1, answer.getCorrectAnswersNumber());
         assertEquals(0, answer.getWrongAnswersNumber());
-        assertEquals(question, QA.getQuestion());
-        assertEquals(answer, QA.getAnswer());
+        assertEquals(question, question);
+        assertEquals(answer, question.getAnswer());
     }
 
     public void testAnswerClass() {

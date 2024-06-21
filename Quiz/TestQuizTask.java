@@ -6,19 +6,20 @@ import java.util.ArrayList;
 
 public class TestQuizTask extends TestCase {
     public void testQuestionResponseTask() {
-        Question q = new Question("is test?");
         Answer ans = new Answer("yes");
-        QuestionResponseTask QR = new QuestionResponseTask(q, ans);
+        Question q = new Question(ans, "is test?");
+        QuestionResponseTask QR = new QuestionResponseTask(q);
         assertEquals(1, QR.getListSize());
-        assertEquals(QR.getQaAt(0), QR.getQA());
+        assertEquals(QR.getQuestion(), QR.getQuestionAt(0));
     }
 
     public void testFillBlankTask() {
-        Question q = new Question("This is test sample//smpl, where this sample//smpl is important.");
         Answer ans = new Answer("sample//smpl");
-        FillBlankTask FB = new FillBlankTask(q, ans);
+        Question q = new Question(ans, "This is test sample//smpl, where this sample//smpl is important.");
+
+        FillBlankTask FB = new FillBlankTask(q);
         assertEquals(1, FB.getListSize());
-        assertEquals(FB.getQaAt(0), FB.getQA());
+        assertEquals(FB.getQuestionAt(0), FB.getQuestion());
 
         String[] list = FB.getFillableQuestionText();
         assertEquals("This is test ", list[0]);
@@ -27,23 +28,25 @@ public class TestQuizTask extends TestCase {
     }
 
     public void testMultipleChoiceTask() {
-        Question q = new Question("is 5 more than 4?");
         ArrayList<String> wrongAnswers = new ArrayList<>();
         wrongAnswers.add("no");
         wrongAnswers.add("equals");
         Answer ans = new Answer("yes", wrongAnswers);
-        MultipleChoiceTask MC = new MultipleChoiceTask(q, ans);
+        Question q = new Question(ans, "is 5 more than 4?");
+
+        MultipleChoiceTask MC = new MultipleChoiceTask(q);
         assertEquals(1, MC.getListSize());
         assertTrue(MC.isCorrectAnswer("yes"));
-        assertEquals(((QuizTask)MC).getQaAt(0), MC.getQA());
+        assertEquals(((QuizTask)MC).getQuestionAt(0), MC.getQuestion());
     }
 
     public void testPictureResponseTask() {
-        Question q = new Question("is this bird?", "imgUrlSimulation");
         Answer ans = new Answer("no");
-        PictureResponseTask PR = new PictureResponseTask(q, ans);
+        Question q = new Question(ans,"is this bird?", "imgUrlSimulation");
+
+        PictureResponseTask PR = new PictureResponseTask(q);
         assertEquals(1, PR.getListSize());
-        assertEquals(PR.getQaAt(0), PR.getQA());
+        assertEquals(PR.getQuestionAt(0), PR.getQuestion());
         assertTrue(PR.isCorrectAnswer("no"));
     }
 }

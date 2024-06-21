@@ -5,18 +5,13 @@ import java.util.ArrayList;
 import static Quiz.TaskTypes.QUESTION_RESPONSE;
 
 public class QuestionResponseTask extends QuizTask{
-    public QuestionResponseTask(QuestionAnsPair QA) {
+    public QuestionResponseTask(Question question) {
         list = new ArrayList<>();
-        list.add(QA);
+        list.add(question);
         type = QUESTION_RESPONSE;
     }
 
-    public QuestionResponseTask(Question q, Answer ans) {
-        this(new QuestionAnsPair(q, ans));
-        type = QUESTION_RESPONSE;
-    }
-
-    public QuestionAnsPair getQA() {
+    public Question getQuestion() {
         return list.get(0);
     }
 }
