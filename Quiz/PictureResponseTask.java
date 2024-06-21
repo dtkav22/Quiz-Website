@@ -6,18 +6,13 @@ import static Quiz.TaskTypes.PICTURE_RESPONSE;
 
 public class PictureResponseTask extends QuizTask{
 
-    public PictureResponseTask(QuestionAnsPair QA) {
+    public PictureResponseTask(Question question) {
         list = new ArrayList<>();
-        list.add(QA);
+        list.add(question);
         type = PICTURE_RESPONSE;
     }
 
-    public PictureResponseTask(Question q, Answer ans) {
-        this(new QuestionAnsPair(q, ans));
-        type = PICTURE_RESPONSE;
-    }
-
-    public QuestionAnsPair getQA() {
+    public Question getQuestion() {
         return list.get(0);
     }
 }

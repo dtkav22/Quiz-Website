@@ -8,18 +8,13 @@ import static Quiz.TaskTypes.FILL_BLANK;
 public class FillBlankTask extends QuizTask{
     public static final String BLANK = "<blank>";
 
-    public FillBlankTask(QuestionAnsPair QA) {
+    public FillBlankTask(Question Question) {
         list = new ArrayList<>();
-        list.add(QA);
+        list.add(Question);
         type = FILL_BLANK;
     }
 
-    public FillBlankTask(Question q, Answer ans) {
-        this(new QuestionAnsPair(q, ans));
-        type = FILL_BLANK;
-    }
-
-    public QuestionAnsPair getQA() {
+    public Question getQuestion() {
         return list.get(0);
     }
 
@@ -28,8 +23,8 @@ public class FillBlankTask extends QuizTask{
         With this Fillable text can be generated easily.
      */
     public String[] getFillableQuestionText() {
-        String text = getQA().getQuestion().getQuestionText();
-        String ans = getQA().getAnswer().getCorrectAnswerAt(0);
+        String text = getQuestion().getQuestionText();
+        String ans = getQuestion().getAnswer().getCorrectAnswerAt(0);
         return text.split(ans);
     }
 }

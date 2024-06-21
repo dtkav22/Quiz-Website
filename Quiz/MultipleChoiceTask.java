@@ -6,18 +6,13 @@ import static Quiz.TaskTypes.MULTIPLE_CHOICE;
 
 public class MultipleChoiceTask extends QuizTask{
 
-    public MultipleChoiceTask(QuestionAnsPair QA) {
+    public MultipleChoiceTask(Question question) {
         list = new ArrayList<>();
-        list.add(QA);
+        list.add(question);
         type = MULTIPLE_CHOICE;
     }
 
-    public MultipleChoiceTask(Question q, Answer ans) {
-        this(new QuestionAnsPair(q, ans));
-        type = MULTIPLE_CHOICE;
-    }
-
-    public QuestionAnsPair getQA() {
-        return getQaAt(0);
+    public Question getQuestion() {
+        return getQuestionAt(0);
     }
 }
