@@ -6,9 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static Quiz.TaskTypes.*;
 
 public class QuizDAO {
-    public int addQuiz(Quiz quiz) {
+    public String addQuiz(Quiz quiz) {
         /// adding quiz in base
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         String query = "INSERT INTO quizzes_table (quiz_author) VALUES(?)";
@@ -23,7 +27,7 @@ public class QuizDAO {
                     addTask(quiz.tasks.get(i), con, id);
                 }
                 DataBaseConnectionPool.getInstance().closeConnection(con);
-                return Integer.parseInt(id);
+                return id;
             } else {
                 throw new Exception("Mysql command LAST_INSERT_ID failed");
             }
@@ -89,5 +93,152 @@ public class QuizDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public Quiz getQuiz(String id) {
+        try {
+            Connection con = DataBaseConnectionPool.getInstance().getConnection();
+            ResultSet res = con.createStatement().executeQuery("SELECT * FROM quizzes_table WHERE quiz_id = " + id + ";");
+            if(res.next()) {
+                ArrayList<QuizTask> tasks = getTasks(id, con);
+                String author = res.getString("quiz_author");
+                return new Quiz(author, tasks);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ArrayList<QuizTask> getTasks(String id, Connection con) {
+        try {
+            ArrayList<QuizTask> tasks = new ArrayList<QuizTask>();
+            ResultSet res = con.createStatement().executeQuery("SELECT * FROM tasks_table WHERE quiz_id = " + id + ";");
+            while(res.next()) {
+                String task_id = res.getString("task_id");
+                ArrayList<Question> questions = getQuestions(task_id, con);
+                int type = res.getInt("task_type");
+                switch (type) {
+                    case FILL_BLANK : {
+                        FillBlankTask task = new FillBlankTask(questions.get(0));
+                        tasks.add(task);
+                        break;
+                    }
+                    case QUESTION_RESPONSE : {
+                        QuestionResponseTask task = new QuestionResponseTask(questions.get(0));
+                        tasks.add(task);
+                        break;
+                    }
+                    case MULTIPLE_CHOICE : {
+                        MultipleChoiceTask task = new MultipleChoiceTask(questions.get(0));
+                        tasks.add(task);
+                        break;
+                    }
+                    case PICTURE_RESPONSE : {
+                        PictureResponseTask task = new PictureResponseTask(questions.get(0));
+                        tasks.add(task);
+                        break;
+                    }
+                }
+            }
+            return (!tasks.isEmpty()) ? tasks : null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ArrayList<Question> getQuestions(String task_id, Connection con) {
+        try {
+            ArrayList<Question> questions = new ArrayList<Question>();
+            ResultSet res = con.createStatement().executeQuery("SELECT * FROM questions_table WHERE task_id = " + task_id + ";");
+            while(res.next()) {
+                String question_id = res.getString("question_id");
+                Answer answers = getAnswer(question_id, con);
+                String question = res.getString("question_text");
+                String image = res.getString("image");
+                questions.add(new Question(answers, question, image));
+            }
+            return (!questions.isEmpty()) ? questions : null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Answer getAnswer(String question_id, Connection con) {
+        try {
+            ArrayList<String> correct = new ArrayList<>(), wrong = new ArrayList<>();
+            ResultSet res = con.createStatement().executeQuery("SELECT * FROM answers_table WHERE question_id = " + question_id + " ORDER BY answer_order;");
+            while(res.next()) {
+                String text = res.getString("answer_text");
+                if(res.getString("isCorrect").equals("1")) {
+                    correct.add(text);
+                } else {
+                    wrong.add(text);
+                }
+            }
+            if(correct.isEmpty()) return null;
+            return new Answer(correct, wrong);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        QuizDAO dao = new QuizDAO();
+
+        /// crating task 1
+        Answer answer = new Answer("Ding Liren");
+        Question question = new Question(answer, "Who is current world champion in chess?");
+        QuestionResponseTask task = new QuestionResponseTask(question);
+
+        /// creating task 2
+        Answer answer2 = new Answer("Spain", new ArrayList<String>(Arrays.asList("Germany", "France", "Brazil")));
+        Question question2 = new Question(answer2, "Which national team won world cup in 2010?");
+        MultipleChoiceTask task2 = new MultipleChoiceTask(question2);
+
+        ArrayList<QuizTask> list = new ArrayList<>();
+        list.add(task);
+        list.add(task2);
+        Quiz quiz = new Quiz("Team OOP2", list);
+
+        String id = dao.addQuiz(quiz);
+
+        Quiz quiz2 = dao.getQuiz(id);
+
+        if(quiz.author.equals(quiz2.author)) {
+            System.out.println("TRUE");
+        } else {
+            System.out.println("FALSE");
+        }
+
+        if(quiz2.tasks.size() == 2) {
+            System.out.println("TRUE");
+        } else {
+            System.out.println("FALSE");
+        }
+
+        if(quiz2.tasks.get(0).getType() == QUESTION_RESPONSE) {
+            System.out.println("TRUE");
+        } else {
+            System.out.println("FALSE");
+        }
+
+        QuestionResponseTask cur = (QuestionResponseTask) quiz2.tasks.get(0);
+        if(cur.isCorrectAnswer("Ding Liren")) {
+            System.out.println("TRUE");
+        } else {
+            System.out.println("FALSE");
+        }
+
+        if(cur.isCorrectAnswer("Magnus Carlsen")) {
+            System.out.println("False");
+        } else {
+            System.out.println("TRUE");
+        }
+
+    }
+
+
+
 
 }
