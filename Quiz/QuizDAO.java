@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static Quiz.TaskTypes.*;
 
@@ -101,8 +100,10 @@ public class QuizDAO {
             if(res.next()) {
                 ArrayList<QuizTask> tasks = getTasks(id, con);
                 String author = res.getString("quiz_author");
+                DataBaseConnectionPool.getInstance().closeConnection(con);
                 return new Quiz(author, tasks);
             } else {
+                DataBaseConnectionPool.getInstance().closeConnection(con);
                 return null;
             }
         } catch (SQLException e) {
@@ -117,6 +118,7 @@ public class QuizDAO {
             while(res.next()) {
                 String task_id = res.getString("task_id");
                 ArrayList<Question> questions = getQuestions(task_id, con);
+                if(questions == null) continue;
                 int type = res.getInt("task_type");
                 switch (type) {
                     case FILL_BLANK : {
@@ -182,63 +184,4 @@ public class QuizDAO {
             throw new RuntimeException(e);
         }
     }
-
-    public static void main(String[] args) {
-        QuizDAO dao = new QuizDAO();
-
-        /// crating task 1
-        Answer answer = new Answer("Ding Liren");
-        Question question = new Question(answer, "Who is current world champion in chess?");
-        QuestionResponseTask task = new QuestionResponseTask(question);
-
-        /// creating task 2
-        Answer answer2 = new Answer("Spain", new ArrayList<String>(Arrays.asList("Germany", "France", "Brazil")));
-        Question question2 = new Question(answer2, "Which national team won world cup in 2010?");
-        MultipleChoiceTask task2 = new MultipleChoiceTask(question2);
-
-        ArrayList<QuizTask> list = new ArrayList<>();
-        list.add(task);
-        list.add(task2);
-        Quiz quiz = new Quiz("Team OOP2", list);
-
-        String id = dao.addQuiz(quiz);
-
-        Quiz quiz2 = dao.getQuiz(id);
-
-        if(quiz.author.equals(quiz2.author)) {
-            System.out.println("TRUE");
-        } else {
-            System.out.println("FALSE");
-        }
-
-        if(quiz2.tasks.size() == 2) {
-            System.out.println("TRUE");
-        } else {
-            System.out.println("FALSE");
-        }
-
-        if(quiz2.tasks.get(0).getType() == QUESTION_RESPONSE) {
-            System.out.println("TRUE");
-        } else {
-            System.out.println("FALSE");
-        }
-
-        QuestionResponseTask cur = (QuestionResponseTask) quiz2.tasks.get(0);
-        if(cur.isCorrectAnswer("Ding Liren")) {
-            System.out.println("TRUE");
-        } else {
-            System.out.println("FALSE");
-        }
-
-        if(cur.isCorrectAnswer("Magnus Carlsen")) {
-            System.out.println("False");
-        } else {
-            System.out.println("TRUE");
-        }
-
-    }
-
-
-
-
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Quiz {
     ArrayList<QuizTask> tasks;
     String author; /// other info are needed as well
+
     public Quiz(String author, ArrayList<QuizTask> tasks) {
         this.tasks = tasks;
         this.author = author;
@@ -17,6 +18,7 @@ public class Quiz {
     public Quiz(String author) {
         this.author = author;
     }
+
     public void addTask(QuizTask task) {
         tasks.add(task);
     }
