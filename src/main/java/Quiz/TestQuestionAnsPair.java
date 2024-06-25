@@ -1,5 +1,7 @@
 package Quiz;
 
+import Quiz.Answer;
+import Quiz.Question;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
