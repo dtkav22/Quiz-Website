@@ -1,0 +1,50 @@
+body {
+    font-size: large;
+    font-family: 'Lato', sans-serif;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center; /* center x axis*/
+    justify-content: center; /*center y axis*/
+}
+
+.Welcome-box {
+    background-color: white;
+    padding: 20px; /* border distance */
+    text-align: center;
+    width: 350px;
+    border-radius: 6px;
+    box-shadow: 5px 10px;
+}
+
+label {
+    display: block;
+    margin: 5px 1px 5px 1px; /* Top, right, bottom, left margins */
+    text-align: left;
+}
+
+input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 1px 5px 1px; /* Top, right, bottom, left margins */
+    border: 1px solid #ccc;
+    background-color: aliceblue;
+    border-radius: 4px;
+}
+
+button {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 5px 2px;
+}
+
+.button_default {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.button_second {
+    background-color: white;
+    color: dodgerblue;
+}
