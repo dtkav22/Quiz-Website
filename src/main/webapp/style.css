@@ -39,12 +39,22 @@ button {
     margin: 5px 2px;
 }
 
-.button_default {
+.login_button {
     background-color: dodgerblue;
     color: white;
 }
 
-.button_second {
+.register_button {
     background-color: white;
     color: dodgerblue;
+}
+
+@keyframes buttonClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.animated {
+    animation: buttonClick 0.3s;
 }
