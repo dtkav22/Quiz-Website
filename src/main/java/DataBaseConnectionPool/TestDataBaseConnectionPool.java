@@ -3,9 +3,6 @@ package DataBaseConnectionPool;
 import junit.framework.TestCase;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.concurrent.CountDownLatch;
 
 public class TestDataBaseConnectionPool extends TestCase{
@@ -17,7 +14,7 @@ public class TestDataBaseConnectionPool extends TestCase{
 
     public void testConnection() throws InterruptedException {
         int numberOfClients = 10 * pool.getPoolSize() + 1;
-        CountDownLatch countDownLatch = new CountDownLatch(numberOfClients);
+        final CountDownLatch countDownLatch = new CountDownLatch(numberOfClients);
         for(int i = 0; i < numberOfClients; i++) {
             new Thread(new Runnable() {
                 @Override
