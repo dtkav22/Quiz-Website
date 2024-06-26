@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UserDAO {
     public void addUser(User user) throws SQLException {
@@ -44,5 +45,21 @@ public class UserDAO {
             user = new User(username, password, email);
         }
         return user;
+    }
+
+    public ArrayList<Performance> getUserPerformanceHistory(String user_id) throws SQLException{
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM performances_table WHERE user_id = ? ORDER BY date DESC";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, user_id);
+        ResultSet set = statement.executeQuery();
+        ArrayList<Performance> result = new ArrayList<>();
+        while(set.next()) {
+            String quiz_id = set.getString("quiz_id");
+            double score = set.getDouble("score");
+            String date = set.getString("date");
+            result.add(new Performance(quiz_id, score, date));
+        }
+        return result;
     }
 }

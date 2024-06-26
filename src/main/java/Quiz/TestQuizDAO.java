@@ -22,7 +22,7 @@ public class TestQuizDAO extends TestCase {
         ArrayList<QuizTask> list = new ArrayList<>();
         list.add(task);
         list.add(task2);
-        return new Quiz("Team OOP2", list);
+        return new Quiz("1", list);
     }
 
     public void test1() {
@@ -31,9 +31,9 @@ public class TestQuizDAO extends TestCase {
         String id = dao.addQuiz(quiz1);
         Quiz quiz2 = dao.getQuiz(id);
 
-        assertEquals(quiz1.author, quiz2.author);
-        assertEquals(quiz2.tasks.size(), quiz1.tasks.size());
-        assertEquals(quiz2.tasks.get(0).getType(), QUESTION_RESPONSE);
+        assertEquals(quiz1.getAuthor_id(), quiz2.getAuthor_id());
+        assertEquals(quiz2.getTasksSize(), quiz1.getTasksSize());
+        assertEquals(quiz2.getTaskAt(0).getType(), QUESTION_RESPONSE);
     }
 
     public void test2() {
@@ -41,12 +41,12 @@ public class TestQuizDAO extends TestCase {
         Quiz quiz1 = getCurQuiz();
         String id = dao.addQuiz(quiz1);
         Quiz quiz2 = dao.getQuiz(id);
-        QuestionResponseTask cur = (QuestionResponseTask) quiz2.tasks.get(0);
+        QuestionResponseTask cur = (QuestionResponseTask) quiz2.getTaskAt(0);
 
         assertTrue(cur.isCorrectAnswer("Ding Liren"));
         assertFalse(cur.isCorrectAnswer("Magnus Carlsen"));
 
-        MultipleChoiceTask task = (MultipleChoiceTask) quiz2.tasks.get(1);
+        MultipleChoiceTask task = (MultipleChoiceTask) quiz2.getTaskAt(1);
         assertFalse(task.isCorrectAnswer("France"));
         assertTrue(task.isCorrectAnswer("Spain"));
         assertFalse(task.isCorrectAnswer("Georgia"));
@@ -57,7 +57,7 @@ public class TestQuizDAO extends TestCase {
         Quiz quiz1 = getCurQuiz();
         String id = dao.addQuiz(quiz1);
         Quiz quiz2 = dao.getQuiz(id);
-        QuestionResponseTask cur = (QuestionResponseTask) quiz2.tasks.get(0);
+        QuestionResponseTask cur = (QuestionResponseTask) quiz2.getTaskAt(0);
         Question question = cur.getQuestion();
 
         String ques = "Who is current world champion in chess?";

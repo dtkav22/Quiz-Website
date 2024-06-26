@@ -14,16 +14,16 @@ public class QuizDAO {
     public String addQuiz(Quiz quiz) {
         /// adding quiz in base
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "INSERT INTO quizzes_table (quiz_author) VALUES(?)";
+        String query = "INSERT INTO quizzes_table (author_id) VALUES(?)";
         try {
             PreparedStatement stm = con.prepareStatement(query);
-            stm.setString(1, quiz.author);
+            stm.setString(1, quiz.getAuthor_id());
             stm.executeUpdate();
             ResultSet res = con.createStatement().executeQuery("SELECT LAST_INSERT_ID();");
             if(res.next()) {
                 String id = res.getString(1);
-                for(int i = 0; i < quiz.tasks.size(); i++) {
-                    addTask(quiz.tasks.get(i), con, id);
+                for(int i = 0; i < quiz.getTasksSize(); i++) {
+                    addTask(quiz.getTaskAt(i), con, id);
                 }
                 DataBaseConnectionPool.getInstance().closeConnection(con);
                 return id;
@@ -99,7 +99,7 @@ public class QuizDAO {
             ResultSet res = con.createStatement().executeQuery("SELECT * FROM quizzes_table WHERE quiz_id = " + id + ";");
             if(res.next()) {
                 ArrayList<QuizTask> tasks = getTasks(id, con);
-                String author = res.getString("quiz_author");
+                String author = res.getString("author_id");
                 DataBaseConnectionPool.getInstance().closeConnection(con);
                 return new Quiz(author, tasks);
             } else {
