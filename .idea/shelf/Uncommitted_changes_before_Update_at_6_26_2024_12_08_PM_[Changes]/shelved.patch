@@ -1,0 +1,19 @@
+Index: src/main/webapp/welcome.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><%@ page contentType=\"text/html;charset=UTF-8\" language=\"java\" %>\r\n<html>\r\n  <head><title>Welcome</title></head>\r\n  <link rel=\"stylesheet\" href=\"welcome.css\">\r\n  <body>\r\n    <div class=\"welcome-box\">\r\n      <h1>Welcome</h1>\r\n      <form>\r\n        <label for=\"username\">Username</label>\r\n        <input type=\"text\" id=\"username\" name=\"username\" required>\r\n\r\n        <label for=\"password\">Password</label>\r\n        <input type=\"password\" id=\"password\" name=\"password\" required><br>\r\n\r\n        <button type=\"submit\" class=\"button_default\">Login</button>\r\n        <button type=\"submit\" class=\"button_second\">Register</button>\r\n      </form>\r\n    </div>\r\n  </body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/welcome.jsp b/src/main/webapp/welcome.jsp
+--- a/src/main/webapp/welcome.jsp	(revision c276679dfdf6c88f8855e5f73df248215217bd04)
++++ b/src/main/webapp/welcome.jsp	(date 1719348670720)
+@@ -10,7 +10,7 @@
+         <input type="text" id="username" name="username" required>
+ 
+         <label for="password">Password</label>
+-        <input type="password" id="password" name="password" required><br>
++        <input type="password" id="password" name="password" required>
+ 
+         <button type="submit" class="button_default">Login</button>
+         <button type="submit" class="button_second">Register</button>
