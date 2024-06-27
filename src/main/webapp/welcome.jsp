@@ -5,7 +5,7 @@
   <body>
     <div class="welcome-box">
       <h1>Welcome</h1>
-      <form>
+      <form action="LoginServlet" method="post">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" required>
 
@@ -16,7 +16,7 @@
         <button type="button" id="register_button" class="register_button">Register</button>
       </form>
 
-      <script src="script.js"></script>
+      <script src="welcome.js"></script>
 
     </div>
   </body>

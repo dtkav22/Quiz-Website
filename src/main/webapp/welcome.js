@@ -1,10 +1,9 @@
 document.getElementById("register_button").onclick = function() {
     var button = this;
-
     button.classList.add('animated');
 
     setTimeout(function() {
-        window.location.href = "register.jsp";
+        window.location.replace("register.jsp");
     }, 300);
 };
 

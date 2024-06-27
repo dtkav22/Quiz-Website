@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head><title>Register Page</title></head>
-<link rel="stylesheet" href="style.css">
+<head>
+    <title>Register Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
 <div class="welcome-box">
     <h1>Create Account</h1>
@@ -15,11 +17,10 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
 
-        <button type="submit" class="register_button">Register</button>
+        <button type="submit" id="register_button2" class="register_button2">Register</button>
     </form>
-
-    <script src="script.js"></script>
-
+    <div id="error"></div>
 </div>
 </body>
+<script src="register.js"></script>
 </html>
