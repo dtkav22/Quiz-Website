@@ -7,13 +7,14 @@ DROP TABLE IF EXISTS performances_table;
 DROP TABLE IF EXISTS answers_table;
 DROP TABLE IF EXISTS questions_table;
 DROP TABLE IF EXISTS tasks_table;
+DROP TABLE IF EXISTS challenges_table;
 DROP TABLE IF EXISTS quizzes_table;
 DROP TABLE IF EXISTS relations_table;
 DROP TABLE IF EXISTS users_table;
 
 -- Firstly, create users_table and insert value written in user_tables.sql.
 -- Secondly, create following tables in this file and insert values.
--- then, create relations_table in user_tables.sql
+-- then, create relations_table and challenges_table in user_tables.sql
 -- Finally, create performances_table.
 
 -- creating tables

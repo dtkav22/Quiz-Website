@@ -31,3 +31,11 @@ CREATE TABLE relations_table(
     user2_id INT NOT NULL,
     isPending INT NOT NULL
 )
+
+CREATE TABLE challenges_table(
+    challenge_id INT NOT NULL,
+    quiz_id INT NOT NULL,
+    user1_id INT NOT NULL,
+    user2_id INT NOT NULL
+)
+
