@@ -25,5 +25,9 @@ CREATE TABLE performances_table(
 INSERT INTO performances_table (user_id, quiz_id, score, date)
 VALUES (1, 1, 100, '2024-06-26 17:20')
 
-
-
+CREATE TABLE relations_table(
+    relation_id INT NOT NULL,
+    user1_id INT NOT NULL,
+    user2_id INT NOT NULL,
+    isPending INT NOT NULL
+)
