@@ -12,7 +12,7 @@ CREATE TABLE users_table(
     PRIMARY KEY (user_id)
 );
 INSERT INTO users_table(username, email, password)
-VALUES ('duta', 'tkavadzedimitri@gmail.com', '798fa27c4d4fb5b1158a1d5f2339edc0a21b14b6');
+VALUES ('duta', 'tkavadzedimitri@gmail.com', '798fa27c4d4fb5b1158a1d5f2339edc0a21b14b6'); -- password is 'duta'
 
 CREATE TABLE performances_table(
     user_id INT NOT NULL ,
