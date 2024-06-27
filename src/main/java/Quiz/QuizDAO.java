@@ -14,10 +14,14 @@ public class QuizDAO {
     public String addQuiz(Quiz quiz) {
         /// adding quiz in base
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "INSERT INTO quizzes_table (author_id) VALUES(?)";
+        String query = "INSERT INTO quizzes_table (author_id, author_description, creation_date, multiple_page, randomize_tasks) VALUES(?, ?, ?, ?, ?)";
         try {
             PreparedStatement stm = con.prepareStatement(query);
             stm.setString(1, quiz.getAuthor_id());
+            stm.setString(2, quiz.getAuthorDescription());
+            stm.setString(3, quiz.getCreationDate());
+            stm.setBoolean(4, quiz.isOnMultiplePage());
+            stm.setBoolean(5, quiz.isTasksRandomized());
             stm.executeUpdate();
             ResultSet res = con.createStatement().executeQuery("SELECT LAST_INSERT_ID();");
             if(res.next()) {
@@ -100,8 +104,12 @@ public class QuizDAO {
             if(res.next()) {
                 ArrayList<QuizTask> tasks = getTasks(id, con);
                 String author = res.getString("author_id");
+                String authorDescription = res.getString("author_description");
+                String creationDate = res.getString("creation_date");
+                boolean randomize = res.getBoolean("randomize_tasks");
+                boolean multiplePage = res.getBoolean("multiple_page");
                 DataBaseConnectionPool.getInstance().closeConnection(con);
-                return new Quiz(author, tasks);
+                return new Quiz(author, tasks, authorDescription, creationDate, randomize, multiplePage);
             } else {
                 DataBaseConnectionPool.getInstance().closeConnection(con);
                 return null;

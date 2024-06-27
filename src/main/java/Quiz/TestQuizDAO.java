@@ -22,7 +22,7 @@ public class TestQuizDAO extends TestCase {
         ArrayList<QuizTask> list = new ArrayList<>();
         list.add(task);
         list.add(task2);
-        return new Quiz("1", list);
+        return new Quiz("1", list, null, null, false, false);
     }
 
     public void test1() {

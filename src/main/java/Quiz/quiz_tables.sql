@@ -20,7 +20,9 @@ CREATE TABLE quizzes_table (
     quiz_id INT AUTO_INCREMENT,
     author_id INT,
     author_description TEXT DEFAULT (NULL),
-    quiz_time DATE DEFAULT(CURRENT_DATE),
+    creation_date DATE DEFAULT(CURRENT_DATE),
+    randomize_tasks BIT NOT NULL,
+    multiple_page BIT NOT NULL,
     PRIMARY KEY (quiz_id),
     FOREIGN KEY (author_id) REFERENCES users_table(user_id)
 );
@@ -52,8 +54,8 @@ CREATE TABLE answers_table (
    FOREIGN KEY (question_id) REFERENCES questions_table(question_id)
 );
 
-INSERT into quizzes_table (author_id)
-VALUES ('1');
+INSERT into quizzes_table (author_id, multiple_page, randomize_tasks)
+VALUES ('1', 0, 0);
 
 INSERT into tasks_table (task_type, quiz_id)
 VALUES (0, 1),
@@ -64,14 +66,14 @@ VALUES (0, 1),
 INSERT INTO questions_table(task_id, question_text, image)
 VALUES(1, 'Who was the first president of Geeorgia?', NULL),
       (4, 'What year was john f kennedy assassinated?', NULL),
-      (2, "______ is a fictional detective created by Arthur Conan Doyle.", NULL),
-      (3, "In which year did America gain independence from Britain?", NULL);
+      (2, '______ is a fictional detective created by Arthur Conan Doyle.', NULL),
+      (3, 'In which year did America gain independence from Britain?', NULL);
 
 INSERT INTO answers_table(question_id, answer_text, isCorrect, answer_order)
-VALUES(1, "Zviad Gamsaxurdia", 1, 0),
-      (2, "1963", 1, 0),
-      (3, "Sherlock Holmes // Sherlock // Holmes", 1, 0),
-      (4, "1774", 0, 0),
-      (4, "1776", 1, 0),
-      (4, "1789", 0, 0),
-      (4, "1821", 0, 0);
+VALUES(1, 'Zviad Gamsaxurdia', 1, 0),
+      (2, '1963', 1, 0),
+      (3, 'Sherlock Holmes // Sherlock // Holmes', 1, 0),
+      (4, '1774', 0, 0),
+      (4, '1776', 1, 0),
+      (4, '1789', 0, 0),
+      (4, '1821', 0, 0);
