@@ -2,7 +2,7 @@
 <html>
     <body>
     <%
-        String redirectURL = "/welcome.jsp";
+        String redirectURL = "/createQuiz";
         response.sendRedirect(redirectURL);
     %>
     </body>

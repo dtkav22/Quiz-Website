@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MultipleChoiceTask</title>
+</head>
+<body>
+    <h1>Multiple Choice Task: </h1>
+    <form action="addTask" method="post">
+        <label for = "Question">Question: </label>
+        <input type="text" name = "Question" id = "Question"><br>
+        <label for="correctAnswer">Correct Answer: </label>
+        <input type="text" name="correctAnswer" id = "correctAnswer"><br>
+        <label for="wrongAnswers">Wrong Answers: </label><br>
+        <div id="wrongAnswers">
+            <label>
+                <input type="text" name="wrongAnswers" class = "wrongAnswers">
+            </label><br>
+        </div><br>
+        <input type="button" value="Add Wrong Answer" onclick="addWrongAnswer()">
+        <input type="hidden" name="TaskType" value="MultipleChoiceTask">
+        <input type="submit" value="add Task">
+    </form>
+</body>
+<script src = "../createQuiz/script.js"></script>
+</html>
