@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head><title>Welcome Page</title></head>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="registerStyle.css">
   <body>
     <div class="welcome-box">
       <h1>Welcome</h1>
@@ -16,7 +16,7 @@
         <button type="button" id="register_button" class="register_button">Register</button>
       </form>
 
-      <script src="script.js"></script>
+      <script src="registerScript.js"></script>
 
     </div>
   </body>
