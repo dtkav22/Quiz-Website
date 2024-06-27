@@ -25,7 +25,7 @@ function sendRequest() {
                 errorDiv.style.color = "red";
                 errorDiv.style.font = "0.005";
             }else if(jsonResponse.success){
-                window.location.replace("userHomePage.jsp");
+                window.location.replace("welcome.jsp");
             }
         }
     };

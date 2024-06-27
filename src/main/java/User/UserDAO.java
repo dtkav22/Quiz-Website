@@ -43,7 +43,7 @@ public class UserDAO {
             String username = set.getString("username");
             String password = set.getString("password");
             String email = set.getString("email");
-            user = new User(username, password, email);
+            user = new User(username, password, email, true);
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);
         return user;

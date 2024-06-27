@@ -23,12 +23,12 @@ public class RegisterServlet extends HttpServlet {
 
         if(!email.contains("@")) {
             JsonObject jsonResponse = new JsonObject();
-            jsonResponse.addProperty("error", "Invalid format of the email field");
+            jsonResponse.addProperty("error", "Invalid Email Format");
             response.getWriter().write(jsonResponse.toString());
         }
         else {
             try {
-                if(username == null || username.length() <= 4) {
+                if(username == null || username.length() < 4) {
                     JsonObject jsonResponse = new JsonObject();
                     jsonResponse.addProperty("error", "Username is too short");
                     response.getWriter().write(jsonResponse.toString());
@@ -36,18 +36,17 @@ public class RegisterServlet extends HttpServlet {
                     JsonObject jsonResponse = new JsonObject();
                     jsonResponse.addProperty("error", "Username already in use");
                     response.getWriter().write(jsonResponse.toString());
-                } else if(password == null || password.length() <= 8) {
+                } else if(password == null || password.length() < 4) {
                     JsonObject jsonResponse = new JsonObject();
-                    jsonResponse.addProperty("error", "Password must have at least 8 characters");
+                    jsonResponse.addProperty("error", "Password must have at least 4 characters");
                     response.getWriter().write(jsonResponse.toString());
                 }
                 else {
-                    dao.addUser(new User(username, password, email));
+                    dao.addUser(new User(username, password, email, false));
                     HttpSession session = request.getSession();
-                    session.setAttribute("username", username);
-                    session.setAttribute("password", password);
+                    session.setAttribute("userId", dao.getUserId(username));
                     JsonObject jsonResponse = new JsonObject();
-                    jsonResponse.addProperty("success", "");
+                    jsonResponse.addProperty("success", true);
                     response.getWriter().write(jsonResponse.toString());
                 }
             } catch (SQLException e) {

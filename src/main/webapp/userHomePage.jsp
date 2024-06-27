@@ -13,7 +13,7 @@
 <body>
 
 <%=
-session.getAttribute("username")
+session.getAttribute("userId")
 %>
 
 </body>
