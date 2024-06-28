@@ -86,4 +86,15 @@ public class UserDAO {
         }
         return result;
     }
+
+    public void sendFriendRequest(String sender_username, String reciever_username) throws SQLException {
+        String sender_id = getUserId(sender_username);
+        String reciever_id = getUserId(reciever_username);
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "INSERT INTO relations_table (user1_id, user2_id, isPending) VALUES (?, ?, 1)";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, sender_id);
+        statement.setString(2, reciever_id);
+        statement.executeUpdate();
+    }
 }

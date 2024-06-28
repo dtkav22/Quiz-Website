@@ -36,8 +36,8 @@ public class TestUserDAO extends TestCase {
     public void testGetFriendsForUser1() throws SQLException {
         ArrayList<User> list = userDAO.getFriendsForUser("Mariami");
         assertEquals(2, list.size());
-        assertEquals("Ioane", list.get(0).getUserName());
-        assertEquals("duta", list.get(1).getUserName());
+        assertEquals("duta", list.get(0).getUserName());
+        assertEquals("Ioane", list.get(1).getUserName());
     }
 
     public void testGetFriendsForUser2() throws SQLException {
