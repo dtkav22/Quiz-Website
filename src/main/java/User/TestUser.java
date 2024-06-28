@@ -11,4 +11,9 @@ public class TestUser extends TestCase {
         assertEquals("example@mail", user1.getEmail());
         System.out.println(user1.getPassword());
     }
+
+    public void testgetPassword(){
+        User user1 = new User("Ioane", "Ioane", "jtoid20@freeuni.edu.ge");
+        System.out.println("Ioane " + user1.getPassword());
+    }
 }

@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS tasks_table;
 DROP TABLE IF EXISTS challenges_table;
 DROP TABLE IF EXISTS quizzes_table;
 DROP TABLE IF EXISTS relations_table;
+DROP TABLE IF EXISTS mails_table;
 DROP TABLE IF EXISTS users_table;
 
 -- Firstly, create users_table and insert value written in user_tables.sql.
