@@ -14,8 +14,10 @@ CREATE TABLE users_table(
 INSERT INTO users_table(username, email, password)
 VALUES ('duta', 'tkavadzedimitri@gmail.com', '798fa27c4d4fb5b1158a1d5f2339edc0a21b14b6'), -- password is 'duta'
        ('Mariami', 'mivar21@freeuni.edu.ge', '40be99aa88358b324d74673789f53703d9711ea6'), -- password is 'Mariami'
-       ('Ioane', 'jtoid20@freeuni.edu.ge', '6dc1dde346851b86913483ec5455ca94ede88455'); -- password is 'Ioane'
-
+       ('Ioane', 'jtoid20@freeuni.edu.ge', '6dc1dde346851b86913483ec5455ca94ede88455'), -- password is 'Ioane'
+       ('Nino', 'ninoza21@freeuni.edu.ge', 'b6c9960594b2b57cb5c61c7ce01fa5de66d0bc2e'), -- password is 'Niniko'
+       ('Zuko', 'zviadivardava@gmail.com', 'b6c9960594b2b57cb5c61c7ce01fa5de66d0bc2e'), -- password is 'Zvio'
+       ('Data_Tutashkhia', 'tutashkhiadata@firali.com', 'b6c9960594b2b57cb5c61c7ce01fa5de66d0bc2e'); --  password is 'asea_es'
 
 CREATE TABLE performances_table(
     user_id INT NOT NULL ,

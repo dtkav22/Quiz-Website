@@ -1,8 +1,12 @@
 package User;
 
+import DataBaseConnectionPool.DataBaseConnectionPool;
 import Quiz.QuizTask;
 import junit.framework.TestCase;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -50,6 +54,18 @@ public class TestUserDAO extends TestCase {
         ArrayList<User> list = userDAO.getFriendsForUser("Ioane");
         assertEquals(1, list.size());
         assertEquals("Mariami", list.get(0).getUserName());
+    }
+
+    public void testSendFriendRequest() throws SQLException {
+        userDAO.sendFriendRequest("Mariami", "Data_Tutashkhia");
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String sender_id = userDAO.getUserId("Mariami");
+        String reciever_id = userDAO.getUserId("Data_Tutashkhia");
+        String query = "SELECT user1_id, user2_id, isPending FROM relations_table WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id;
+        PreparedStatement statement = con.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        assertEquals(1, rs.getFetchSize());
+        assertEquals(1, rs.getInt("isPending"));
     }
 
 }

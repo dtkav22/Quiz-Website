@@ -87,14 +87,32 @@ public class UserDAO {
         return result;
     }
 
-    public void sendFriendRequest(String sender_username, String reciever_username) throws SQLException {
+    private boolean canSendFriendRequest(String sender_username, String reciever_username) throws SQLException {
         String sender_id = getUserId(sender_username);
         String reciever_id = getUserId(reciever_username);
-        Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "INSERT INTO relations_table (user1_id, user2_id, isPending) VALUES (?, ?, 1)";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setString(1, sender_id);
-        statement.setString(2, reciever_id);
-        statement.executeUpdate();
+        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+        String queryTest = "SELECT * FROM relations_table WHERE (user1_id = " + sender_id + " AND user2_id = " + reciever_id + ") OR (user2_id = " + sender_id + " AND user1_id = " + reciever_id + ")";
+        PreparedStatement statementTest = conn.prepareStatement(queryTest);
+        ResultSet rs = statementTest.executeQuery();
+        return (0 == rs.getFetchSize());
+    }
+
+    public void sendFriendRequest(String sender_username, String reciever_username) throws SQLException {
+        if(canSendFriendRequest(sender_username, reciever_username)) {
+            String sender_id = getUserId(sender_username);
+            String reciever_id = getUserId(reciever_username);
+            System.out.println(sender_id);
+            System.out.println(reciever_id);
+            Connection con = DataBaseConnectionPool.getInstance().getConnection();
+            String query = "INSERT INTO relations_table (user1_id, user2_id, isPending) VALUES (2, 6, 1)";
+            PreparedStatement statement = con.prepareStatement(query);
+            //statement.setString(1, sender_id);
+            //statement.setString(2, reciever_id);
+            statement.executeUpdate();
+            Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+            PreparedStatement statementtest = conn.prepareStatement("SELECT * FROM relations_table WHERE user1_id = 2 AND user2_id = 6");
+            ResultSet rs = statementtest.executeQuery();
+            System.out.println(rs.getFetchSize());
+        }
     }
 }
