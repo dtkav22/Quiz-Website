@@ -10,7 +10,7 @@ public class TestUserDAO extends TestCase {
     private User user;
     private UserDAO userDAO;
     public void setUp() {
-        user = new User("duta1", "duta", "example@example");
+        user = new User("duta1", "duta", "example@example", false);
         userDAO = new UserDAO();
     }
     public void testAddUser() throws SQLException {
@@ -19,7 +19,7 @@ public class TestUserDAO extends TestCase {
         User userClone = userDAO.getUser(id);
         assertEquals(userClone.getUserName(), user.getUserName());
 
-        user = new User("mate", "mate", "example@example");
+        user = new User("mate", "mate", "example@example", false);
         userDAO.addUser(user);
         id = userDAO.getUserId(user.getUserName());
         userClone = userDAO.getUser(id);

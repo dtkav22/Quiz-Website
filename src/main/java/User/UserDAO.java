@@ -28,6 +28,7 @@ public class UserDAO {
         if(set.next()) {
             id = set.getString("user_id");
         }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return id;
     }
 
@@ -42,8 +43,9 @@ public class UserDAO {
             String username = set.getString("username");
             String password = set.getString("password");
             String email = set.getString("email");
-            user = new User(username, password, email);
+            user = new User(username, password, email, true);
         }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return user;
     }
 
@@ -60,6 +62,7 @@ public class UserDAO {
             String date = set.getString("date");
             result.add(new Performance(quiz_id, score, date));
         }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return result;
     }
 }

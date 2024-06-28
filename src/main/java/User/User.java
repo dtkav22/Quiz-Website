@@ -7,9 +7,10 @@ public class User {
     private final String userName;
     private final String password;
     private final String email;
-    public User(String userName, String password, String email) {
+    public User(String userName, String password, String email, boolean isHashed) {
         this.userName = userName;
-        this.password = hashPassword(password);
+        if(isHashed) this.password = password;
+        else this.password = hashPassword(password);
         this.email = email;
     }
 

@@ -49,6 +49,11 @@ button {
     color: dodgerblue;
 }
 
+.register_button2{
+    background-color: white;
+    color: dodgerblue;
+}
+
 @keyframes buttonClick {
     0% { transform: scale(1); }
     50% { transform: scale(0.9); }
