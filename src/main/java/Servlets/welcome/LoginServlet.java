@@ -1,4 +1,4 @@
-package Servlets;
+package Servlets.welcome;
 
 import User.UserDAO;
 import User.User;
