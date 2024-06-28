@@ -5,6 +5,7 @@ import User.User;
 import com.google.gson.JsonObject;
 
 import javax.jws.soap.SOAPBinding;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -45,7 +45,15 @@ public class LoginServlet extends HttpServlet {
         }
         //response.setContentType("application/json");
     }
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+        HttpSession session = request.getSession();
+        if(session.getAttribute("userId") != null){
+            response.sendRedirect("/user/userHomePage.jsp");
+        } else {
+            request.getRequestDispatcher("/welcome/welcome.jsp").forward(request, response);
+        }
     }
 }

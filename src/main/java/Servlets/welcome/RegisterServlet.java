@@ -4,6 +4,7 @@ import User.User;
 import User.UserDAO;
 import com.google.gson.JsonObject;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-
-@WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
@@ -43,8 +42,6 @@ public class RegisterServlet extends HttpServlet {
                 }
                 else {
                     dao.addUser(new User(username, password, email, false));
-                    HttpSession session = request.getSession();
-                    session.setAttribute("userId", dao.getUserId(username));
                     JsonObject jsonResponse = new JsonObject();
                     jsonResponse.addProperty("success", true);
                     response.getWriter().write(jsonResponse.toString());
@@ -54,7 +51,15 @@ public class RegisterServlet extends HttpServlet {
             }
         }
     }
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+        HttpSession session = request.getSession();
+        if(session.getAttribute("userId") != null){
+            response.sendRedirect("/user/userHomePage.jsp");
+        } else {
+            request.getRequestDispatcher("/welcome/register.jsp").forward(request, response);
+        }
     }
 }

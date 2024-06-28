@@ -11,9 +11,13 @@ import java.util.Collections;
 public class addTask extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        RequestDispatcher view = request.getRequestDispatcher("createQuiz/" + request.getParameter("TaskType") + ".html");
-        view.forward(request, response);
+        HttpSession session = request.getSession();
+        if(session.getAttribute("userId") == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        } else {
+            RequestDispatcher view = request.getRequestDispatcher("createQuiz/" + request.getParameter("TaskType") + ".html");
+            view.forward(request, response);
+        }
     }
 
     @Override
@@ -22,8 +26,10 @@ public class addTask extends HttpServlet {
         HttpSession session = request.getSession();
         ArrayList<QuizTask> tasks = (ArrayList<QuizTask>) session.getAttribute("Tasks");
         if(taskType.equals("FillBlankTask")) {
-            String text = request.getParameter("Question");
-            Question question = new Question(null, text, null);
+            String questionText = request.getParameter("Question");
+            String answerText = request.getParameter("Answer");
+            Answer answer = new Answer(answerText);
+            Question question = new Question(answer, questionText, null);
             tasks.add(new FillBlankTask(question));
         }
         if(taskType.equals("MultipleChoiceTask")) {

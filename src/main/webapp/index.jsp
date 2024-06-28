@@ -1,4 +1,4 @@
 <%
-    String redirectURL = "/welcome/welcome.jsp";
+    String redirectURL = "/Login";
     response.sendRedirect(redirectURL);
 %>

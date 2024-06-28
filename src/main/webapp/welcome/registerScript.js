@@ -5,7 +5,7 @@ document.getElementById("register_button2").onclick = function(event) {
 
 function sendRequest() {
     var xhr = new XMLHttpRequest();
-    var url = "/RegisterServlet";
+    var url = "/Register";
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     var email = document.getElementById("email").value;
@@ -25,7 +25,7 @@ function sendRequest() {
                 errorDiv.style.color = "red";
                 errorDiv.style.font = "0.005";
             }else if(jsonResponse.success){
-                window.location.replace("../welcome/welcome.jsp");
+                window.location.href = "/Login";
             }
         }
     };
