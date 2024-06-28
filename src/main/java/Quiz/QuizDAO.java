@@ -19,7 +19,7 @@ public class QuizDAO {
             PreparedStatement stm = con.prepareStatement(query);
             stm.setString(1, quiz.getAuthor_id());
             stm.setString(2, quiz.getAuthorDescription());
-            stm.setString(3, quiz.getCreationDate());
+            stm.setDate(3, quiz.getCreationDate());
             stm.setBoolean(4, quiz.isOnMultiplePage());
             stm.setBoolean(5, quiz.isTasksRandomized());
             stm.executeUpdate();
@@ -105,7 +105,7 @@ public class QuizDAO {
                 ArrayList<QuizTask> tasks = getTasks(id, con);
                 String author = res.getString("author_id");
                 String authorDescription = res.getString("author_description");
-                String creationDate = res.getString("creation_date");
+                java.sql.Date creationDate = res.getDate("creation_date");
                 boolean randomize = res.getBoolean("randomize_tasks");
                 boolean multiplePage = res.getBoolean("multiple_page");
                 DataBaseConnectionPool.getInstance().closeConnection(con);

@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS users_table;
 
 CREATE TABLE quizzes_table (
     quiz_id INT AUTO_INCREMENT,
-    author_id INT,
+    author_id INT NOT NULL,
     author_description TEXT DEFAULT (NULL),
     creation_date DATE DEFAULT(CURRENT_DATE),
     randomize_tasks BIT NOT NULL,

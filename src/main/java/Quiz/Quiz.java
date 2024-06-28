@@ -10,9 +10,9 @@ public class Quiz {
     private final String authorDescription;
     private final boolean randomizeTasks;
     private final boolean onMultiplePage;
-    private final String creationDate;
+    private final java.sql.Date creationDate;
 
-    public Quiz(String author_id, ArrayList<QuizTask> tasks, String authorDescription, String creationDate, boolean randomizeTasks, boolean onMultiplePage) {
+    public Quiz(String author_id, ArrayList<QuizTask> tasks, String authorDescription, java.sql.Date creationDate, boolean randomizeTasks, boolean onMultiplePage) {
         this.tasks = tasks;
         this.author_id = author_id;
         this.randomizeTasks = randomizeTasks;
@@ -20,7 +20,7 @@ public class Quiz {
         this.authorDescription = authorDescription;
         this.creationDate = creationDate;
     }
-    public Quiz(String author_id, QuizTask task, String authorDescription, String creationDate, boolean randomizeTasks, boolean onMultiplePage) {
+    public Quiz(String author_id, QuizTask task, String authorDescription, java.sql.Date creationDate, boolean randomizeTasks, boolean onMultiplePage) {
         tasks = new ArrayList<>();
         tasks.add(task);
         this.author_id = author_id;
@@ -29,7 +29,7 @@ public class Quiz {
         this.authorDescription = authorDescription;
         this.creationDate = creationDate;
     }
-    public Quiz(String author_id, String authorDescription, boolean randomizeTasks, String creationDate, boolean onMultiplePage) {
+    public Quiz(String author_id, String authorDescription, java.sql.Date creationDate, boolean randomizeTasks, boolean onMultiplePage) {
         this.author_id = author_id;
         tasks = new ArrayList<>();
         this.randomizeTasks = randomizeTasks;
@@ -66,7 +66,7 @@ public class Quiz {
         return onMultiplePage;
     }
 
-    public String getCreationDate() {
+    public java.sql.Date getCreationDate() {
         return creationDate;
     }
 }
