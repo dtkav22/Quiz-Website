@@ -1,4 +1,4 @@
-package createQuiz;
+package Servlets.createQuiz;
 
 import Quiz.*;
 
@@ -6,7 +6,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class addTask extends HttpServlet {

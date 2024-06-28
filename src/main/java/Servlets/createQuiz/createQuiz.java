@@ -1,6 +1,5 @@
-package createQuiz;
+package Servlets.createQuiz;
 
-import Quiz.Quiz;
 import Quiz.QuizDAO;
 import Quiz.QuizTask;
 

@@ -6,11 +6,11 @@
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
     <servlet-name>createQuiz</servlet-name>
-    <servlet-class>createQuiz.createQuiz</servlet-class>
+    <servlet-class>Servlets.createQuiz.createQuiz</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>addTask</servlet-name>
-    <servlet-class>createQuiz.addTask</servlet-class>
+    <servlet-class>Servlets.createQuiz.addTask</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>createQuiz</servlet-name>
