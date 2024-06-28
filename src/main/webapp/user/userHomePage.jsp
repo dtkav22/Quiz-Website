@@ -7,14 +7,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>User Page</title>
-</head>
-<body>
+    <head>
+        <title>User Page</title>
+    </head>
+    <body>
 
-<%=
-session.getAttribute("userId")
-%>
-
-</body>
+        <%=
+        session.getAttribute("userId")
+        %><br>
+        <a href = "/createQuiz">createQuiz</a>
+    </body>
 </html>
