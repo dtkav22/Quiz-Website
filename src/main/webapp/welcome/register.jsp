@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Register Page</title>
-    <link rel="stylesheet" href="starter.css">
+    <link rel="stylesheet" href="../welcome/styles.css">
 </head>
 <body>
 <div class="welcome-box">
@@ -22,5 +22,5 @@
     <div id="error"></div>
 </div>
 </body>
-<script src="register.js"></script>
+<script src="../welcome/registerScript.js"></script>
 </html>

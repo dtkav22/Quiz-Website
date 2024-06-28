@@ -3,7 +3,7 @@ document.getElementById("register_button").onclick = function() {
     button.classList.add('animated');
 
     setTimeout(function() {
-        window.location.href = "register.jsp";
+        window.location.href = "../welcome/register.jsp";
     }, 300);
 };
 
@@ -14,7 +14,7 @@ document.getElementById("login_button").onclick = function(event) {
 
 function sendRequest() {
     var xhr = new XMLHttpRequest();
-    var url = "LoginServlet";
+    var url = "/LoginServlet";
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     var params = "username=" + encodeURIComponent(username) +
@@ -31,7 +31,7 @@ function sendRequest() {
                 errorDiv.innerHTML = jsonResponse.error;
                 errorDiv.style.color = "red";
             }else if(jsonResponse.success){
-                window.location.replace("userHomePage.jsp");
+                window.location.replace("../user/userHomePage.jsp");
             }
         }
     };
