@@ -68,14 +68,14 @@ VALUES (0, 1),
 INSERT INTO questions_table(task_id, question_text, image)
 VALUES(1, 'Who was the first president of Geeorgia?', NULL),
       (4, 'What year was john f kennedy assassinated?', NULL),
-      (2, "______ is a fictional detective created by Arthur Conan Doyle.", NULL),
-      (3, "In which year did America gain independence from Britain?", NULL);
+      (2, '______ is a fictional detective created by Arthur Conan Doyle.', NULL),
+      (3, 'In which year did America gain independence from Britain?', NULL);
 
 INSERT INTO answers_table(question_id, answer_text, isCorrect, answer_order)
-VALUES(1, "Zviad Gamsaxurdia", 1, 0),
-      (2, "1963", 1, 0),
-      (3, "Sherlock Holmes // Sherlock // Holmes", 1, 0),
-      (4, "1774", 0, 0),
-      (4, "1776", 1, 0),
-      (4, "1789", 0, 0),
-      (4, "1821", 0, 0);
+VALUES(1, 'Zviad Gamsaxurdia', 1, 0),
+      (2, '1963', 1, 0),
+      (3, 'Sherlock Holmes // Sherlock // Holmes', 1, 0),
+      (4, '1774', 0, 0),
+      (4, '1776', 1, 0),
+      (4, '1789', 0, 0),
+      (4, '1821', 0, 0);
