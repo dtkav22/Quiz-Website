@@ -32,4 +32,5 @@ public class TestUserDAO extends TestCase {
         assertEquals(100.0, set.get(0).getScore());
         System.out.println(set.get(0).getDate());
     }
+
 }
