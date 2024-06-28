@@ -12,12 +12,8 @@ public class addTask extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if(session.getAttribute("userId") == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        } else {
-            RequestDispatcher view = request.getRequestDispatcher("createQuiz/" + request.getParameter("TaskType") + ".html");
-            view.forward(request, response);
-        }
+        RequestDispatcher view = request.getRequestDispatcher("createQuiz/" + request.getParameter("TaskType") + ".html");
+        view.forward(request, response);
     }
 
     @Override

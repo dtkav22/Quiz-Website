@@ -13,14 +13,10 @@ public class createQuiz extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if(session.getAttribute("userId") == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        } else {
-            if (session.getAttribute("Tasks") == null) {
-                session.setAttribute("Tasks", new ArrayList<QuizTask>());
-            }
-            request.getRequestDispatcher("createQuiz/createQuiz.jsp").forward(request, response);
+        if (session.getAttribute("Tasks") == null) {
+            session.setAttribute("Tasks", new ArrayList<QuizTask>());
         }
+        request.getRequestDispatcher("createQuiz/createQuiz.jsp").forward(request, response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
