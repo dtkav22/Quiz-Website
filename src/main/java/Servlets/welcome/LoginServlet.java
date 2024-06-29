@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         if(session.getAttribute("userId") != null){
-            response.sendRedirect("/user/jspFiles/userHomePage.jsp");
+            response.sendRedirect("/UserHomePage");
         } else {
             request.getRequestDispatcher("/welcome/jspFiles/welcome.jsp").forward(request, response);
         }

@@ -26,6 +26,11 @@
     <filter-name>MyFilter</filter-name>
     <servlet-name>addTask</servlet-name>
   </filter-mapping>
+
+  <servlet>
+    <servlet-name>UserHomePage</servlet-name>
+    <servlet-class>Servlets.User.UserHomePage</servlet-class>
+  </servlet>
   <servlet>
     <servlet-name>createQuiz</servlet-name>
     <servlet-class>Servlets.createQuiz.createQuiz</servlet-class>
@@ -42,6 +47,11 @@
     <servlet-name>Register</servlet-name>
     <servlet-class>Servlets.welcome.RegisterServlet</servlet-class>
   </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UserHomePage</servlet-name>
+    <url-pattern>/UserHomePage</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Register</servlet-name>
     <url-pattern>/Register</url-pattern>
@@ -58,4 +68,5 @@
     <servlet-name>addTask</servlet-name>
     <url-pattern>/addTask</url-pattern>
   </servlet-mapping>
+
 </web-app>
