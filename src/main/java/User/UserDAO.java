@@ -95,7 +95,7 @@ public class UserDAO {
         return !rs.next();
     }
 
-    public void sendFriendRequest(String sender_id, String reciever_id) throws SQLException {
+    public boolean sendFriendRequest(String sender_id, String reciever_id) throws SQLException {
         if(canSendFriendRequest(sender_id, reciever_id)) {
             Connection con = DataBaseConnectionPool.getInstance().getConnection();
             String query = "INSERT INTO relations_table (user1_id, user2_id, isPending) VALUES (?, ?, 1)";
@@ -103,6 +103,27 @@ public class UserDAO {
             statement.setString(1, sender_id);
             statement.setString(2, reciever_id);
             statement.executeUpdate();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean canAcceptFriendRequest(String sender_id, String reciever_id) throws SQLException {
+        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM relations_table WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id + " AND isPending = 1";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        return rs.next();
+    }
+
+    public void acceptFriendRequest(String sender_id, String reciever_id) throws SQLException {
+        if(canAcceptFriendRequest(sender_id, reciever_id)){
+            Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+            String query = "UPDATE relations_table SET isPending = 0 WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id;
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.executeUpdate();
         }
     }
+
+
 }
