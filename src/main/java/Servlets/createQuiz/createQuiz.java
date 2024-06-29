@@ -16,7 +16,7 @@ public class createQuiz extends HttpServlet {
         if (session.getAttribute("Tasks") == null) {
             session.setAttribute("Tasks", new ArrayList<QuizTask>());
         }
-        request.getRequestDispatcher("createQuiz/createQuiz.jsp").forward(request, response);
+        request.getRequestDispatcher("createQuiz/jspFiles/createQuiz.jsp").forward(request, response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

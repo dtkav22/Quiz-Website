@@ -54,9 +54,9 @@ public class RegisterServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         if(session.getAttribute("userId") != null){
-            response.sendRedirect("/user/userHomePage.jsp");
+            response.sendRedirect("/user/jspFiles/userHomePage.jsp");
         } else {
-            request.getRequestDispatcher("/welcome/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/welcome/jspFiles/register.jsp").forward(request, response);
         }
     }
 }
