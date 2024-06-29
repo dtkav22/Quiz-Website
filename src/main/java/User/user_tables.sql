@@ -47,6 +47,7 @@ CREATE TABLE challenges_table(
     quiz_id INT NOT NULL,
     user1_id INT NOT NULL,
     user2_id INT NOT NULL,
+    accepted INT DEFAULT (0),
     FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id),
     FOREIGN KEY (user1_id) REFERENCES users_table(user_id),
     FOREIGN KEY (user2_id) REFERENCES users_table(user_id)
