@@ -6,6 +6,10 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <filter>
+    <filter-name>ErrorFilter</filter-name>
+    <filter-class>Filters.ErrorFilter</filter-class>
+  </filter>
+  <filter>
     <filter-name>CacheControlFilter</filter-name>
     <filter-class>Filters.CacheControlFilter</filter-class>
   </filter>
@@ -14,6 +18,18 @@
     <filter-class>Filters.MyFilter</filter-class>
   </filter>
 
+  <filter-mapping>
+    <filter-name>ErrorFilter</filter-name>
+    <url-pattern>/welcome/jspFiles/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>ErrorFilter</filter-name>
+    <url-pattern>/createQuiz/jspFiles/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>ErrorFilter</filter-name>
+    <url-pattern>/user/jspFiles/*</url-pattern>
+  </filter-mapping>
   <filter-mapping>
     <filter-name>CacheControlFilter</filter-name>
     <url-pattern>/*</url-pattern>
