@@ -145,4 +145,31 @@ public class UserDAO {
         }
     }
 
+    private boolean canAcceptChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
+        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM challenges_table WHERE user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND quiz_id = " + quiz_id;
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        return rs.next();
+    }
+
+    public void acceptChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
+        if(canAcceptChallenge(user1_id, user2_id, quiz_id)){
+            Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+            String query = "UPDATE challenges_table SET isPending = 0 WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id;
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.executeUpdate();
+        }
+    }
+
+    public void sendMail(String sender_id, String receiver_id, String text) throws SQLException {
+        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "INSERT INTO mails_table (sender_id, receiver_id, text) VALUES (?, ?, ?)";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, sender_id);
+        statement.setString(2, receiver_id);
+        statement.setString(3, text);
+        statement.executeUpdate();
+    }
+
 }
