@@ -52,14 +52,11 @@ public class RegisterServlet extends HttpServlet {
         }
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Expires", "0");
         HttpSession session = request.getSession();
         if(session.getAttribute("userId") != null){
-            response.sendRedirect("/user/userHomePage.jsp");
+            response.sendRedirect("/UserHomePage");
         } else {
-            request.getRequestDispatcher("/welcome/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/welcome/jspFiles/register.jsp").forward(request, response);
         }
     }
 }

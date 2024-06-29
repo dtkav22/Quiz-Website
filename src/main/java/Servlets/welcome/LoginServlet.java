@@ -46,14 +46,11 @@ public class LoginServlet extends HttpServlet {
         //response.setContentType("application/json");
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Expires", "0");
         HttpSession session = request.getSession();
         if(session.getAttribute("userId") != null){
-            response.sendRedirect("/user/userHomePage.jsp");
+            response.sendRedirect("/UserHomePage");
         } else {
-            request.getRequestDispatcher("/welcome/welcome.jsp").forward(request, response);
+            request.getRequestDispatcher("/welcome/jspFiles/welcome.jsp").forward(request, response);
         }
     }
 }

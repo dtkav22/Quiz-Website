@@ -1,10 +1,13 @@
 package Filters;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class CacheControlFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig){
 
@@ -13,11 +16,10 @@ public class CacheControlFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp,
                          FilterChain chain) throws IOException, ServletException {
-
         HttpServletResponse response = (HttpServletResponse) resp;
-        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
+        response.setHeader("Expires", "0");
         chain.doFilter(req, resp);
     }
 

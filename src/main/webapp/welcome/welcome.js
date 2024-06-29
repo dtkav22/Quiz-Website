@@ -31,7 +31,7 @@ function sendRequest() {
                 errorDiv.innerHTML = jsonResponse.error;
                 errorDiv.style.color = "red";
             }else if(jsonResponse.success){
-                window.location.href = "../user/userHomePage.jsp";
+                window.location.href = "/UserHomePage";
             }
         }
     };
