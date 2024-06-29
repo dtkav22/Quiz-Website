@@ -31,11 +31,9 @@ INSERT INTO performances_table (user_id, quiz_id, score, date)
 VALUES (1, 1, 100, '2024-06-26 17:20');
 
 CREATE TABLE relations_table(
-    relation_id INT AUTO_INCREMENT,
     user1_id INT NOT NULL,
     user2_id INT NOT NULL,
     isPending INT NOT NULL,
-    PRIMARY KEY (relation_id),
     FOREIGN KEY (user1_id) REFERENCES users_table(user_id),
     FOREIGN KEY (user2_id) REFERENCES users_table(user_id)
 );
@@ -46,23 +44,19 @@ VALUES (1, 2, 0),
        (1, 3, 1);
 
 CREATE TABLE challenges_table(
-    challenge_id INT NOT NULL,
     quiz_id INT NOT NULL,
     user1_id INT NOT NULL,
     user2_id INT NOT NULL,
-    PRIMARY KEY (challenge_id),
     FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id),
     FOREIGN KEY (user1_id) REFERENCES users_table(user_id),
     FOREIGN KEY (user2_id) REFERENCES users_table(user_id)
 );
 
 CREATE TABLE mails_table(
-    mail_id INT NOT NULL,
     mail_text TEXT DEFAULT(NULL),
     send_date DATE DEFAULT (CURRENT_DATE),
     sender_id INT NOT NULL,
     receiver_id INT NOT NULL,
-    PRIMARY KEY (mail_id),
     FOREIGN KEY (sender_id) REFERENCES users_table(user_id),
     FOREIGN KEY (receiver_id) REFERENCES users_table(user_id)
 );

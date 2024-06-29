@@ -125,5 +125,12 @@ public class UserDAO {
         }
     }
 
+    public boolean areFriends(String user1_id, String user2_id) throws SQLException {
+        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM relations_table WHERE (user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND isPending = 0) OR (user1_id = " + user2_id + " AND user2_id = " + user1_id + " AND isPending = 0)";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        return rs.next();
+    }
 
 }
