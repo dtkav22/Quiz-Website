@@ -92,4 +92,22 @@ public class TestUserDAO extends TestCase {
         System.out.println("They are now friends");
     }
 
+    public void testAreFriends1() throws SQLException {
+        String user1_id = "1";
+        String user2_id = "2";
+        assertTrue(userDAO.areFriends(user1_id, user2_id));
+    }
+
+    public void testAreFriends2() throws SQLException {
+        String user1_id = null;
+        String user2_id = "2";
+        assertFalse(userDAO.areFriends(user1_id, user2_id));
+    }
+
+    public void testAreFriends3() throws SQLException {
+        String user1_id = "1";
+        String user2_id = "3";
+        assertFalse(userDAO.areFriends(user1_id, user2_id));
+    }
+
 }
