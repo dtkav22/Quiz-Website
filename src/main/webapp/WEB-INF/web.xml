@@ -17,18 +17,13 @@
     <filter-name>MyFilter</filter-name>
     <filter-class>Filters.MyFilter</filter-class>
   </filter>
-
   <filter-mapping>
     <filter-name>ErrorFilter</filter-name>
-    <url-pattern>/welcome/jspFiles/*</url-pattern>
+    <url-pattern>/jspFiles/*</url-pattern>
   </filter-mapping>
   <filter-mapping>
     <filter-name>ErrorFilter</filter-name>
-    <url-pattern>/createQuiz/jspFiles/*</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>ErrorFilter</filter-name>
-    <url-pattern>/user/jspFiles/*</url-pattern>
+    <url-pattern>/htmlFiles/*</url-pattern>
   </filter-mapping>
   <filter-mapping>
     <filter-name>CacheControlFilter</filter-name>
@@ -42,7 +37,6 @@
     <filter-name>MyFilter</filter-name>
     <servlet-name>addTask</servlet-name>
   </filter-mapping>
-
   <servlet>
     <servlet-name>UserHomePage</servlet-name>
     <servlet-class>Servlets.User.UserHomePage</servlet-class>

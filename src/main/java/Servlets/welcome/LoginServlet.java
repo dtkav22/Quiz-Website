@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
         if(session.getAttribute("userId") != null){
             response.sendRedirect("/UserHomePage");
         } else {
-            request.getRequestDispatcher("/welcome/jspFiles/welcome.jsp").forward(request, response);
+            request.getRequestDispatcher("/jspFiles/welcome.jsp").forward(request, response);
         }
     }
 }

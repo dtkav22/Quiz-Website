@@ -12,7 +12,7 @@ public class addTask extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        RequestDispatcher view = request.getRequestDispatcher("createQuiz/" + request.getParameter("TaskType") + ".html");
+        RequestDispatcher view = request.getRequestDispatcher("htmlFiles/" + request.getParameter("TaskType") + ".html");
         view.forward(request, response);
     }
 

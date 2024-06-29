@@ -16,7 +16,7 @@ public class createQuiz extends HttpServlet {
         if (session.getAttribute("Tasks") == null) {
             session.setAttribute("Tasks", new ArrayList<QuizTask>());
         }
-        request.getRequestDispatcher("createQuiz/jspFiles/createQuiz.jsp").forward(request, response);
+        request.getRequestDispatcher("jspFiles/createQuiz.jsp").forward(request, response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,6 +36,6 @@ public class createQuiz extends HttpServlet {
         System.out.println(randomizeTasks);
         System.out.println(onMultiplePage);
         quizDAO.addQuiz(quiz);
-        response.sendRedirect("/createQuiz/QuizAddedSuccessfully.html");
+        response.sendRedirect("/htmlFiles/QuizAddedSuccessfully.html");
     }
 }

@@ -56,7 +56,7 @@ public class RegisterServlet extends HttpServlet {
         if(session.getAttribute("userId") != null){
             response.sendRedirect("/UserHomePage");
         } else {
-            request.getRequestDispatcher("/welcome/jspFiles/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/jspFiles/register.jsp").forward(request, response);
         }
     }
 }
