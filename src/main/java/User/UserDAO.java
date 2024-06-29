@@ -133,4 +133,16 @@ public class UserDAO {
         return rs.next();
     }
 
+    public void sendChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
+        if(areFriends(user1_id, user2_id)){
+            Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+            String query = "INSERT INTO challenges_table (quiz_id, user1_id, user2_id) VALUES (?, ?, ?)";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, quiz_id);
+            statement.setString(2, user1_id);
+            statement.setString(3, user2_id);
+            statement.executeUpdate();
+        }
+    }
+
 }
