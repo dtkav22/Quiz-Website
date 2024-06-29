@@ -57,14 +57,14 @@ public class TestUserDAO extends TestCase {
     }
 
     public void testSendFriendRequest() throws SQLException {
-        userDAO.sendFriendRequest("Mariami", "Data_Tutashkhia");
+        String sender_id = "1";
+        String reciever_id = "5";
+        userDAO.sendFriendRequest(sender_id, reciever_id);
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String sender_id = userDAO.getUserId("Mariami");
-        String reciever_id = userDAO.getUserId("Data_Tutashkhia");
         String query = "SELECT user1_id, user2_id, isPending FROM relations_table WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id;
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
-        assertEquals(1, rs.getFetchSize());
+        rs.next();
         assertEquals(1, rs.getInt("isPending"));
     }
 
