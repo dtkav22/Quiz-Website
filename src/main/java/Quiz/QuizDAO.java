@@ -11,10 +11,58 @@ import java.util.ArrayList;
 import static Quiz.TaskTypes.*;
 
 public class QuizDAO {
+
+    public ArrayList<String> getUserQuizzes(String author_id, int size) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT quiz_id FROM quizzes_table WHERE author_id = ? ORDER BY creation_date DESC";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, author_id);
+        ResultSet res = stm.executeQuery();
+        ArrayList<String> quizzes = new ArrayList<>();
+        while (res.next()) {
+            quizzes.add(res.getString("quiz_id"));
+        }
+        return quizzes;
+    }
+
+    public ArrayList<String> getPopularQuizzes(int size) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        ArrayList<String> quizzes = new ArrayList<>();
+        String query = "SELECT quiz_id FROM performances_table GROUP BY quiz_id ORDER BY COUNT(*) DESC;";
+        ResultSet res = con.createStatement().executeQuery(query);
+        while(res.next()) {
+            if(size == 0) break;
+            quizzes.add(res.getString("quiz_id"));
+            size--;
+        }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
+        return quizzes;
+    }
+
+    public ArrayList<String> getQuizzesByDate(int size, boolean oldestToNewest) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        ArrayList<String> quizzes = new ArrayList<>();
+        String query;
+        if(oldestToNewest) {
+            query = "SELECT quiz_id FROM quizzes_table ORDER BY creation_date;";
+        }
+        else {
+            query = "SELECT quiz_id FROM quizzes_table ORDER BY creation_date DESC;";
+        }
+        ResultSet res = con.createStatement().executeQuery(query);
+        while(res.next()) {
+            if(size == 0) break;
+            quizzes.add(res.getString("quiz_id"));
+            size--;
+        }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
+        return quizzes;
+    }
+
     public String addQuiz(Quiz quiz) {
         /// adding quiz in base
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "INSERT INTO quizzes_table (author_id, author_description, creation_date, multiple_page, randomize_tasks) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO quizzes_table (author_id, author_description, creation_date, multiple_page, randomize_tasks, quiz_name) VALUES(?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stm = con.prepareStatement(query);
             stm.setString(1, quiz.getAuthor_id());
@@ -22,6 +70,7 @@ public class QuizDAO {
             stm.setDate(3, quiz.getCreationDate());
             stm.setBoolean(4, quiz.isOnMultiplePage());
             stm.setBoolean(5, quiz.isTasksRandomized());
+            stm.setString(6, quiz.getQuizName());
             stm.executeUpdate();
             ResultSet res = con.createStatement().executeQuery("SELECT LAST_INSERT_ID();");
             if(res.next()) {
@@ -108,8 +157,9 @@ public class QuizDAO {
                 java.sql.Date creationDate = res.getDate("creation_date");
                 boolean randomize = res.getBoolean("randomize_tasks");
                 boolean multiplePage = res.getBoolean("multiple_page");
+                String quiz_name = res.getString("quiz_name");
                 DataBaseConnectionPool.getInstance().closeConnection(con);
-                return new Quiz(author, tasks, authorDescription, creationDate, randomize, multiplePage);
+                return new Quiz(author, tasks, authorDescription, creationDate, randomize, multiplePage, quiz_name);
             } else {
                 DataBaseConnectionPool.getInstance().closeConnection(con);
                 return null;

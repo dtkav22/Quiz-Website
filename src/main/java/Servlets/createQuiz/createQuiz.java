@@ -28,7 +28,7 @@ public class createQuiz extends HttpServlet {
         java.sql.Date creationDate = new java.sql.Date(System.currentTimeMillis());
         boolean randomizeTasks = request.getParameter("tasksOrder").equals("RandomizedOrder");
         boolean onMultiplePage = request.getParameter("quizAppearence").equals("MultiplePage");
-        Quiz quiz = new Quiz(author_id, tasks, authorDescription, creationDate, randomizeTasks, onMultiplePage);
+        Quiz quiz = new Quiz(author_id, tasks, authorDescription, creationDate, randomizeTasks, onMultiplePage, null);
         System.out.println(author_id);
         System.out.println(tasks.size());
         System.out.println(authorDescription);

@@ -73,4 +73,8 @@ public class Quiz {
     public java.sql.Date getCreationDate() {
         return creationDate;
     }
+
+    public String getQuizName() {
+        return quiz_name;
+    }
 }

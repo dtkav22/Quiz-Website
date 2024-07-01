@@ -22,7 +22,7 @@ public class TestQuizDAO extends TestCase {
         ArrayList<QuizTask> list = new ArrayList<>();
         list.add(task);
         list.add(task2);
-        return new Quiz("1", list, null, null, false, false);
+        return new Quiz("1", list, null, null, false, false, "example");
     }
 
     public void test1() {
@@ -34,6 +34,7 @@ public class TestQuizDAO extends TestCase {
         assertEquals(quiz1.getAuthor_id(), quiz2.getAuthor_id());
         assertEquals(quiz2.getTasksSize(), quiz1.getTasksSize());
         assertEquals(quiz2.getTaskAt(0).getType(), QUESTION_RESPONSE);
+        assertEquals(quiz2.getQuizName(), "example");
     }
 
     public void test2() {
