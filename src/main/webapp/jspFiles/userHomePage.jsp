@@ -1,3 +1,6 @@
+<%@ page import="Quiz.QuizDAO" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Quiz.Quiz" %>
 <%--
   Created by IntelliJ IDEA.
   User: user
@@ -11,10 +14,35 @@
         <title>User Page</title>
     </head>
     <body>
+        <%
+            String id = (String) session.getAttribute("userId");
+            QuizDAO dao = new QuizDAO();
+            out.println("Recent Quizzes Field<br>");
+            ArrayList<String> quizzes = dao.getQuizzesByDate(10, false);
+            for (String quiz_id : quizzes) {
+                Quiz cur = dao.getQuiz(quiz_id);
+        %>
+            <a href = "/quizPage"><%=cur.getQuizName()%></a><br>
+        <%}%>
 
-        <%=
-        session.getAttribute("userId")
-        %><br>
-        <a href = "/createQuiz">createQuiz</a>
+        <%
+            out.println("Popular Quizzes Field<br>");
+            quizzes = dao.getQuizzesByDate(10, false);
+            for (String quiz_id : quizzes) {
+                Quiz cur = dao.getQuiz(quiz_id);
+        %>
+        <a href = "/quizPage"><%=cur.getQuizName()%></a><br>
+        <%}%>
+        <%
+            quizzes = dao.getUserQuizzes(id, 10);
+            if(!quizzes.isEmpty()) {
+
+                out.println("Your Field<br>");
+                for (String quiz_id : quizzes) {
+                    Quiz cur = dao.getQuiz(quiz_id);
+        %>
+        <a href = "/quizPage"><%=cur.getQuizName()%></a><br>
+        <%}}%>
+        <a href = "/createQuiz">createQuiz</a><br>
     </body>
 </html>
