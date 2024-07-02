@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>QuestionResponseTask</title>
+    <link rel="stylesheet" href="../createQuiz/taskStyles.css">
 </head>
 <body>
-    <h1>Question-Response Task: </h1>
-    <p>If answer can be multiple diverge them with '//'. example: "answer//ans"</p>
-    <form action="addTask" method="post">
-        <label for = "Question">Question: </label>
-        <input type="text" name = "Question" id = "Question">
-        <label for="Answer">Answer: </label>
-        <input type="text" name="Answer" id = "Answer">
-        <input type="hidden" name="TaskType" value="QuestionResponseTask">
-        <input type="submit" value="add Task">
-    </form>
+    <div class="Wrapper">
+        <h1>Question-Response Task: </h1>
+        <p>If answer can be multiple diverge them with '//'. example: "answer//ans"</p>
+        <form action="addTask" method="post">
+            <label for = "Question">Question: </label>
+            <input type="text" name = "Question" id = "Question">
+            <label for="Answer">Answer: </label>
+            <input type="text" name="Answer" id = "Answer">
+            <input type="hidden" name="TaskType" value="QuestionResponseTask">
+            <input type="submit" value="add Task">
+        </form>
+    </div>
 </body>
 </html>

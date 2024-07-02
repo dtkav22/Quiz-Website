@@ -25,17 +25,12 @@ public class createQuiz extends HttpServlet {
         String author_id = (String) session.getAttribute("userId");
         ArrayList<QuizTask> tasks = (ArrayList<QuizTask>) session.getAttribute("Tasks");
         String authorDescription = request.getParameter("quizDescription");
+        String quizName = request.getParameter("quizName");
         java.sql.Date creationDate = new java.sql.Date(System.currentTimeMillis());
         boolean randomizeTasks = request.getParameter("tasksOrder").equals("RandomizedOrder");
         boolean onMultiplePage = request.getParameter("quizAppearence").equals("MultiplePage");
-        Quiz quiz = new Quiz(author_id, tasks, authorDescription, creationDate, randomizeTasks, onMultiplePage, null);
-        System.out.println(author_id);
-        System.out.println(tasks.size());
-        System.out.println(authorDescription);
-        System.out.println(creationDate);
-        System.out.println(randomizeTasks);
-        System.out.println(onMultiplePage);
+        Quiz quiz = new Quiz(author_id, tasks, authorDescription, creationDate, randomizeTasks, onMultiplePage, quizName);
         quizDAO.addQuiz(quiz);
-        response.sendRedirect("/htmlFiles/QuizAddedSuccessfully.html");
+        response.sendRedirect("/UserHomePage");
     }
 }

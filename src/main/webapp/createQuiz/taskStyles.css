@@ -1,0 +1,38 @@
+body {
+    font-size: large;
+    font-family: 'Lato', sans-serif;
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center; /* center x axis*/
+    justify-content: center; /*center y axis*/
+    flex-direction: column;
+}
+
+.Wrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 5px 10px;
+}
+
+.AddTaskClass {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#wrongAnswers {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.wrongAnswers {
+    margin: 3px;
+}
+
+#Image {
+    width: 180px;
+    height: auto;
+    margin: 3px;
+}

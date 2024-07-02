@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>createQuiz</title>
-    <link rel="stylesheet" href="../createQuiz/styles.css">
+    <link rel="stylesheet" href="../createQuiz/quizStyles.css">
 </head>
 <body>
     <div id = "Wrapper">
@@ -69,6 +69,8 @@
                 </select><br>
                 <label for="quizDescription">Enter Quiz Description:</label>
                 <textarea name="quizDescription" id="quizDescription"></textarea>
+                <label for="quizName">Enter Quiz Name:</label>
+                <input type="text" id="quizName" name="quizName" required>
                 <input type="submit" value="Add Quiz">
             </form>
         </div>

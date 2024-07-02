@@ -9,5 +9,4 @@ function addWrongAnswer() {
     field.setAttribute("type", "text");
     field.setAttribute("class", "wrongAnswers");
     wrongAnswers.appendChild(field);
-    wrongAnswers.appendChild(document.createElement("br"));
 }

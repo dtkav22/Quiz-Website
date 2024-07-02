@@ -54,7 +54,7 @@ CREATE TABLE questions_table (
                                  question_id INT AUTO_INCREMENT,
                                  task_id INT,
                                  question_text text DEFAULT(NULL),
-                                 image VARCHAR(50) DEFAULT(NULL),
+                                 image TEXT DEFAULT(NULL),
                                  PRIMARY KEY (question_id),
                                  FOREIGN KEY (task_id) REFERENCES tasks_table(task_id)
 );
