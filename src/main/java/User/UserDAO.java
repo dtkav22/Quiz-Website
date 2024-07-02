@@ -186,4 +186,21 @@ public class UserDAO {
         }
         return result;
     }
+
+    public ArrayList<Mail> getMailsSentForUser(String user_id) throws SQLException {
+        ArrayList<Mail> result = new ArrayList<>();
+        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM mails_table WHERE receiver_id = " + user_id;
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()){
+            String mail_text = rs.getString("mail_text");
+            String send_date = rs.getString("send_date");
+            String sender_id = rs.getString("sender_id");
+            String receiver_id = rs.getString("receiver_id");
+            Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id);
+            result.add(newMail);
+        }
+        return result;
+    }
 }
