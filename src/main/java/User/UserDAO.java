@@ -172,4 +172,5 @@ public class UserDAO {
         statement.executeUpdate();
     }
 
+    //public ArrayList<Challenge>
 }

@@ -110,4 +110,30 @@ public class TestUserDAO extends TestCase {
         assertFalse(userDAO.areFriends(user1_id, user2_id));
     }
 
+    public void testSendChallenge1() throws SQLException {
+        String quiz_id = "1";
+        String user1_id = "2";
+        String user2_id = "3";
+        userDAO.sendChallenge(user1_id, user2_id, quiz_id);
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM challenges_table WHERE user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND quiz_id = " + quiz_id;
+        PreparedStatement statement = con.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        assertTrue(rs.next());
+        System.out.println("Challenge has sent");
+    }
+
+    public void testSendChallenge2() throws SQLException {
+        String quiz_id = "1";
+        String user1_id = "1";
+        String user2_id = "6";
+        userDAO.sendChallenge(user1_id, user2_id, quiz_id);
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM challenges_table WHERE user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND quiz_id = " + quiz_id;
+        PreparedStatement statement = con.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        assertFalse(rs.next());
+        System.out.println("Challenge can't be sent. Given two users aren't friends");
+    }
+
 }
