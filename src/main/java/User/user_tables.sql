@@ -66,3 +66,11 @@ CREATE TABLE mails_table(
     FOREIGN KEY (sender_id) REFERENCES users_table(user_id),
     FOREIGN KEY (receiver_id) REFERENCES users_table(user_id)
 );
+
+INSERT INTO mails_table (mail_text, sender_id, receiver_id)
+     VALUES ('Hello!', 3, 2),
+            ('Hi!', 2, 3),
+            ('What are you doing?', 3, 2),
+            ('I am coding', 2, 3),
+            ('and you?', 2, 3),
+            ('nothing at all', 3, 2);
