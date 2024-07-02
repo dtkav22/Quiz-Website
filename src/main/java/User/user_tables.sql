@@ -53,6 +53,11 @@ CREATE TABLE challenges_table(
     FOREIGN KEY (user2_id) REFERENCES users_table(user_id)
 );
 
+INSERT INTO challenges_table (quiz_id, user1_id, user2_id)
+     VALUES (1,3,2),
+            (1,1,2),
+            (2,1,2);
+
 CREATE TABLE mails_table(
     mail_text TEXT DEFAULT(NULL),
     send_date DATE DEFAULT (CURRENT_DATE),

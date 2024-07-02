@@ -164,4 +164,21 @@ public class TestUserDAO extends TestCase {
         System.out.println("Mail send");
     }
 
+    public void testGetChallengesSentForUser() throws SQLException {
+        String user_id = "2";
+        ArrayList<Challenge> challenges = userDAO.getChallengesSentForUser(user_id);
+        assertEquals(3,challenges.size());
+        assertEquals("3",challenges.get(0).getUser1_id());
+        assertEquals("2",challenges.get(0).getUser2_id());
+        assertEquals("1",challenges.get(0).getQuiz_id());
+
+        assertEquals("1",challenges.get(1).getUser1_id());
+        assertEquals("2",challenges.get(1).getUser2_id());
+        assertEquals("1",challenges.get(1).getQuiz_id());
+
+        assertEquals("1",challenges.get(2).getUser1_id());
+        assertEquals("2",challenges.get(2).getUser2_id());
+        assertEquals("2",challenges.get(2).getQuiz_id());
+    }
+
 }

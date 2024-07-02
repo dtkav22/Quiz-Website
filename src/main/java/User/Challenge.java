@@ -1,9 +1,9 @@
 package User;
 
 public class Challenge {
-    public String quiz_id;
-    public String user1_id;
-    public String user2_id;
+    private String quiz_id;
+    private String user1_id;
+    private String user2_id;
 
     public Challenge(String quiz_id, String user1_id, String user2_id){
         this.quiz_id = quiz_id;
