@@ -12,13 +12,11 @@
             <label for = "Question">Question: </label>
             <input type="text" name = "Question" id = "Question"><br>
             <label for="correctAnswer">Correct Answer: </label>
-            <input type="text" name="correctAnswer" id = "correctAnswer"><br>
+            <input type="text" name="correctAnswers" id = "correctAnswer"><br>
             <label for="wrongAnswers">Wrong Answers: </label>
-            <div id="wrongAnswers">
-                <label>
-                    <input type="text" name="wrongAnswers" class = "wrongAnswers">
-                </label>
-            </div>
+            <label id = "wrongAnswers" class = "Answers">
+                <input type="text" name="wrongAnswers" class = "AnswerFields">
+            </label>
             <input type="button" value="Add Wrong Answer" onclick="addWrongAnswer()">
             <input type="hidden" name="TaskType" value="MultipleChoiceTask">
             <input type="submit" value="add Task">

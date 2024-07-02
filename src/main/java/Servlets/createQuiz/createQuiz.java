@@ -31,6 +31,7 @@ public class createQuiz extends HttpServlet {
         boolean onMultiplePage = request.getParameter("quizAppearence").equals("MultiplePage");
         Quiz quiz = new Quiz(author_id, tasks, authorDescription, creationDate, randomizeTasks, onMultiplePage, quizName);
         quizDAO.addQuiz(quiz);
+        session.removeAttribute("Tasks");
         response.sendRedirect("/UserHomePage");
     }
 }

@@ -8,15 +8,18 @@
 <body>
     <div class="Wrapper">
         <h1>Question-Response Task: </h1>
-        <p>If answer can be multiple diverge them with '//'. example: "answer//ans"</p>
-        <form action="addTask" method="post">
+        <form action="addTask" method="post" class = "AddTaskClass">
             <label for = "Question">Question: </label>
             <input type="text" name = "Question" id = "Question">
-            <label for="Answer">Answer: </label>
-            <input type="text" name="Answer" id = "Answer">
+            <label for = "correctAnswersQRT">Answer:</label>
+            <label id = "correctAnswersQRT" class = "Answers">
+                <input class="AnswerFields" name="correctAnswers" type="text">
+            </label>
             <input type="hidden" name="TaskType" value="QuestionResponseTask">
+            <input type="button" value="Add Answer" onclick="addCorrectAnswer('QRT')">
             <input type="submit" value="add Task">
         </form>
     </div>
 </body>
+<script src = "../createQuiz/script.js"></script>
 </html>
