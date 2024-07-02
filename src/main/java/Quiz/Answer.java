@@ -11,22 +11,26 @@ public class Answer {
     public Answer(ArrayList<String> correctAnswers, ArrayList<String> wrongAnswers) {
         this.correctAnswers = correctAnswers;
         this.wrongAnswers = wrongAnswers;
+        correctAnswers.replaceAll(String::toLowerCase);
     }
 
     public Answer(ArrayList<String> correctAnswers) {
         this.correctAnswers = correctAnswers;
         wrongAnswers = null;
+        correctAnswers.replaceAll(String::toLowerCase);
     }
 
     public Answer(String correctAnswer, ArrayList<String> wrongAnswers) {
         correctAnswers = new ArrayList<>();
         correctAnswers.add(correctAnswer);
         this.wrongAnswers = wrongAnswers;
+        correctAnswers.replaceAll(String::toLowerCase);
     }
     public Answer(String answer) {
         correctAnswers = new ArrayList<>();
         correctAnswers.add(answer);
         wrongAnswers = null;
+        correctAnswers.replaceAll(String::toLowerCase);
     }
 
     public int getCorrectAnswersNumber() {
@@ -46,6 +50,7 @@ public class Answer {
     }
 
     public boolean isCorrect(String answer) {
+        answer = answer.toLowerCase();
         for(String elem : correctAnswers) {
             String[] sameAnswers = elem.split("//");
             for (String sameAnswer : sameAnswers) {
