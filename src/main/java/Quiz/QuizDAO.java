@@ -1,6 +1,8 @@
 package Quiz;
 
 import DataBaseConnectionPool.DataBaseConnectionPool;
+import User.Performance;
+import sun.misc.Perf;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,8 +22,11 @@ public class QuizDAO {
         ResultSet res = stm.executeQuery();
         ArrayList<String> quizzes = new ArrayList<>();
         while (res.next()) {
+            if(size == 0) break;
             quizzes.add(res.getString("quiz_id"));
+            size--;
         }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return quizzes;
     }
 

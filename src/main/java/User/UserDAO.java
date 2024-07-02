@@ -49,7 +49,7 @@ public class UserDAO {
         return user;
     }
 
-    public ArrayList<Performance> getUserPerformanceHistory(String user_id) throws SQLException{
+    public ArrayList<Performance> getUserPerformanceHistory(String user_id, int size) throws SQLException{
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM performances_table WHERE user_id = ? ORDER BY date DESC";
         PreparedStatement statement = con.prepareStatement(query);
@@ -57,10 +57,12 @@ public class UserDAO {
         ResultSet set = statement.executeQuery();
         ArrayList<Performance> result = new ArrayList<>();
         while(set.next()) {
+            if(size == 0) break;
             String quiz_id = set.getString("quiz_id");
             double score = set.getDouble("score");
             String date = set.getString("date");
             result.add(new Performance(quiz_id, score, date));
+            size--;
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);
         return result;

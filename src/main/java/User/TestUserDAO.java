@@ -27,7 +27,7 @@ public class TestUserDAO extends TestCase {
     }
 
     public void testGetPerformanceHistory() throws SQLException {
-        ArrayList<Performance> set = userDAO.getUserPerformanceHistory("1");
+        ArrayList<Performance> set = userDAO.getUserPerformanceHistory("1", 100);
         assertEquals("1", set.get(0).getQuiz_id());
         assertEquals(100.0, set.get(0).getScore());
         System.out.println(set.get(0).getDate());
