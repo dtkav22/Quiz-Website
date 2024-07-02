@@ -1,4 +1,4 @@
-package Servlets.createQuiz;
+package Servlets.Quiz.createQuiz;
 
 import Quiz.*;
 
