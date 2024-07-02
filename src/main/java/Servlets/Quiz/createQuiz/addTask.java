@@ -1,4 +1,4 @@
-package Servlets.createQuiz;
+package Servlets.Quiz.createQuiz;
 
 import Quiz.*;
 
@@ -16,40 +16,43 @@ public class addTask extends HttpServlet {
         view.forward(request, response);
     }
 
+    private String getJointAnswer(String[] answers) {
+        StringBuilder jointAnswerText = new StringBuilder();
+        for(String answerText : answers) {
+            jointAnswerText.append(answerText);
+            jointAnswerText.append("//");
+        }
+        return jointAnswerText.toString();
+    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String taskType = request.getParameter("TaskType");
         HttpSession session = request.getSession();
         ArrayList<QuizTask> tasks = (ArrayList<QuizTask>) session.getAttribute("Tasks");
+        String questionText = request.getParameter("Question");
+        String[] answerTexts = request.getParameterValues("correctAnswers");
+        String correctAnswer = getJointAnswer(answerTexts);
         if(taskType.equals("FillBlankTask")) {
-            String questionText = request.getParameter("Question");
-            String answerText = request.getParameter("Answer");
-            Answer answer = new Answer(answerText);
+            Answer answer = new Answer(correctAnswer);
             Question question = new Question(answer, questionText, null);
             tasks.add(new FillBlankTask(question));
         }
         if(taskType.equals("MultipleChoiceTask")) {
-            String questionText = request.getParameter("Question");
-            String correctAnswer = request.getParameter("correctAnswer");
             String[] wrongAnswers = request.getParameterValues("wrongAnswers");
             ArrayList<String> wrongAnswersArray = new ArrayList<>();
             Collections.addAll(wrongAnswersArray, wrongAnswers);
-            Answer answer = new Answer(correctAnswer, wrongAnswersArray);
+            Answer answer = new Answer(answerTexts[0], wrongAnswersArray);
             Question question = new Question(answer, questionText, null);
             tasks.add(new MultipleChoiceTask(question));
         }
         if(taskType.equals("PictureResponseTask")) {
-            String questionText = request.getParameter("Question");
-            String answerText = request.getParameter("Answer");
             String imgUrl = request.getParameter("ImageUrl");
-            Answer answer = new Answer(answerText);
+            Answer answer = new Answer(correctAnswer);
             Question question = new Question(answer, questionText, imgUrl);
             tasks.add(new PictureResponseTask(question));
         }
         if(taskType.equals("QuestionResponseTask")) {
-            String questionText = request.getParameter("Question");
-            String answerText = request.getParameter("Answer");
-            Answer answer = new Answer(answerText);
+            Answer answer = new Answer(correctAnswer);
             Question question = new Question(answer, questionText, null);
             tasks.add(new QuestionResponseTask(question));
         }

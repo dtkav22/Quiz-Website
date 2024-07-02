@@ -8,16 +8,19 @@
 <body>
     <div class = "Wrapper">
         <h1>Fill In The Blank Task: </h1>
-        <p>Put answer in question in this format : " [/answer/]</p>
-        <p>If answer can be multiple diverge them with '//'. example: "answer//ans"</p>
-        <form action="addTask" method="post">
+        <p>Put 3 underscore where answer will be replaced instead : "___"</p>
+        <form action="addTask" method="post" class = "AddTaskClass">
             <label for = "Question">Question: </label>
             <input type="text" name = "Question" id = "Question">
-            <label for = "Answer">Answer: </label>
-            <input type="text" name = "Answer" id = "Answer">
+            <label for = "correctAnswersFBT">Answer:</label>
+            <label id = "correctAnswersFBT" class = "Answers">
+                <input class="AnswerFields" name="correctAnswers" type="text">
+            </label>
             <input type="hidden" name="TaskType" value="FillBlankTask">
+            <input type="button" value="Add Answer" onclick="addCorrectAnswer('FBT')">
             <input type="submit" value="add Task">
         </form>
     </div>
 </body>
+<script src = "../createQuiz/script.js"></script>
 </html>

@@ -37,17 +37,30 @@
     <filter-name>MyFilter</filter-name>
     <servlet-name>addTask</servlet-name>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>UserHomePage</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>QuizPage</servlet-name>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>QuizPage</servlet-name>
+    <servlet-class>Servlets.Quiz.QuizPage.QuizPage</servlet-class>
+  </servlet>
   <servlet>
     <servlet-name>UserHomePage</servlet-name>
     <servlet-class>Servlets.User.UserHomePage</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>createQuiz</servlet-name>
-    <servlet-class>Servlets.createQuiz.createQuiz</servlet-class>
+    <servlet-class>Servlets.Quiz.createQuiz.createQuiz</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>addTask</servlet-name>
-    <servlet-class>Servlets.createQuiz.addTask</servlet-class>
+    <servlet-class>Servlets.Quiz.createQuiz.addTask</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>Login</servlet-name>
@@ -58,6 +71,10 @@
     <servlet-class>Servlets.welcome.RegisterServlet</servlet-class>
   </servlet>
 
+  <servlet-mapping>
+    <servlet-name>QuizPage</servlet-name>
+    <url-pattern>/quizPage</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UserHomePage</servlet-name>
     <url-pattern>/UserHomePage</url-pattern>

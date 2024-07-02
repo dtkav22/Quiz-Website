@@ -21,13 +21,13 @@ body {
     align-items: center;
 }
 
-#wrongAnswers {
+.Answers {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.wrongAnswers {
+.AnswerFields {
     margin: 3px;
 }
 
