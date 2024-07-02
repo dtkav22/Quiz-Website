@@ -37,6 +37,10 @@
     <filter-name>MyFilter</filter-name>
     <servlet-name>addTask</servlet-name>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>UserHomePage</servlet-name>
+  </filter-mapping>
   <servlet>
     <servlet-name>UserHomePage</servlet-name>
     <servlet-class>Servlets.User.UserHomePage</servlet-class>
