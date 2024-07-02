@@ -215,4 +215,21 @@ public class TestUserDAO extends TestCase {
         assertEquals("nothing at all", mails.get(2).getMail_text());
     }
 
+    public void testGetReceivedMailsForUser1() throws SQLException {
+        String user_id = "3";
+        ArrayList<Mail> mails = userDAO.getReceivedMailsForUser(user_id);
+        assertEquals(3, mails.size());
+        assertEquals("2", mails.get(0).getSender_id());
+        assertEquals("2", mails.get(1).getSender_id());
+        assertEquals("2", mails.get(2).getSender_id());
+
+        assertEquals("3", mails.get(0).getReceiver_id());
+        assertEquals("3", mails.get(1).getReceiver_id());
+        assertEquals("3", mails.get(2).getReceiver_id());
+
+        assertEquals("Hello!", mails.get(0).getMail_text());
+        assertEquals("What are you doing?", mails.get(1).getMail_text());
+        assertEquals("nothing at all", mails.get(2).getMail_text());
+    }
+
 }
