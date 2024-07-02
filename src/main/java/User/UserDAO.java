@@ -172,5 +172,18 @@ public class UserDAO {
         statement.executeUpdate();
     }
 
-    //public ArrayList<Challenge>
+    public ArrayList<Challenge> getChallengesSentForUser(String user_id) throws SQLException {
+        ArrayList<Challenge> result = new ArrayList<>();
+        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM challenge_table WHERE user2_id = " + user_id;
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()){
+            String user1_id = rs.getString("user1_id");
+            String quiz_id = rs.getString("quiz_id");
+            Challenge newChallenge = new Challenge(quiz_id, user1_id, user_id);
+            result.add(newChallenge);
+        }
+        return result;
+    }
 }
