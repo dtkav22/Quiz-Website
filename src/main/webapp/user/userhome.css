@@ -1,0 +1,108 @@
+body {
+    font-family: Lato, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: dodgerblue;
+}
+
+header {
+    background-color: darkgreen;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+h1 {
+    color: black;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 20px;
+}
+
+a {
+    color: green;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+}
+
+b {
+    color: #494242;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+}
+
+.section-title:hover {
+    color: black;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.quiz-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+button {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+button.create {
+    background-color: dodgerblue;
+    margin-right: 10px;
+}
+
+button.logout {
+    background-color: red;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* New CSS for the half container */
+.half-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section {
+    flex: 1;
+    margin: 10px;
+}
