@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 
 public class UserDAO {
     public void addUser(User user) throws SQLException {
@@ -195,7 +196,7 @@ public class UserDAO {
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
             String mail_text = rs.getString("mail_text");
-            String send_date = rs.getString("send_date");
+            Date send_date = rs.getDate("send_date");
             String sender_id = rs.getString("sender_id");
             String receiver_id = rs.getString("receiver_id");
             Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id);
@@ -212,7 +213,7 @@ public class UserDAO {
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
             String mail_text = rs.getString("mail_text");
-            String send_date = rs.getString("send_date");
+            Date send_date = rs.getDate("send_date");
             String sender_id = rs.getString("sender_id");
             String receiver_id = rs.getString("receiver_id");
             Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id);

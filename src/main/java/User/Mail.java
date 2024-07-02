@@ -1,11 +1,13 @@
 package User;
 
+import java.sql.Date;
+
 public class Mail {
-    public String mail_text;
-    public String send_date;
-    public String sender_id;
-    public String receiver_id;
-    public Mail(String mail_text, String send_date, String sender_id, String receiver_id){
+    private String mail_text;
+    private Date send_date;
+    private String sender_id;
+    private String receiver_id;
+    public Mail(String mail_text, Date send_date, String sender_id, String receiver_id){
         this.mail_text = mail_text;
         this.send_date = send_date;
         this.sender_id = sender_id;
@@ -16,7 +18,7 @@ public class Mail {
         return mail_text;
     }
 
-    public String getSend_date(){
+    public Date getSend_date(){
         return send_date;
     }
 

@@ -151,4 +151,17 @@ public class TestUserDAO extends TestCase {
         System.out.println("Challenge accepted");
     }
 
+    public void testSendMail() throws SQLException {
+        String sender_id = "2";
+        String receiver_id = "3";
+        String mail_text = "Hi!";
+        userDAO.sendMail(sender_id, receiver_id, mail_text);
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM mails_table WHERE sender_id = " + sender_id + " AND receiver_id = " + receiver_id + " AND mail_text = " + mail_text;
+        PreparedStatement statement = con.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        assertTrue(rs.next());
+        System.out.println("Mail send");
+    }
+
 }
