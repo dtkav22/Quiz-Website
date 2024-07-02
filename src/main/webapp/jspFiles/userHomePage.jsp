@@ -10,6 +10,11 @@
 <head>
     <title>User Page</title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
+    <script>
+        function goToDisplayQuizzes(type) {
+            window.location.href = "/displayQuizzes?type=" + type;
+        }
+    </script>
 </head>
 <body>
 <%
@@ -24,28 +29,28 @@
 
     <div class="half-container">
         <div class="section">
-            <div class="section-title">Recent Quizzes Field</div>
+            <div class="section-title" onclick="goToDisplayQuizzes('recent')">Recent Quizzes</div>
             <%
                 ArrayList<String> quizzes = dao.getQuizzesByDate(MAX_QUIZZES, false);
                 for (String quiz_id : quizzes) {
                     Quiz cur = dao.getQuiz(quiz_id);
             %>
             <div class="quiz-box">
-                <a href="/quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
+                <a href="quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
                 <b>Creation Date: <%=cur.getCreationDate()%></b>
             </div>
             <%}%>
         </div>
 
         <div class="section">
-            <div class="section-title">Popular Quizzes Field</div>
+            <div class="section-title" onclick="goToDisplayQuizzes('popular')">Popular Quizzes</div>
             <%
                 quizzes = dao.getPopularQuizzes(MAX_QUIZZES);
                 for (String quiz_id : quizzes) {
                     Quiz cur = dao.getQuiz(quiz_id);
             %>
             <div class="quiz-box">
-                <a href="/quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
+                <a href="quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
                 <b>Creation Date: <%=cur.getCreationDate()%></b>
             </div>
             <%}%>
@@ -54,35 +59,45 @@
 
     <div class="half-container">
         <div class="section">
-            <div class="section-title">Your Quizzes Field</div>
+            <div class="section-title" onclick="goToDisplayQuizzes('yours')">Your Quizzes</div>
             <%
                 quizzes = dao.getUserQuizzes(id, MAX_QUIZZES);
                 for (String quiz_id : quizzes) {
                     Quiz cur = dao.getQuiz(quiz_id);
             %>
             <div class="quiz-box">
-                <a href="/quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
+                <a href="quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
                 <b>Creation Date: <%=cur.getCreationDate()%></b>
             </div>
             <%}%>
-        </div>
-
-        <%
-            ArrayList<Performance> performances = userDao.getUserPerformanceHistory(id, MAX_QUIZZES);
-            if (!performances.isEmpty()) {
-        %>
-        <div class="section">
-            <div class="section-title">Your Performance History</div>
             <%
+                if(quizzes.isEmpty()) {
+            %>
+            <div class="quiz-box">
+                <b>You haven't created quiz yet</b>
+            </div>
+            <%}%>
+        </div>
+        <div class="section">
+            <div class="section-title" onclick="goToDisplayQuizzes('performance')">Your Performance History</div>
+            <%
+                ArrayList<Performance> performances = userDao.getUserPerformanceHistory(id, MAX_QUIZZES);
                 for (Performance performance : performances) {
                     Quiz cur = dao.getQuiz(performance.getQuiz_id());
             %>
             <div class="quiz-box">
-                <a href="/quizPage?quiz_id=<%= performance.getQuiz_id() %>"><%= cur.getQuizName() %></a>
+                <a href="quizPage?quiz_id=<%= performance.getQuiz_id() %>"><%= cur.getQuizName() %></a>
                 <b>Score: <%= performance.getScore() %></b>
                 <b>Date: <%= performance.getDate() %></b>
             </div>
-            <%}}%>
+            <%}%>
+            <%
+                if(performances.isEmpty()) {
+            %>
+            <div class="quiz-box">
+                <b>You haven't taken quiz yet</b>
+            </div>
+            <%}%>
         </div>
     </div>
 

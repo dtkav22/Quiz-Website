@@ -14,6 +14,21 @@ import static Quiz.TaskTypes.*;
 
 public class QuizDAO {
 
+
+    /// could move in user dao
+    public String getMaxScore(String quiz_id) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT MAX(score) FROM performances_table WHERE quiz_id=?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, quiz_id);
+        ResultSet res = stm.executeQuery();
+        if(res.next()) {
+            return res.getString(1);
+        } else {
+            return null;
+        }
+    }
+
     public ArrayList<String> getUserQuizzes(String author_id, int size) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT quiz_id FROM quizzes_table WHERE author_id = ? ORDER BY creation_date DESC";
