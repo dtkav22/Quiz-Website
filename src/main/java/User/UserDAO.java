@@ -64,10 +64,9 @@ public class UserDAO {
         return result;
     }
 
-    public ArrayList<User> getFriendsForUser(String userName) throws SQLException {
+    public ArrayList<User> getFriendsForUser(String user_id) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         ArrayList<User> result = new ArrayList<>();
-        String user_id = getUserId(userName);
         String query = "SELECT * FROM relations_table WHERE user1_id = " + user_id + " OR user2_id = " + user_id;
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
@@ -85,6 +84,7 @@ public class UserDAO {
                 result.add(newUser);
             }
         }
+        con.close();
         return result;
     }
 
@@ -93,6 +93,7 @@ public class UserDAO {
         String queryTest = "SELECT * FROM relations_table WHERE (user1_id = " + sender_id + " AND user2_id = " + reciever_id + ") OR (user2_id = " + sender_id + " AND user1_id = " + reciever_id + ")";
         PreparedStatement statementTest = conn.prepareStatement(queryTest);
         ResultSet rs = statementTest.executeQuery();
+        conn.close();
         return !rs.next();
     }
 
@@ -104,6 +105,7 @@ public class UserDAO {
             statement.setString(1, sender_id);
             statement.setString(2, reciever_id);
             statement.executeUpdate();
+            con.close();
             return true;
         }
         return false;
@@ -114,6 +116,7 @@ public class UserDAO {
         String query = "SELECT * FROM relations_table WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id + " AND isPending = 1";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
+        conn.close();
         return rs.next();
     }
 
@@ -123,6 +126,7 @@ public class UserDAO {
             String query = "UPDATE relations_table SET isPending = 0 WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id;
             PreparedStatement statement = conn.prepareStatement(query);
             statement.executeUpdate();
+            conn.close();
         }
     }
 
@@ -131,6 +135,7 @@ public class UserDAO {
         String query = "SELECT * FROM relations_table WHERE (user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND isPending = 0) OR (user1_id = " + user2_id + " AND user2_id = " + user1_id + " AND isPending = 0)";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
+        conn.close();
         return rs.next();
     }
 
@@ -143,6 +148,7 @@ public class UserDAO {
             statement.setString(2, user1_id);
             statement.setString(3, user2_id);
             statement.executeUpdate();
+            conn.close();
         }
     }
 
@@ -151,6 +157,7 @@ public class UserDAO {
         String query = "SELECT * FROM challenges_table WHERE user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND quiz_id = " + quiz_id;
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
+        conn.close();
         return rs.next();
     }
 
@@ -160,6 +167,7 @@ public class UserDAO {
             String query = "UPDATE challenges_table SET accepted = 1 WHERE user1_id = " + user1_id + " user2_id = " + user2_id + " AND quiz_id = " + "quiz_id";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.executeUpdate();
+            conn.close();
         }
     }
 
@@ -171,6 +179,7 @@ public class UserDAO {
         statement.setString(2, receiver_id);
         statement.setString(3, text);
         statement.executeUpdate();
+        conn.close();
     }
 
     public ArrayList<Challenge> getChallengesSentForUser(String user_id) throws SQLException {
@@ -185,6 +194,7 @@ public class UserDAO {
             Challenge newChallenge = new Challenge(quiz_id, user1_id, user_id);
             result.add(newChallenge);
         }
+        conn.close();
         return result;
     }
 
@@ -202,6 +212,7 @@ public class UserDAO {
             Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id);
             result.add(newMail);
         }
+        conn.close();
         return result;
     }
 
@@ -219,6 +230,7 @@ public class UserDAO {
             Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id);
             result.add(newMail);
         }
+        conn.close();
         return result;
     }
 }
