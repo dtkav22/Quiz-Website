@@ -50,7 +50,7 @@ public class UserDAO {
 
     public ArrayList<Performance> getUserPerformanceHistory(String user_id) throws SQLException{
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM performances_table WHERE user_id = ? ORDER BY date DESC";
+        String query = "SELECT * FROM performances_table WHERE user_id = ? ORDER BY date DESC;";
         PreparedStatement statement = con.prepareStatement(query);
         statement.setString(1, user_id);
         ResultSet set = statement.executeQuery();
@@ -64,24 +64,20 @@ public class UserDAO {
         return result;
     }
 
-    public ArrayList<User> getFriendsForUser(String user_id) throws SQLException {
+    public ArrayList<String> getFriendsForUser(String user_id) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        ArrayList<User> result = new ArrayList<>();
-        String query = "SELECT * FROM relations_table WHERE user1_id = " + user_id + " OR user2_id = " + user_id;
+        ArrayList<String> result = new ArrayList<>();
+        String query = "SELECT * FROM relations_table WHERE (user1_id = " + user_id + " OR user2_id = " + user_id + ") AND isPending = 0;";
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()) {
             String user1_id = rs.getString("user1_id");
             String user2_id = rs.getString("user2_id");
             int isPending = rs.getInt("isPending");
-            if(isPending == 0){
-                User newUser;
-                if(!user1_id.equals(user_id)){
-                    newUser = getUser(user1_id);
-                } else {
-                    newUser = getUser(user2_id);
-                }
-                result.add(newUser);
+            if(!user1_id.equals(user_id)){
+                result.add(user1_id);
+            } else {
+                result.add(user2_id);
             }
         }
         con.close();
@@ -93,8 +89,9 @@ public class UserDAO {
         String queryTest = "SELECT * FROM relations_table WHERE (user1_id = " + sender_id + " AND user2_id = " + reciever_id + ") OR (user2_id = " + sender_id + " AND user1_id = " + reciever_id + ")";
         PreparedStatement statementTest = conn.prepareStatement(queryTest);
         ResultSet rs = statementTest.executeQuery();
+        boolean ans = !rs.next();
         conn.close();
-        return !rs.next();
+        return ans;
     }
 
     public boolean sendFriendRequest(String sender_id, String reciever_id) throws SQLException {
@@ -116,8 +113,9 @@ public class UserDAO {
         String query = "SELECT * FROM relations_table WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id + " AND isPending = 1";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
+        boolean ans = rs.next();
         conn.close();
-        return rs.next();
+        return ans;
     }
 
     public void acceptFriendRequest(String sender_id, String reciever_id) throws SQLException {
@@ -135,8 +133,9 @@ public class UserDAO {
         String query = "SELECT * FROM relations_table WHERE (user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND isPending = 0) OR (user1_id = " + user2_id + " AND user2_id = " + user1_id + " AND isPending = 0)";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
+        boolean ans = rs.next();
         conn.close();
-        return rs.next();
+        return ans;
     }
 
     public void sendChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
@@ -157,23 +156,27 @@ public class UserDAO {
         String query = "SELECT * FROM challenges_table WHERE user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND quiz_id = " + quiz_id;
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
+        boolean ans = rs.next();
         conn.close();
-        return rs.next();
+        return ans;
     }
 
     public void acceptChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
         if(canAcceptChallenge(user1_id, user2_id, quiz_id)){
             Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-            String query = "UPDATE challenges_table SET accepted = 1 WHERE user1_id = " + user1_id + " user2_id = " + user2_id + " AND quiz_id = " + "quiz_id";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.executeUpdate();
+            String query = "UPDATE challenges_table SET accepted = 1 WHERE user1_id = ? AND user2_id = ? AND quiz_id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, user1_id);
+            preparedStatement.setString(2, user2_id);
+            preparedStatement.setString(3, quiz_id);
+            preparedStatement.executeUpdate();
             conn.close();
         }
     }
 
     public void sendMail(String sender_id, String receiver_id, String text) throws SQLException {
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "INSERT INTO mails_table (sender_id, receiver_id, text) VALUES (?, ?, ?)";
+        String query = "INSERT INTO mails_table (sender_id, receiver_id, mail_text) VALUES (?, ?, ?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, sender_id);
         statement.setString(2, receiver_id);
@@ -185,7 +188,7 @@ public class UserDAO {
     public ArrayList<Challenge> getChallengesSentForUser(String user_id) throws SQLException {
         ArrayList<Challenge> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM challenge_table WHERE user2_id = " + user_id;
+        String query = "SELECT * FROM challenges_table WHERE user2_id = " + user_id;
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){

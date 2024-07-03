@@ -38,22 +38,22 @@ public class TestUserDAO extends TestCase {
     }
 
     public void testGetFriendsForUser1() throws SQLException {
-        ArrayList<User> list = userDAO.getFriendsForUser("Mariami");
+        ArrayList<String> list = userDAO.getFriendsForUser("2");
         assertEquals(2, list.size());
-        assertEquals("duta", list.get(0).getUserName());
-        assertEquals("Ioane", list.get(1).getUserName());
+        assertEquals("1", list.get(0));
+        assertEquals("3", list.get(1));
     }
 
     public void testGetFriendsForUser2() throws SQLException {
-        ArrayList<User> list = userDAO.getFriendsForUser("duta");
+        ArrayList<String> list = userDAO.getFriendsForUser("1");
         assertEquals(1, list.size());
-        assertEquals("Mariami", list.get(0).getUserName());
+        assertEquals("2", list.get(0));
     }
 
     public void testGetFriendsForUser3() throws SQLException {
-        ArrayList<User> list = userDAO.getFriendsForUser("Ioane");
+        ArrayList<String> list = userDAO.getFriendsForUser("3");
         assertEquals(1, list.size());
-        assertEquals("Mariami", list.get(0).getUserName());
+        assertEquals("2", list.get(0));
     }
 
     //while request can be sent
@@ -147,7 +147,7 @@ public class TestUserDAO extends TestCase {
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         rs.next();
-        assertEquals(1, rs.getString("accepted"));
+        assertEquals("1", rs.getString("accepted"));
         System.out.println("Challenge accepted");
     }
 
@@ -157,8 +157,11 @@ public class TestUserDAO extends TestCase {
         String mail_text = "Hi!";
         userDAO.sendMail(sender_id, receiver_id, mail_text);
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE sender_id = " + sender_id + " AND receiver_id = " + receiver_id + " AND mail_text = " + mail_text;
+        String query = "SELECT * FROM mails_table WHERE sender_id = ? AND receiver_id = ? AND mail_text = ?";
         PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, sender_id);
+        statement.setString(2, receiver_id);
+        statement.setString(3, mail_text);
         ResultSet rs = statement.executeQuery();
         assertTrue(rs.next());
         System.out.println("Mail send");
@@ -185,13 +188,13 @@ public class TestUserDAO extends TestCase {
         String user_id = "2";
         ArrayList<Mail> mails = userDAO.getSentMailsForUser(user_id);
         assertEquals(3, mails.size());
-        assertEquals("3", mails.get(0).getSender_id());
-        assertEquals("3", mails.get(1).getSender_id());
-        assertEquals("3", mails.get(2).getSender_id());
+        assertEquals("2", mails.get(0).getSender_id());
+        assertEquals("2", mails.get(1).getSender_id());
+        assertEquals("2", mails.get(2).getSender_id());
 
-        assertEquals("2", mails.get(0).getReceiver_id());
-        assertEquals("2", mails.get(1).getReceiver_id());
-        assertEquals("2", mails.get(2).getReceiver_id());
+        assertEquals("3", mails.get(0).getReceiver_id());
+        assertEquals("3", mails.get(1).getReceiver_id());
+        assertEquals("3", mails.get(2).getReceiver_id());
 
         assertEquals("Hi!", mails.get(0).getMail_text());
         assertEquals("I am coding", mails.get(1).getMail_text());
@@ -202,13 +205,13 @@ public class TestUserDAO extends TestCase {
         String user_id = "3";
         ArrayList<Mail> mails = userDAO.getSentMailsForUser(user_id);
         assertEquals(3, mails.size());
-        assertEquals("2", mails.get(0).getSender_id());
-        assertEquals("2", mails.get(1).getSender_id());
-        assertEquals("2", mails.get(2).getSender_id());
+        assertEquals("3", mails.get(0).getSender_id());
+        assertEquals("3", mails.get(1).getSender_id());
+        assertEquals("3", mails.get(2).getSender_id());
 
-        assertEquals("3", mails.get(0).getReceiver_id());
-        assertEquals("3", mails.get(1).getReceiver_id());
-        assertEquals("3", mails.get(2).getReceiver_id());
+        assertEquals("2", mails.get(0).getReceiver_id());
+        assertEquals("2", mails.get(1).getReceiver_id());
+        assertEquals("2", mails.get(2).getReceiver_id());
 
         assertEquals("Hello!", mails.get(0).getMail_text());
         assertEquals("What are you doing?", mails.get(1).getMail_text());
@@ -227,9 +230,10 @@ public class TestUserDAO extends TestCase {
         assertEquals("3", mails.get(1).getReceiver_id());
         assertEquals("3", mails.get(2).getReceiver_id());
 
-        assertEquals("Hello!", mails.get(0).getMail_text());
-        assertEquals("What are you doing?", mails.get(1).getMail_text());
-        assertEquals("nothing at all", mails.get(2).getMail_text());
+
+        assertEquals("Hi!", mails.get(0).getMail_text());
+        assertEquals("I am coding", mails.get(1).getMail_text());
+        assertEquals("and you?", mails.get(2).getMail_text());
     }
 
     public void testGetReceivedMailsForUser2() throws SQLException {
@@ -244,9 +248,10 @@ public class TestUserDAO extends TestCase {
         assertEquals("2", mails.get(1).getReceiver_id());
         assertEquals("2", mails.get(2).getReceiver_id());
 
-        assertEquals("Hi!", mails.get(0).getMail_text());
-        assertEquals("I am coding", mails.get(1).getMail_text());
-        assertEquals("and you?", mails.get(2).getMail_text());
+
+        assertEquals("Hello!", mails.get(0).getMail_text());
+        assertEquals("What are you doing?", mails.get(1).getMail_text());
+        assertEquals("nothing at all", mails.get(2).getMail_text());
     }
 
 }
