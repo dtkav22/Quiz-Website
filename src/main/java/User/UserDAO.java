@@ -73,12 +73,39 @@ public class UserDAO {
         while(rs.next()) {
             String user1_id = rs.getString("user1_id");
             String user2_id = rs.getString("user2_id");
-            int isPending = rs.getInt("isPending");
             if(!user1_id.equals(user_id)){
                 result.add(user1_id);
             } else {
                 result.add(user2_id);
             }
+        }
+        con.close();
+        return result;
+    }
+
+    public ArrayList<String> getFriendRequestsForUser(String user_id) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        ArrayList<String> result = new ArrayList<>();
+        String query = "SELECT * FROM relations_table WHERE user2_id = " + user_id + " AND isPending = 1;";
+        PreparedStatement statement = con.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()) {
+            String user1_id = rs.getString("user1_id");
+            result.add(user1_id);
+        }
+        con.close();
+        return result;
+    }
+
+    public ArrayList<String> getSentRequestsForUser(String user_id) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        ArrayList<String> result = new ArrayList<>();
+        String query = "SELECT * FROM relations_table WHERE user1_id = " + user_id + " AND isPending = 1;";
+        PreparedStatement statement = con.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()) {
+            String user2_id = rs.getString("user2_id");
+            result.add(user2_id);
         }
         con.close();
         return result;
