@@ -9,11 +9,7 @@
 <head>
     <title>Profile Page</title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
-    <script>
-    function goToDisplayQuizzes(type, id) {
-            window.location.href = "/displayQuizzes?type=" + type + "&profile_id=" + id;
-    }
-    </script>
+    <script src="../user/script.js"></script>
 </head>
 <body>
 <header>Profile Page</header>
@@ -25,9 +21,13 @@
     UserDAO userDao = new UserDAO();
     QuizDAO dao = new QuizDAO();
     User cur_user = userDao.getUser(profile_id);
+    boolean areFriends = false;
+    if(!profile_id.equals(user_id)) {
+        areFriends = userDao.areFriends(user_id, profile_id);
+    }
 %>
 <div class="container">
-    <h1>Welcome to <%=owner%> Profile</h1>
+    <h1>Welcome to Your Dashboard</h1>
 
     <div class="section">
         <div class="noClick-section-title"><%=owner%> Information</div> <br>
@@ -39,6 +39,14 @@
                 <hb>Mail: </hb>
                 <hb><%=cur_user.getEmail()%></hb>
             </div>
+            <%
+                if(!profile_id.equals(user_id)) {
+            %>
+            <div class="quiz-box">
+                <hb>Status: </hb>
+                <hb><%=(areFriends ? "Friends" : "Not Friends")%></hb>
+            </div>
+            <%}%>
     </div>
 
     <div class="half-container">
@@ -85,6 +93,35 @@
     </div>
 </div>
 
+    <div class="half-container">
+        <div class="section">
+            <div class="section-title" onclick="goToFriends(<%=profile_id%>)">Friends List</div>
+            <%
+                ArrayList<String> friends = userDao.getFriendsForUser(profile_id);
+                for(int i = 0; i < Math.min(friends.size(), MAX_DISPLAY); i++) {
+                    String friend_id = friends.get(i);
+                    User cur = userDao.getUser(friend_id);
+            %>
+            <div class="quiz-box">
+                <a href="profilePage?profile_id=<%= friend_id %>"><%=cur.getUserName() %></a>
+            </div>
+            <%}%>
+            <%
+                if(friends.isEmpty()) {
+            %>
+            <div class="quiz-box">
+                <b><%=owner%> Friends List is Empty</b>
+            </div>
+            <%}%>
+        </div>
+    </div>
+
+
+    <div class="button-container">
+        <form action="UserHomePage" method="get">
+            <button type="submit" class="go-back">Go to Home Page</button>
+        </form>
+    </div>
 
 </div>
 
