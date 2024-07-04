@@ -3,11 +3,15 @@ package User;
 import java.sql.Date;
 
 public class Mail {
+    private String mail_subject;
+    private String mail_id;
     private String mail_text;
     private Date send_date;
     private String sender_id;
     private String receiver_id;
-    public Mail(String mail_text, Date send_date, String sender_id, String receiver_id){
+    public Mail(String mailSubject, String mailId, String mail_text, Date send_date, String sender_id, String receiver_id){
+        mail_subject = mailSubject;
+        mail_id = mailId;
         this.mail_text = mail_text;
         this.send_date = send_date;
         this.sender_id = sender_id;
@@ -28,5 +32,13 @@ public class Mail {
 
     public String getReceiver_id(){
         return receiver_id;
+    }
+
+    public String getMail_id() {
+        return  mail_id;
+    };
+
+    public String getMail_subject() {
+        return mail_subject;
     }
 }
