@@ -18,6 +18,16 @@ public class TestUserDAO extends TestCase {
         userDAO = new UserDAO();
     }
 
+    public void testFriendsMethods() throws SQLException {
+        ArrayList<String> list = userDAO.getFriendRequestsForUser("3");
+        assertEquals(1, list.size());
+        assertEquals("1", list.get(0));
+
+        ArrayList<String> list2 = userDAO.getSentRequestsForUser("1");
+        assertEquals(1, list2.size());
+        assertEquals("3", list2.get(0));
+    }
+
     public void testGetChallengesSentForUser() throws SQLException {
         String user_id = "2";
         ArrayList<Challenge> challenges = userDAO.getChallengesSentForUser(user_id);
@@ -187,22 +197,6 @@ public class TestUserDAO extends TestCase {
         System.out.println("Challenge accepted");
     }
 
-    public void testSendMail() throws SQLException {
-        String sender_id = "2";
-        String receiver_id = "3";
-        String mail_text = "Hi!";
-        userDAO.sendMail(sender_id, receiver_id, mail_text);
-        Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE sender_id = ? AND receiver_id = ? AND mail_text = ?";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setString(1, sender_id);
-        statement.setString(2, receiver_id);
-        statement.setString(3, mail_text);
-        ResultSet rs = statement.executeQuery();
-        assertTrue(rs.next());
-        System.out.println("Mail send");
-    }
-
     public void testGetSentMailsForUser1() throws SQLException {
         String user_id = "2";
         ArrayList<Mail> mails = userDAO.getSentMailsForUser(user_id);
@@ -253,6 +247,22 @@ public class TestUserDAO extends TestCase {
         assertEquals("Hello!", mails.get(0).getMail_text());
         assertEquals("What are you doing?", mails.get(1).getMail_text());
         assertEquals("nothing at all", mails.get(2).getMail_text());
+    }
+
+    public void testSendMail() throws SQLException {
+        String sender_id = "2";
+        String receiver_id = "3";
+        String mail_text = "Hi!";
+        userDAO.sendMail(sender_id, receiver_id, mail_text);
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM mails_table WHERE sender_id = ? AND receiver_id = ? AND mail_text = ?";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, sender_id);
+        statement.setString(2, receiver_id);
+        statement.setString(3, mail_text);
+        ResultSet rs = statement.executeQuery();
+        assertTrue(rs.next());
+        System.out.println("Mail send");
     }
 
 }
