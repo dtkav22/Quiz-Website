@@ -160,6 +160,18 @@ public class UserDAO {
         }
     }
 
+    public void rejectFriendRequest(String sender_id, String reciever_id) throws SQLException {
+        if (canAcceptFriendRequest(sender_id, reciever_id)) {
+            Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+            String query = "DELETE FROM relations_table WHERE user1_id = ? AND user2_id = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, sender_id);
+            statement.setString(2, reciever_id);
+            statement.executeUpdate();
+            conn.close();
+        }
+    }
+
     public boolean areFriends(String user1_id, String user2_id) throws SQLException {
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM relations_table WHERE (user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND isPending = 0) OR (user1_id = " + user2_id + " AND user2_id = " + user1_id + " AND isPending = 0)";
@@ -206,6 +218,19 @@ public class UserDAO {
         }
     }
 
+    public void rejectChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
+        if(canAcceptChallenge(user1_id, user2_id, quiz_id)){
+            Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+            String query = "DELETE FROM challenges_table WHERE user1_id = ? AND user2_id = ? AND quiz_id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, user1_id);
+            preparedStatement.setString(2, user2_id);
+            preparedStatement.setString(3, quiz_id);
+            preparedStatement.executeUpdate();
+            conn.close();
+        }
+    }
+
     public void sendMail(String sender_id, String receiver_id, String text, String subject) throws SQLException {
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "INSERT INTO mails_table (sender_id, receiver_id, mail_text, mail_subject) VALUES (?, ?, ?, ?)";
@@ -221,7 +246,7 @@ public class UserDAO {
     public ArrayList<Challenge> getChallengesSentForUser(String user_id) throws SQLException {
         ArrayList<Challenge> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM challenges_table WHERE user2_id = " + user_id;
+        String query = "SELECT * FROM challenges_table WHERE user2_id = " + user_id + " AND accepted = 0;";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
@@ -296,8 +321,8 @@ public class UserDAO {
 
     public ArrayList<Performance> getFriendsPerformances(String user_id, int size) throws SQLException {
         String query = "SELECT * FROM performances_table " +
-                "WHERE user_id IN (SELECT user1_id FROM relations_table WHERE user2_id = ?) " +
-                "OR user_id IN (SELECT user2_id FROM relations_table WHERE user1_id = ?) " +
+                "WHERE user_id IN (SELECT user1_id FROM relations_table WHERE user2_id = ? AND isPending = 0) " +
+                "OR user_id IN (SELECT user2_id FROM relations_table WHERE user1_id = ? AND isPending = 0) " +
                 "ORDER BY date DESC;";
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         PreparedStatement statement = conn.prepareStatement(query);
