@@ -9,7 +9,8 @@
 <%
     String type = (String) request.getAttribute("type");
     final int MAX_QUIZZES = 50;
-    String id = (String) session.getAttribute("userId");
+    String id = (String) request.getAttribute("profile_id");
+    String owner = (id.equals((String)session.getAttribute("userId")) ? "Your" : "User's");
     QuizDAO dao = new QuizDAO();
     UserDAO userDao = new UserDAO();
     ArrayList<Performance> performances = null;
@@ -18,13 +19,18 @@
         performances = userDao.getFriendsPerformances(id, MAX_QUIZZES);
         header = "Friends Performance History";
     } else {
-        header = "Your Performance History";
+        header = owner + " Performance History";
         performances = userDao.getUserPerformanceHistory(id, MAX_QUIZZES);
     }
 %>
 <head>
     <title><%=header%></title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </head>
 <body>
 <header><%=header%></header>
@@ -49,9 +55,7 @@
     </div>
 
     <div class="button-container">
-        <form action="UserHomePage" method="get">
-            <button type="submit" class="go-back">Go to Home Page</button>
-        </form>
+        <button class="go-back" onclick="goBack()">Go Back</button>
     </div>
 </div>
 </body>

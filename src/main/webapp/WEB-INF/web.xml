@@ -78,7 +78,15 @@
     <servlet-name>Register</servlet-name>
     <servlet-class>Servlets.welcome.RegisterServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ProfilePage</servlet-name>
+    <servlet-class>Servlets.UserHomePage.ProfilePage</servlet-class>
+  </servlet>
 
+  <servlet-mapping>
+    <servlet-name>ProfilePage</servlet-name>
+    <url-pattern>/profilePage</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DisplayRequests</servlet-name>
     <url-pattern>/displayRequests</url-pattern>

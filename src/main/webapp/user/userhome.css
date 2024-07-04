@@ -144,3 +144,16 @@ button.reject:hover {
 button.accept:hover {
     opacity: 0.8;
 }
+
+hb {
+    font-weight: bold;
+    color: #333; /* Change font color */
+    margin-right: 5px; /* Add some right margin */
+    display: inline-block;
+}
+
+.noClick-section-title {
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 20px;
+}

@@ -63,55 +63,11 @@
     </div>
 
     <div class="half-container">
-        <div class="section">
-            <div class="section-title" onclick="goToDisplayQuizzes('yours')">Your Quizzes</div>
-            <%
-                quizzes = dao.getUserQuizzes(id, MAX_DISPLAY);
-                for (String quiz_id : quizzes) {
-                    Quiz cur = dao.getQuiz(quiz_id);
-            %>
-            <div class="quiz-box">
-                <a href="quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
-                <b>Creation Date: <%=cur.getCreationDate()%></b>
-            </div>
-            <%}%>
-            <%
-                if(quizzes.isEmpty()) {
-            %>
-            <div class="quiz-box">
-                <b>You haven't created quiz yet</b>
-            </div>
-            <%}%>
-        </div>
-        <div class="section">
-            <div class="section-title" onclick="goToDisplayQuizzes('performance')">Your Performance History</div>
-            <%
-                ArrayList<Performance> performances = userDao.getUserPerformanceHistory(id, MAX_DISPLAY);
-                for (Performance performance : performances) {
-                    Quiz cur = dao.getQuiz(performance.getQuiz_id());
-            %>
-            <div class="quiz-box">
-                <a href="quizPage?quiz_id=<%= performance.getQuiz_id() %>"><%= cur.getQuizName() %></a>
-                <b>Score: <%= performance.getScore() %></b>
-                <b>Date: <%= performance.getDate() %></b>
-            </div>
-            <%}%>
-            <%
-                if(performances.isEmpty()) {
-            %>
-            <div class="quiz-box">
-                <b>You haven't taken quiz yet</b>
-            </div>
-            <%}%>
-        </div>
-    </div>
-
-    <div class="half-container">
 
         <div class="section">
             <div class="section-title" onclick="goToDisplayQuizzes('friends')">Friends Performance History</div>
             <%
-                performances = userDao.getFriendsPerformances(id, MAX_DISPLAY);
+                ArrayList<Performance> performances = userDao.getFriendsPerformances(id, MAX_DISPLAY);
                 for (Performance performance : performances) {
                     Quiz cur = dao.getQuiz(performance.getQuiz_id());
                     User user = userDao.getUser(performance.getUser_id());
@@ -221,9 +177,14 @@
         <form action="createQuiz" method="get">
             <button type="submit" class="create">Create Quiz</button>
         </form>
+        <form action="profilePage" method="get">
+            <input type="hidden" name="profile_id" value=<%=id%>>
+            <button type="submit" class="create">Go to Profile Page</button>
+        </form>
         <form action="Logout" method="post">
             <button type="submit" class="logout">Logout</button>
         </form>
+
     </div>
 </div>
 </body>
