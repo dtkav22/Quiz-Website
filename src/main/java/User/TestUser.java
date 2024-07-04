@@ -13,13 +13,13 @@ public class TestUser extends TestCase {
     }
 
     public void testgetPassword(){
-        User user1 = new User("Nino", "Niniko", "ninoza21@freeuni.edu.ge");
+        User user1 = new User("Nino", "Niniko", "ninoza21@freeuni.edu.ge", false);
         System.out.println("Niniko " + user1.getPassword());
 
-        User user2 = new User("Zuko", "Zvio", "zviadivardava@gmail.com");
+        User user2 = new User("Zuko", "Zvio", "zviadivardava@gmail.com", false);
         System.out.println("Zvio " + user1.getPassword());
 
-        User user3 = new User("Data_Tutashkhia", "asea_es", "tutashkhiadata@firali.com");
+        User user3 = new User("Data_Tutashkhia", "asea_es", "tutashkhiadata@firali.com", false);
         System.out.println("asea_es " + user1.getPassword());
     }
 

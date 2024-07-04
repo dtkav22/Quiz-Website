@@ -4,8 +4,14 @@ DROP TABLE IF EXISTS performances_table;
 DROP TABLE IF EXISTS answers_table;
 DROP TABLE IF EXISTS questions_table;
 DROP TABLE IF EXISTS tasks_table;
+DROP TABLE IF EXISTS challenges_table;
 DROP TABLE IF EXISTS quizzes_table;
+DROP TABLE IF EXISTS relations_table;
+DROP TABLE IF EXISTS mails_table;
 DROP TABLE IF EXISTS users_table;
+
+
+-- users table
 
 CREATE TABLE users_table(
                             user_id INT AUTO_INCREMENT,
@@ -15,9 +21,48 @@ CREATE TABLE users_table(
                             PRIMARY KEY (user_id)
 );
 INSERT INTO users_table(username, email, password)
-VALUES ('duta', 'tkavadzedimitri@gmail.com', '798fa27c4d4fb5b1158a1d5f2339edc0a21b14b6');
+VALUES ('duta', 'tkavadzedimitri@gmail.com', '798fa27c4d4fb5b1158a1d5f2339edc0a21b14b6'), -- password is 'duta'
+       ('Mariami', 'mivar21@freeuni.edu.ge', '40be99aa88358b324d74673789f53703d9711ea6'), -- password is 'Mariami'
+       ('Ioane', 'jtoid20@freeuni.edu.ge', '6dc1dde346851b86913483ec5455ca94ede88455'), -- password is 'Ioane'
+       ('Nino', 'ninoza21@freeuni.edu.ge', 'b6c9960594b2b57cb5c61c7ce01fa5de66d0bc2e'), -- password is 'Niniko'
+       ('Zuko', 'zviadivardava@gmail.com', 'ddbd55c9e6fdbc6bb8905695c48eb2a81a86ddac'), -- password is 'Zvio'
+       ('Data_Tutashkhia', 'tutashkhiadata@firali.com', 'd6d32ab2a0cce1933d670bb60cbc91e7f2f3889d'); --  password is 'asea_es'
 
+-- mails table
 
+CREATE TABLE mails_table(
+                            mail_text TEXT DEFAULT(NULL),
+                            send_date DATE DEFAULT (CURRENT_DATE),
+                            sender_id INT NOT NULL,
+                            receiver_id INT NOT NULL,
+                            FOREIGN KEY (sender_id) REFERENCES users_table(user_id),
+                            FOREIGN KEY (receiver_id) REFERENCES users_table(user_id)
+);
+
+INSERT INTO mails_table (mail_text, sender_id, receiver_id)
+VALUES ('Hello!', 3, 2),
+       ('Hi!', 2, 3),
+       ('What are you doing?', 3, 2),
+       ('I am coding', 2, 3),
+       ('and you?', 2, 3),
+       ('nothing at all', 3, 2);
+
+-- relations table
+
+CREATE TABLE relations_table(
+                                user1_id INT NOT NULL,
+                                user2_id INT NOT NULL,
+                                isPending INT NOT NULL,
+                                FOREIGN KEY (user1_id) REFERENCES users_table(user_id),
+                                FOREIGN KEY (user2_id) REFERENCES users_table(user_id)
+);
+
+INSERT INTO relations_table (user1_id, user2_id, isPending)
+VALUES (1, 2, 0),
+       (2, 3, 0),
+       (1, 3, 1);
+
+-- quizzes table
 
 CREATE TABLE quizzes_table (
                                quiz_id INT AUTO_INCREMENT,
@@ -31,9 +76,40 @@ CREATE TABLE quizzes_table (
                                FOREIGN KEY (author_id) REFERENCES users_table(user_id)
 );
 INSERT into quizzes_table (author_id, multiple_page, randomize_tasks, quiz_name)
-VALUES ('1', 0, 0, "sample quiz");
+VALUES ('1', 0, 0, "sample quiz"),
+       ('2', 0, 0, "another quiz");
 
+-- challenges table
 
+CREATE TABLE challenges_table(
+                                 quiz_id INT NOT NULL,
+                                 user1_id INT NOT NULL,
+                                 user2_id INT NOT NULL,
+                                 accepted INT DEFAULT (0),
+                                 FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id),
+                                 FOREIGN KEY (user1_id) REFERENCES users_table(user_id),
+                                 FOREIGN KEY (user2_id) REFERENCES users_table(user_id)
+);
+
+INSERT INTO challenges_table (quiz_id, user1_id, user2_id)
+VALUES (1,3,2),
+       (1,1,2),
+       (2,1,2);
+
+-- performance table
+
+CREATE TABLE performances_table(
+                                   user_id INT NOT NULL ,
+                                   quiz_id INT NOT NULL ,
+                                   score DOUBLE NOT NULL,
+                                   date DATETIME NOT NULL,
+                                   FOREIGN KEY (user_id) REFERENCES users_table(user_id),
+                                   FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
+);
+INSERT INTO performances_table (user_id, quiz_id, score, date)
+VALUES (1, 1, 100, '2024-06-26 17:20');
+
+-- tasks table
 
 CREATE TABLE tasks_table (
                              task_id INT AUTO_INCREMENT,
@@ -48,7 +124,7 @@ VALUES (0, 1),
        (2, 1),
        (0, 1);
 
-
+-- questions table
 
 CREATE TABLE questions_table (
                                  question_id INT AUTO_INCREMENT,
@@ -64,7 +140,7 @@ VALUES(1, 'Who was the first president of Geeorgia?', NULL),
       (2, '______ is a fictional detective created by Arthur Conan Doyle.', NULL),
       (3, 'In which year did America gain independence from Britain?', NULL);
 
-
+-- answers table
 
 CREATE TABLE answers_table (
                                answer_id INT AUTO_INCREMENT,
@@ -84,20 +160,12 @@ VALUES(1, 'Zviad Gamsaxurdia', 1, 0),
       (4, '1789', 0, 0),
       (4, '1821', 0, 0);
 
-CREATE TABLE performances_table(
-                                   user_id INT NOT NULL ,
-                                   quiz_id INT NOT NULL ,
-                                   score DOUBLE NOT NULL,
-                                   date DATETIME NOT NULL,
-                                   FOREIGN KEY (user_id) REFERENCES users_table(user_id),
-                                   FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
-);
-INSERT INTO performances_table (user_id, quiz_id, score, date)
-VALUES (1, 1, 100, '2024-06-26 17:20');
+-- selects
 
 select * from quizzes_table;
 select * from users_table;
-
+select * from relations_table;
+select * from mails_table;
 
 
 
