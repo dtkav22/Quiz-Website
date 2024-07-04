@@ -1,4 +1,4 @@
-package Servlets.Display;
+package Servlets.UserHomePage;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
