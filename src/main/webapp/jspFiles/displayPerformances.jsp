@@ -7,7 +7,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%
-    String type = (String) session.getAttribute("type");
+    String type = (String) request.getAttribute("type");
     final int MAX_QUIZZES = 50;
     String id = (String) session.getAttribute("userId");
     QuizDAO dao = new QuizDAO();
