@@ -1,9 +1,8 @@
-package Servlets.Quiz.QuizPage;
+package Servlets.Display;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class DisplayQuizzes extends HttpServlet {
     @Override
@@ -12,12 +11,11 @@ public class DisplayQuizzes extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("type", type);
         System.out.println("here");
-        if(type.equals("performance")) {
+        if(type.equals("performance") || type.equals("friends")) {
             request.getRequestDispatcher("jspFiles/displayPerformances.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("jspFiles/displayQuizzes.jsp").forward(request, response);
         }
-
     }
 
     @Override
