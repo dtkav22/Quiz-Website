@@ -29,11 +29,6 @@
 <head>
     <title><%=header%></title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
 </head>
 <body>
 <header><%=header%></header>
@@ -52,7 +47,9 @@
     </div>
 
     <div class="button-container">
-        <button class="go-back" onclick="goBack()">Go Back</button>
+        <form action="UserHomePage" method="get">
+            <button type="submit" class="go-back">Go to Home Page</button>
+        </form>
     </div>
 
 </div>

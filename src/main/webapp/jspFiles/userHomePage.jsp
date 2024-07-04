@@ -12,14 +12,7 @@
 <head>
     <title>User Page</title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
-    <script>
-        function goToDisplayQuizzes(type) {
-            window.location.href = "/displayQuizzes?type=" + type;
-        }
-        function goToDisplayRequests(type) {
-            window.location.href = "/displayRequests?type=" + type;
-        }
-    </script>
+    <script src="../user/script.js"></script>
 </head>
 <body>
 <%
