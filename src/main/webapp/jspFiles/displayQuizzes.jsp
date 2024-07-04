@@ -47,7 +47,7 @@
 
     <div class="button-container">
         <form action="UserHomePage" method="get">
-            <button type="submit" class="go-back">Go Back</button>
+            <button type="submit" class="go-back">Go to Home Page</button>
         </form>
     </div>
 </div>

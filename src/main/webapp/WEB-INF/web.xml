@@ -51,8 +51,12 @@
     <servlet-class>Servlets.Quiz.QuizPage.QuizPage</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>DisplayRequests</servlet-name>
+    <servlet-class>Servlets.UserHomePage.DisplayRequests</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>DisplayQuizzes</servlet-name>
-    <servlet-class>Servlets.Quiz.QuizPage.DisplayQuizzes</servlet-class>
+    <servlet-class>Servlets.UserHomePage.DisplayQuizzes</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UserHomePage</servlet-name>
@@ -75,6 +79,10 @@
     <servlet-class>Servlets.welcome.RegisterServlet</servlet-class>
   </servlet>
 
+  <servlet-mapping>
+    <servlet-name>DisplayRequests</servlet-name>
+    <url-pattern>/displayRequests</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DisplayQuizzes</servlet-name>
     <url-pattern>/displayQuizzes</url-pattern>

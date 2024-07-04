@@ -31,21 +31,24 @@ VALUES ('duta', 'tkavadzedimitri@gmail.com', '798fa27c4d4fb5b1158a1d5f2339edc0a2
 -- mails table
 
 CREATE TABLE mails_table(
+                            mail_id INT AUTO_INCREMENT,
+                            mail_subject VARCHAR(20),
                             mail_text TEXT DEFAULT(NULL),
                             send_date DATE DEFAULT (CURRENT_DATE),
                             sender_id INT NOT NULL,
                             receiver_id INT NOT NULL,
+                            PRIMARY KEY(mail_id),
                             FOREIGN KEY (sender_id) REFERENCES users_table(user_id),
                             FOREIGN KEY (receiver_id) REFERENCES users_table(user_id)
 );
 
-INSERT INTO mails_table (mail_text, sender_id, receiver_id)
-VALUES ('Hello!', 3, 2),
-       ('Hi!', 2, 3),
-       ('What are you doing?', 3, 2),
-       ('I am coding', 2, 3),
-       ('and you?', 2, 3),
-       ('nothing at all', 3, 2);
+INSERT INTO mails_table (mail_subject, mail_text, sender_id, receiver_id)
+VALUES ('j', 'Hello!', 3, 2),
+       ('j', 'Hi!', 2, 3),
+       ('j', 'What are you doing?', 3, 2),
+       ('j', 'I am coding', 2, 3),
+       ('j', 'and you?', 2, 3),
+       ('j', 'nothing at all', 3, 2);
 
 -- relations table
 
@@ -166,6 +169,7 @@ select * from quizzes_table;
 select * from users_table;
 select * from relations_table;
 select * from mails_table;
+select * from challenges_table;
 
 
 
