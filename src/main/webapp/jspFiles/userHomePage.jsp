@@ -34,7 +34,7 @@
                     Quiz cur = dao.getQuiz(quiz_id);
             %>
             <div class="quiz-box">
-                <a href="quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
+                <a href="QuizSummaryPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
                 <b>Creation Date: <%=cur.getCreationDate()%></b>
             </div>
             <%}%>
@@ -48,7 +48,7 @@
                     Quiz cur = dao.getQuiz(quiz_id);
             %>
             <div class="quiz-box">
-                <a href="quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
+                <a href="QuizSummaryPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
                 <b>Creation Date: <%=cur.getCreationDate()%></b>
             </div>
             <%}%>
@@ -66,7 +66,7 @@
                     User user = userDao.getUser(performance.getUser_id());
             %>
             <div class="quiz-box">
-                <a href="quizPage?quiz_id=<%= performance.getQuiz_id() %>"><%= cur.getQuizName() %></a>
+                <a href="QuizSummaryPage?quiz_id=<%= performance.getQuiz_id() %>"><%= cur.getQuizName() %></a>
                 <b>Score: <%= performance.getScore() %></b>
                 <b>Date: <%= performance.getDate() %></b>
                 <a href="profilePage?profile_id=<%= performance.getUser_id() %>"><%= user.getUserName() %></a>
@@ -144,7 +144,7 @@
                     Quiz quiz = dao.getQuiz(challenge.getQuiz_id());
             %>
             <div class="quiz-box">
-                <a href="quizPage?quiz_id=<%= challenge.getQuiz_id() %>"><%= quiz.getQuizName() %></a>
+                <a href="QuizSummaryPage?quiz_id=<%= challenge.getQuiz_id() %>"><%= quiz.getQuizName() %></a>
                 <a href="profilePage?profile_id=<%= challenge.getUser1_id() %>"><%= "Sent by: " + cur.getUserName() %></a>
                 <form action="ChallengeRequest" method="post" style="display:inline;">
                     <input type="hidden" name="friend_id" value="<%= challenge.getUser1_id() %>">

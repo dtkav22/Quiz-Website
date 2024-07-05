@@ -47,6 +47,10 @@
   </filter-mapping>
 
   <servlet>
+    <servlet-name>QuizSummaryPage</servlet-name>
+    <jsp-file>/jspFiles/QuizSummaryPage.jsp</jsp-file>
+  </servlet>
+  <servlet>
     <servlet-name>QuizPage</servlet-name>
     <servlet-class>Servlets.Quiz.QuizPage.QuizPage</servlet-class>
   </servlet>
@@ -86,7 +90,11 @@
     <servlet-name>FriendsList</servlet-name>
     <servlet-class>Servlets.UserHomePage.FriendsList</servlet-class>
   </servlet>
-  
+
+  <servlet-mapping>
+    <servlet-name>QuizSummaryPage</servlet-name>
+    <url-pattern>/QuizSummaryPage</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>FriendsList</servlet-name>
     <url-pattern>/friendsList</url-pattern>
