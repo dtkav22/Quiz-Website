@@ -16,41 +16,40 @@
 </head>
 <body>
 <div id="wrapper">
-
     <div id="content">
-        <div id="left-column">
-            <div class="homepage-section">
-                <div class="title">Notes</div>
-                <%
-                    String userID = (String) request.getSession().getAttribute("userID");
-                    ArrayList<Mail> mails = null;
-                    try {
-                        UserDAO dao = new UserDAO();
-                        mails = dao.getReceivedMailsForUser(userID);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    for (Mail mail : mails) {
-                        out.println("<div class=\"mail\">");
-                        out.println("</div>");
-                        out.println("Date: " + mail.getSend_date());
-                        out.println("</div>");
-                        out.println("<div>");
-                        out.println("From: " + mail.getSender_id());
-                        out.println("<div>");
-                        out.println("</div>");
-                        out.println("Message: " + mail.getMail_text());
-                        out.println("</div>");
-                        out.println("</div>");
-                    }
-                %>
+        <h1>Inbox</h1>
+        <div id="inbox-messages">
+            <%
+                String userID = (String) request.getSession().getAttribute("user_id");
+                UserDAO dao = new UserDAO();
+                ArrayList<Mail> mails = null;
+                try {
+                    mails = dao.getReceivedMailsForUser(userID);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                if (mails.isEmpty()) {
+            %>
+            <div class="no-messages">You have no messages.</div>
+            <%
+            } else {
+                for (Mail mail : mails) {
+            %>
+            <div class="mail">
+                <div class="mail-header">
+                    <span class="mail-date">Date: <%= mail.getSend_date() %></span>
+                    <span class="mail-from">From: <%= mail.getSender_id() %></span>
+                </div>
+                <div class="mail-body">
+                    <p><%= mail.getMail_text() %></p>
+                </div>
             </div>
-        </div>
-
-        <div id="right-column">
+            <%
+                    }
+                }
+            %>
         </div>
     </div>
-
 </div>
 </body>
 </html>
