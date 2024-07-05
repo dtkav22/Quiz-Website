@@ -47,6 +47,10 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>MyFilter</filter-name>
+    <servlet-name>DisplayQuizzes</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
     <servlet-name>QuizPage</servlet-name>
   </filter-mapping>
 
