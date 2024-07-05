@@ -86,6 +86,10 @@ button.logout {
     background-color: red;
 }
 
+button.mail {
+    background-color: blueviolet;
+}
+
 button.go-back {
     background-color: dodgerblue;
 }
