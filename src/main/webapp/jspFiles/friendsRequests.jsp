@@ -1,6 +1,4 @@
-<%@ page import="Quiz.QuizDAO" %>
 <%@ page import="User.UserDAO" %>
-<%@ page import="User.Mail" %>
 <%@ page import="User.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -8,6 +6,8 @@
 <head>
     <title>Friend Requests</title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../user/script.js"></script>
 </head>
 <body>
 <%
@@ -25,12 +25,11 @@
                 String friend_id = list.get(i);
                 User cur = userDao.getUser(friend_id);
         %>
-        <div class="quiz-box">
+        <div class="quiz-box" id="quiz-box-<%= friend_id %>">
             <a href="profilePage?profile_id=<%= friend_id %>"><%= cur.getUserName() %></a>
-            <form action="FriendRequest" method="post" style="display:inline;">
-                <input type="hidden" name="friend_id" value="<%= friend_id %>">
-                <button type="submit" name="action" value="accept" class="accept">Accept</button>
-                <button type="submit" name="action" value="reject" class="reject">Reject</button>
+            <form style="display:inline;">
+                <button type="button" class="accept" onclick="handleFriendRequest(false, 'accept', '<%=friend_id%>')">Accept</button>
+                <button type="button" class="reject" onclick="handleFriendRequest(false, 'reject', '<%=friend_id%>')">Reject</button>
             </form>
         </div>
         <%}%>

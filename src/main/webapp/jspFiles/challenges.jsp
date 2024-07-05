@@ -9,6 +9,8 @@
 <head>
     <title>Challenges</title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../user/script.js"></script>
 </head>
 <body>
 <%
@@ -27,15 +29,16 @@
                 Challenge challenge = challenges.get(i);
                 User cur = userDao.getUser(challenge.getUser1_id());
                 Quiz quiz = dao.getQuiz(challenge.getQuiz_id());
+                String box_id = Integer.toString(i);
+                String friend_id = challenge.getUser1_id();
+                String quiz_id = challenge.getQuiz_id();
         %>
-        <div class="quiz-box">
+        <div class="quiz-box" id=quiz-box-<%=box_id%>>
             <a href="quizPage?quiz_id=<%= challenge.getQuiz_id() %>"><%= quiz.getQuizName() %></a>
             <a href="profilePage?profile_id=<%= challenge.getUser1_id() %>"><%= "Sent by: " + cur.getUserName() %></a>
-            <form action="ChallengeRequest" method="post" style="display:inline;">
-                <input type="hidden" name="friend_id" value="<%= challenge.getUser1_id() %>">
-                <input type="hidden" name="quiz_id" value="<%= challenge.getQuiz_id() %>">
-                <button type="submit" name="action" value="accept" class="accept">Accept</button>
-                <button type="submit" name="action" value="reject" class="reject">Reject</button>
+            <form style="display:inline;">
+                <button type="button" class="accept" onclick="handleChallengeRequest(<%=box_id%>,'accept', <%=friend_id%>, <%=quiz_id%>)">Accept</button>
+                <button type="button" class="reject" onclick="handleChallengeRequest(<%=box_id%>,'accept', <%=friend_id%>, <%=quiz_id%>)">Reject</button>
             </form>
         </div>
         <%}%>

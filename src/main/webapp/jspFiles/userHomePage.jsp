@@ -12,6 +12,7 @@
 <head>
     <title>User Page</title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../user/script.js"></script>
 </head>
 <body>
@@ -57,7 +58,7 @@
 
     <div class="half-container">
 
-        <div class="section">
+        <div class="section" id="friendsPerformance">
             <div class="section-title" onclick="goToDisplayQuizzes('friends')">Friends Performance History</div>
             <%
                 ArrayList<Performance> performances = userDao.getFriendsPerformances(id, MAX_DISPLAY);
@@ -108,7 +109,7 @@
 
     <div class="half-container">
 
-        <div class="section">
+        <div class="section" id="friendsRequest">
             <div class="section-title" onclick="goToDisplayRequests('friends')">Friend Request</div>
             <%
                 ArrayList<String> list = userDao.getFriendRequestsForUser(id);
@@ -116,12 +117,11 @@
                     String friend_id = list.get(i);
                     User cur = userDao.getUser(friend_id);
             %>
-            <div class="quiz-box">
+            <div class="quiz-box" id="quiz-box-<%= friend_id %>">
                 <a href="profilePage?profile_id=<%= friend_id %>"><%= cur.getUserName() %></a>
-                <form action="FriendRequest" method="post" style="display:inline;">
-                    <input type="hidden" name="friend_id" value="<%= friend_id %>">
-                    <button type="submit" name="action" value="accept" class="accept">Accept</button>
-                    <button type="submit" name="action" value="reject" class="reject">Reject</button>
+                <form style="display:inline;">
+                    <button type="button" class="accept" onclick="handleFriendRequest(true, 'accept', '<%=friend_id%>')">Accept</button>
+                    <button type="button" class="reject" onclick="handleFriendRequest(true, 'reject', '<%=friend_id%>')">Reject</button>
                 </form>
             </div>
             <%}%>
@@ -134,7 +134,7 @@
             <%}%>
         </div>
 
-        <div class="section">
+        <div class="section" id="challengeRequest">
             <div class="section-title" onclick="goToDisplayRequests('challenges')">Challenges Request</div>
             <%
                 ArrayList<Challenge> challenges = userDao.getChallengesSentForUser(id);
@@ -142,15 +142,15 @@
                     Challenge challenge = challenges.get(i);
                     User cur = userDao.getUser(challenge.getUser1_id());
                     Quiz quiz = dao.getQuiz(challenge.getQuiz_id());
+                    String friend_id = challenge.getUser1_id();
+                    String quiz_id = challenge.getQuiz_id();
             %>
             <div class="quiz-box">
                 <a href="quizPage?quiz_id=<%= challenge.getQuiz_id() %>"><%= quiz.getQuizName() %></a>
                 <a href="profilePage?profile_id=<%= challenge.getUser1_id() %>"><%= "Sent by: " + cur.getUserName() %></a>
-                <form action="ChallengeRequest" method="post" style="display:inline;">
-                    <input type="hidden" name="friend_id" value="<%= challenge.getUser1_id() %>">
-                    <input type="hidden" name="quiz_id" value="<%= challenge.getQuiz_id() %>">
-                    <button type="submit" name="action" value="accept" class="accept">Accept</button>
-                    <button type="submit" name="action" value="reject" class="reject">Reject</button>
+                <form style="display:inline;">
+                    <button type="button" class="accept" onclick="handleChallengeRequest('-1','accept', <%=friend_id%>, <%=quiz_id%>)">Accept</button>
+                    <button type="button" class="reject" onclick="handleChallengeRequest('-1','accept', <%=friend_id%>, <%=quiz_id%>)">Reject</button>
                 </form>
             </div>
             <%}%>
