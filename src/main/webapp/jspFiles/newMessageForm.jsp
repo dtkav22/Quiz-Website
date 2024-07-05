@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>New Message</title>
+    <link rel="stylesheet" href="../Mail/NewMailStyle.css">
 </head>
 <body>
 <div id="wrapper">
