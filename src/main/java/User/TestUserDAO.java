@@ -277,4 +277,12 @@ public class TestUserDAO extends TestCase {
         performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "score DESC");
         assertEquals(100.0, performances.get(0).getScore());
     }
+
+    public void testGetHighestPerformersOnQuiz() throws SQLException {
+        String quiz_id = "1";
+        ArrayList<String> userNames = userDAO.getHighestPerformersOnQuiz(quiz_id, 10);
+        for(int i = 1; i < userNames.size(); i++) {
+            assertEquals(userDAO.getUser(Integer.toString(i)).getUserName(), userNames.get(i - 1));
+        }
+    }
 }

@@ -116,6 +116,15 @@ VALUES (1, 1, 100, '2024-06-26 17:20', '00:02:00');
 INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
 VALUES (1, 1, 90.5, '2024-06-26 18:20', '00:03:00');
 
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (2, 1, 99.5, '2024-06-26 18:20', '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (3, 1, 99, '2024-06-26 18:20', '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (4, 1, 80, '2024-06-26 18:20', '00:03:00');
+
 
 
 -- tasks table

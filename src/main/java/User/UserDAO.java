@@ -1,6 +1,8 @@
 package User;
 
 import DataBaseConnectionPool.DataBaseConnectionPool;
+
+import java.awt.image.AreaAveragingScaleFilter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -84,6 +86,23 @@ public class UserDAO {
             String date = set.getString("date");
             java.sql.Time used_time = set.getTime("used_time");
             result.add(new Performance(quiz_id, score, date, user_id, used_time));
+            size--;
+        }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
+        return result;
+    }
+
+    public ArrayList<String> getHighestPerformersOnQuiz(String quiz_id, int size) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT user_id FROM performances_table WHERE quiz_id = ? GROUP BY user_id ORDER BY MAX(score) DESC";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, quiz_id);
+        ResultSet set = statement.executeQuery();
+        ArrayList<String> result = new ArrayList<>();
+        while(set.next()) {
+            if(size == 0) break;
+            String userName = getUser(set.getString("user_id")).getUserName();
+            result.add(userName);
             size--;
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);
