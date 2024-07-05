@@ -137,7 +137,6 @@ VALUES (1, 2, 80, '2024-06-26 18:20', '00:03:00');
 INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
 VALUES (2, 2, 70, '2024-06-26 18:20', '00:03:00');
 
-
 -- tasks table
 
 CREATE TABLE tasks_table (

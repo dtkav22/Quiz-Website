@@ -7,9 +7,9 @@ public class Performance {
     private final double score;
     private final String date;
     private final String user_id;
-    private final java.sql.Time used_time;
+    private final String used_time;
 
-    public Performance(String quiz_id, double score, String date, String user_id, java.sql.Time used_time) {
+    public Performance(String quiz_id, double score, String date, String user_id, String used_time) {
         this.quiz_id = quiz_id;
         this.score = score;
         this.date = date;
@@ -33,7 +33,7 @@ public class Performance {
         return user_id;
     }
 
-    public Time getUsed_time() {
+    public String getUsed_time() {
         return used_time;
     }
 }

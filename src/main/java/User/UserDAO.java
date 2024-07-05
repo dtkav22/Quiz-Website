@@ -64,7 +64,7 @@ public class UserDAO {
             String quiz_id = set.getString("quiz_id");
             double score = set.getDouble("score");
             String date = set.getString("date");
-            java.sql.Time used_time = set.getTime("used_time");
+            String used_time = set.getString("used_time");
             result.add(new Performance(quiz_id, score, date, user_id, used_time));
             size--;
         }
@@ -84,7 +84,7 @@ public class UserDAO {
             if(size == 0) break;
             double score = set.getDouble("score");
             String date = set.getString("date");
-            java.sql.Time used_time = set.getTime("used_time");
+            String used_time = set.getString("used_time");
             result.add(new Performance(quiz_id, score, date, user_id, used_time));
             size--;
         }
@@ -92,20 +92,23 @@ public class UserDAO {
         return result;
     }
 
-    public ArrayList<String> getHighestPerformersOnQuiz(String quiz_id, int size, boolean last_day) throws SQLException {
+    public ArrayList<Performance> getHighestPerformersOnQuiz(String quiz_id, int size, boolean last_day) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT user_id FROM performances_table WHERE quiz_id = ? AND DATE(DATE_ADD(date, INTERVAL 1 DAY)) >= DATE(CURRENT_DATE) GROUP BY user_id ORDER BY MAX(score) DESC";
+        String query = "SELECT user_id, MAX(score), (SELECT spt.date FROM performances_table spt Where spt.user_id = pt.user_id AND spt.score = MAX(pt.score))  FROM performances_table pt WHERE pt.quiz_id = ? AND DATE(DATE_ADD(pt.date, INTERVAL 1 DAY)) >= DATE(CURRENT_DATE) GROUP BY pt.user_id ORDER BY MAX(pt.score) DESC";
         if(!last_day) {
-            query = "SELECT user_id FROM performances_table WHERE quiz_id = ? GROUP BY user_id ORDER BY MAX(score) DESC";
+            query = "SELECT user_id, MAX(score) FROM performances_table WHERE quiz_id = ? GROUP BY user_id ORDER BY MAX(score) DESC";
         }
         PreparedStatement statement = con.prepareStatement(query);
         statement.setString(1, quiz_id);
         ResultSet set = statement.executeQuery();
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<Performance> result = new ArrayList<>();
         while(set.next()) {
             if(size == 0) break;
-            String userName = getUser(set.getString("user_id")).getUserName();
-            result.add(userName);
+            double score = set.getDouble("MAX(score)");
+            String user_id = set.getString("user_id");
+            String date = null;
+            if(last_day) date = set.getString(3);
+            result.add(new Performance(quiz_id, score, date, user_id, null));
             size--;
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);
@@ -389,7 +392,7 @@ public class UserDAO {
             String quiz_id = set.getString("quiz_id");
             double score = set.getDouble("score");
             String date = set.getString("date");
-            java.sql.Time time = set.getTime("used_time");
+            String time = set.getString("used_time");
             result.add(new Performance(quiz_id, score, date, set.getString("user_id"), time));
             size--;
         }

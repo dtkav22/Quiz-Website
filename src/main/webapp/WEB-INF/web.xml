@@ -47,6 +47,10 @@
   </filter-mapping>
 
   <servlet>
+    <servlet-name>PerformancesHandler</servlet-name>
+    <servlet-class>Servlets.Quiz.QuizPage.PerformancesHandler</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>QuizSummaryPage</servlet-name>
     <jsp-file>/jspFiles/QuizSummaryPage.jsp</jsp-file>
   </servlet>
@@ -91,6 +95,10 @@
     <servlet-class>Servlets.UserHomePage.FriendsList</servlet-class>
   </servlet>
 
+  <servlet-mapping>
+    <servlet-name>PerformancesHandler</servlet-name>
+    <url-pattern>/PerformancesHandler</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>QuizSummaryPage</servlet-name>
     <url-pattern>/QuizSummaryPage</url-pattern>

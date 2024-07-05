@@ -1,7 +1,6 @@
 package User;
 
 import DataBaseConnectionPool.DataBaseConnectionPool;
-import Quiz.QuizTask;
 import junit.framework.TestCase;
 
 import java.sql.Connection;
@@ -272,21 +271,21 @@ public class TestUserDAO extends TestCase {
         ArrayList<Performance> performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "date DESC");
         assertEquals("2024-06-26 18:20:00", performances.get(0).getDate());
         performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "used_time");
-        java.sql.Time time = new java.sql.Time(0, 2, 0);
-        assertEquals(time, performances.get(0).getUsed_time());
+        assertEquals("00:02:00", performances.get(0).getUsed_time());
         performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "score DESC");
         assertEquals(100.0, performances.get(0).getScore());
     }
 
     public void testGetHighestPerformersOnQuiz() throws SQLException {
         String quiz_id = "1";
-        ArrayList<String> userNames = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, false);
-        for(int i = 1; i < userNames.size(); i++) {
-            assertEquals(userDAO.getUser(Integer.toString(i)).getUserName(), userNames.get(i - 1));
+        ArrayList<Performance> performances = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, false);
+        for(int i = 1; i < performances.size(); i++) {
+            assertEquals(Integer.toString(i), performances.get(i - 1).getUser_id());
         }
-        userNames = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, true);
-        assertEquals("Zuko", userNames.get(0));
-        assertEquals(("Data_Tutashkhia"), userNames.get(1));
+        performances = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, true);
+        assertEquals(String.valueOf(5), performances.get(0).getUser_id());
+        assertEquals(String.valueOf(6), performances.get(1).getUser_id());
+        System.out.println(performances.get(0).getDate());
     }
 
     public void testGetAverageScoreOnQuiz() throws SQLException {
