@@ -13,6 +13,7 @@
 <html>
 <head>
     <title>Inbox</title>
+    <link rel="stylesheet" href="../Mail/InboxStyle.css">
 </head>
 <body>
 <div id="wrapper">
