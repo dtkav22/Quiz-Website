@@ -112,6 +112,17 @@ public class UserDAO {
         return result;
     }
 
+    public double getAverageScoreOnQuiz(String quiz_id) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT AVG(score) FROM performances_table WHERE quiz_id = ?";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, quiz_id);
+        ResultSet set = statement.executeQuery();
+        set.next();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
+        return set.getDouble(1);
+    }
+
     public ArrayList<String> getFriendsForUser(String user_id) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         ArrayList<String> result = new ArrayList<>();

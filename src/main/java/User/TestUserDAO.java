@@ -288,4 +288,9 @@ public class TestUserDAO extends TestCase {
         assertEquals("Zuko", userNames.get(0));
         assertEquals(("Data_Tutashkhia"), userNames.get(1));
     }
+
+    public void testGetAverageScoreOnQuiz() throws SQLException {
+        String quiz_id = "2";
+        assertEquals(75.0, userDAO.getAverageScoreOnQuiz(quiz_id));
+    }
 }
