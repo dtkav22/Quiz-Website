@@ -102,15 +102,21 @@ VALUES (1,3,2),
 -- performance table
 
 CREATE TABLE performances_table(
-                                   user_id INT NOT NULL ,
-                                   quiz_id INT NOT NULL ,
-                                   score DOUBLE NOT NULL,
-                                   date DATETIME NOT NULL,
-                                   FOREIGN KEY (user_id) REFERENCES users_table(user_id),
-                                   FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
+    user_id INT NOT NULL ,
+    quiz_id INT NOT NULL ,
+    score DOUBLE NOT NULL,
+    date DATETIME NOT NULL,
+    used_time TIME NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users_table(user_id),
+    FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
 );
-INSERT INTO performances_table (user_id, quiz_id, score, date)
-VALUES (1, 1, 100, '2024-06-26 17:20');
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (1, 1, 100, '2024-06-26 17:20', '00:02:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (1, 1, 90.5, '2024-06-26 18:20', '00:03:00');
+
+
 
 -- tasks table
 
@@ -165,11 +171,7 @@ VALUES(1, 'Zviad Gamsaxurdia', 1, 0),
 
 -- selects
 
-select * from quizzes_table;
-select * from users_table;
-select * from relations_table;
-select * from mails_table;
-select * from challenges_table;
+select * from performances_table;
 
 
 

@@ -266,4 +266,15 @@ public class TestUserDAO extends TestCase {
         System.out.println("Mail send");
     }
 
+    public void testGetUserPerformanceOnQuiz() throws SQLException {
+        String user_id = "1";
+        String quiz_id = "1";
+        ArrayList<Performance> performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "date DESC");
+        assertEquals("2024-06-26 18:20:00", performances.get(0).getDate());
+        performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "used_time");
+        java.sql.Time time = new java.sql.Time(0, 2, 0);
+        assertEquals(time, performances.get(0).getUsed_time());
+        performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "score DESC");
+        assertEquals(100.0, performances.get(0).getScore());
+    }
 }

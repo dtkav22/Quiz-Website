@@ -62,7 +62,28 @@ public class UserDAO {
             String quiz_id = set.getString("quiz_id");
             double score = set.getDouble("score");
             String date = set.getString("date");
-            result.add(new Performance(quiz_id, score, date, user_id));
+            java.sql.Time used_time = set.getTime("used_time");
+            result.add(new Performance(quiz_id, score, date, user_id, used_time));
+            size--;
+        }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
+        return result;
+    }
+
+    public ArrayList<Performance> getUserPerformanceOnQuiz(String user_id, String quiz_id, int size, String order) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM performances_table WHERE user_id = ? AND quiz_id = ? ORDER BY " + order + ";";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, user_id);
+        statement.setString(2, quiz_id);
+        ResultSet set = statement.executeQuery();
+        ArrayList<Performance> result = new ArrayList<>();
+        while(set.next()) {
+            if(size == 0) break;
+            double score = set.getDouble("score");
+            String date = set.getString("date");
+            java.sql.Time used_time = set.getTime("used_time");
+            result.add(new Performance(quiz_id, score, date, user_id, used_time));
             size--;
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);
@@ -335,7 +356,8 @@ public class UserDAO {
             String quiz_id = set.getString("quiz_id");
             double score = set.getDouble("score");
             String date = set.getString("date");
-            result.add(new Performance(quiz_id, score, date, set.getString("user_id")));
+            java.sql.Time time = set.getTime("used_time");
+            result.add(new Performance(quiz_id, score, date, set.getString("user_id"), time));
             size--;
         }
         DataBaseConnectionPool.getInstance().closeConnection(conn);
