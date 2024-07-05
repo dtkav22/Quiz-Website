@@ -280,9 +280,12 @@ public class TestUserDAO extends TestCase {
 
     public void testGetHighestPerformersOnQuiz() throws SQLException {
         String quiz_id = "1";
-        ArrayList<String> userNames = userDAO.getHighestPerformersOnQuiz(quiz_id, 10);
+        ArrayList<String> userNames = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, false);
         for(int i = 1; i < userNames.size(); i++) {
             assertEquals(userDAO.getUser(Integer.toString(i)).getUserName(), userNames.get(i - 1));
         }
+        userNames = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, true);
+        assertEquals("Zuko", userNames.get(0));
+        assertEquals(("Data_Tutashkhia"), userNames.get(1));
     }
 }

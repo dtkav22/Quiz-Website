@@ -125,6 +125,11 @@ VALUES (3, 1, 99, '2024-06-26 18:20', '00:03:00');
 INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
 VALUES (4, 1, 80, '2024-06-26 18:20', '00:03:00');
 
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (5, 1, 80, CURRENT_DATE, '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (6, 1, 70,  DATE_ADD(CURRENT_DATE, INTERVAL -1 DAY), '00:03:00');
 
 
 -- tasks table

@@ -92,9 +92,12 @@ public class UserDAO {
         return result;
     }
 
-    public ArrayList<String> getHighestPerformersOnQuiz(String quiz_id, int size) throws SQLException {
+    public ArrayList<String> getHighestPerformersOnQuiz(String quiz_id, int size, boolean last_day) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT user_id FROM performances_table WHERE quiz_id = ? GROUP BY user_id ORDER BY MAX(score) DESC";
+        String query = "SELECT user_id FROM performances_table WHERE quiz_id = ? AND DATE(DATE_ADD(date, INTERVAL 1 DAY)) >= DATE(CURRENT_DATE) GROUP BY user_id ORDER BY MAX(score) DESC";
+        if(!last_day) {
+            query = "SELECT user_id FROM performances_table WHERE quiz_id = ? GROUP BY user_id ORDER BY MAX(score) DESC";
+        }
         PreparedStatement statement = con.prepareStatement(query);
         statement.setString(1, quiz_id);
         ResultSet set = statement.executeQuery();
