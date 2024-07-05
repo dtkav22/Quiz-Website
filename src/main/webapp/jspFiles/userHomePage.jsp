@@ -150,7 +150,7 @@
                 <a href="profilePage?profile_id=<%= challenge.getUser1_id() %>"><%= "Sent by: " + cur.getUserName() %></a>
                 <form style="display:inline;">
                     <button type="button" class="accept" onclick="handleChallengeRequest('-1','accept', <%=friend_id%>, <%=quiz_id%>)">Accept</button>
-                    <button type="button" class="reject" onclick="handleChallengeRequest('-1','accept', <%=friend_id%>, <%=quiz_id%>)">Reject</button>
+                    <button type="button" class="reject" onclick="handleChallengeRequest('-1','reject', <%=friend_id%>, <%=quiz_id%>)">Reject</button>
                 </form>
             </div>
             <%}%>
