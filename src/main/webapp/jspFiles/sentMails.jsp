@@ -1,18 +1,17 @@
 <%@ page import="User.Mail" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="User.UserDAO" %>
-<%@ page import="java.sql.SQLException" %>
-<%@ page import="User.User" %><%--
+<%@ page import="java.sql.SQLException" %><%--
   Created by IntelliJ IDEA.
   User: Pavilion
-  Date: 7/5/2024
-  Time: 6:39 PM
+  Date: 7/6/2024
+  Time: 7:45 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Display Mails</title>
+    <title>Sent</title>
     <link rel="stylesheet" href="../Mail/InboxStyle.css">
 </head>
 <body>
@@ -26,9 +25,9 @@
             <ul>
                 <% for (Mail mail : mails) {
                     UserDAO dao = new UserDAO();
-                    String sender_username;
+                    String receiver_username;
                     try {
-                        sender_username = dao.getUser(mail.getSender_id()).getUserName();
+                        receiver_username = dao.getUser(mail.getReceiver_id()).getUserName();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -40,7 +39,7 @@
                             <button type="submit" class="mail-link">
                                 <input type="hidden" name="mailId" value="<%= mail.getMail_id() %>">
 
-                                <p><strong>From: </strong><%= sender_username %></p>
+                                <p><strong>To: </strong><%= receiver_username %></p>
                                 <p><strong>Date: </strong><%= mail.getSend_date() %></p>
                                 <p><%= mail.getMail_text() %></p>
 
@@ -50,7 +49,7 @@
                 </li>
                 <% } %>
             </ul>
-                <% } else { %>
+            <% } else { %>
             <p>You have no mails yet.</p>
             <%}%>
         </div>
@@ -61,8 +60,8 @@
             <form action="UserHomePage" method="get">
                 <button type="submit" class="homepage">Go to homepage</button>
             </form>
-            <form action="sentMails" method="get">
-                <button type="submit" class="sentMails">Go to sent mails</button>
+            <form action="inbox" method="get">
+                <button type="submit" class="inbox">Back to inbox</button>
             </form>
         </div>
     </div>

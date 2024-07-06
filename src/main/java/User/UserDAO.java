@@ -237,7 +237,7 @@ public class UserDAO {
     public ArrayList<Mail> getSentMailsForUser(String user_id) throws SQLException {
         ArrayList<Mail> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE sender_id = " + user_id;
+        String query = "SELECT * FROM mails_table WHERE sender_id = " + user_id + " ORDER BY send_date DESC";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
@@ -256,7 +256,7 @@ public class UserDAO {
     public ArrayList<Mail> getReceivedMailsForUser(String user_id) throws SQLException {
         ArrayList<Mail> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE receiver_id = " + user_id;
+        String query = "SELECT * FROM mails_table WHERE receiver_id = " + user_id + " ORDER BY send_date DESC";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){

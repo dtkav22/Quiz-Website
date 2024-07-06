@@ -13,25 +13,24 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet("/inbox")
-public class DisplayMails extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@WebServlet("/sentMails")
+public class DisplaySentMails extends HttpServlet {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String user_id = (String) session.getAttribute("userId");
         UserDAO dao = new UserDAO();
+        System.out.println("hi");
         try {
-            ArrayList<Mail> mails = dao.getReceivedMailsForUser(user_id);
+            ArrayList<Mail> mails = dao.getSentMailsForUser(user_id);
             session.setAttribute("mails", mails);
-            request.getRequestDispatcher("jspFiles/displayMails.jsp").forward(request, response);
+            System.out.println("here");
+            request.getRequestDispatcher("jspFiles/sentMails.jsp").forward(request, response);
         } catch (SQLException e) {
             System.out.println("Something went wrong.");
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response){
 
     }
 }
-

@@ -29,6 +29,11 @@
                 <input type="submit" value="Send Message">
             </div>
         </form>
+        <form action="UserHomePage" method="get">
+            <div>
+                <input type="submit" value="Go to homepage">
+            </div>
+        </form>
     </div>
 </div>
 </body>

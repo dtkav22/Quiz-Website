@@ -112,7 +112,7 @@
             <button type="submit" class="mail">New Message</button>
         </form>
         <form action="inbox" method="get">
-            <button type="submit" class="inbox">Go to inbox</button>
+            <button type="submit" class="inbox">Go to Inbox</button>
         </form>
     </div>
 
