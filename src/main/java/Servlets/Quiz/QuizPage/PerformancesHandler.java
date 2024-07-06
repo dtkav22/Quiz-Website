@@ -18,7 +18,7 @@ public class PerformancesHandler extends HttpServlet {
         String quiz_id = request.getParameter("quiz_id");
         String order = request.getParameter("order");
         try {
-            ArrayList<Performance> performances = new UserDAO().getUserPerformanceOnQuiz(quiz_id, user_id, 5, order);
+            ArrayList<Performance> performances = new UserDAO().getUserPerformanceOnQuiz(user_id, quiz_id, 5, order);
             Gson gson = new Gson();
             String JsonString = gson.toJson(performances);
             response.setContentType("application/json");

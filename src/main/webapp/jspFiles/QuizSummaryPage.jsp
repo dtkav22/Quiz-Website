@@ -98,6 +98,7 @@
         </p>
         <form method = 'GET' action="../quizPage">
             <input type="hidden" name="quiz_id" value="<%=quiz_id%>">
+            <input type="hidden" name="index" value="0">
             <input type="submit" value="Start Quiz">
         </form>
     </div>
