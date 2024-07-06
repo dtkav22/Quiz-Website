@@ -26,8 +26,11 @@ public class SendMessage extends HttpServlet {
         String receiver_id;
         try {
             receiver_id = dao.getUserId(recipientUsername);
+            if(receiver_id == null) {
+                request.getRequestDispatcher("jspFiles/error.jsp").forward(request, response);
+            }
             dao.sendMail(user_id, receiver_id, mail_text);
-            request.setAttribute("successMessage", "Your mail has successfully been sent.");
+            //request.setAttribute("successMessage", "Your mail has successfully been sent.");
             request.getRequestDispatcher("jspFiles/mail-sent.jsp").forward(request, response);
         } catch (SQLException e) {
             System.out.println("Something went wrong.");
