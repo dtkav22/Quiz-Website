@@ -22,7 +22,7 @@ public class Mail {
         return mail_text;
     }
 
-    public String getSubject(){
+    public String getMail_Subject(){
         return subject;
     }
 
