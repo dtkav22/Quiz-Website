@@ -116,7 +116,7 @@ public class UserDAO {
         return result;
     }
 
-    private boolean canSendFriendRequest(String sender_id, String reciever_id) throws SQLException {
+    public boolean canSendFriendRequest(String sender_id, String reciever_id) throws SQLException {
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String queryTest = "SELECT * FROM relations_table WHERE (user1_id = " + sender_id + " AND user2_id = " + reciever_id + ") OR (user2_id = " + sender_id + " AND user1_id = " + reciever_id + ")";
         PreparedStatement statementTest = conn.prepareStatement(queryTest);
@@ -140,7 +140,7 @@ public class UserDAO {
         return false;
     }
 
-    private boolean canAcceptFriendRequest(String sender_id, String reciever_id) throws SQLException {
+    public boolean canAcceptFriendRequest(String sender_id, String reciever_id) throws SQLException {
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM relations_table WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id + " AND isPending = 1";
         PreparedStatement statement = conn.prepareStatement(query);

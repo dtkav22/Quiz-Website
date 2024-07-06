@@ -65,3 +65,23 @@ function handleChallengeRequest(box_id, action, friendId, quizId) {
         }
     });
 }
+
+function sendFriendRequest(friendId) {
+    $.ajax({
+        type: "POST",
+        url: "SendRequest",
+        data: {
+            friend_id: friendId,
+            type: "friend"
+        },
+        success: function(response) {
+            $("#sendFriendRequest").remove();
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+    });
+    for(let i = 0; i < 10000; i++) {
+        console.log(i);
+    }
+}
