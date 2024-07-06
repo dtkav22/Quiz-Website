@@ -22,6 +22,7 @@ public class DisplayMails extends HttpServlet {
         UserDAO dao = new UserDAO();
         try {
             ArrayList<Mail> mails = dao.getReceivedMailsForUser(user_id);
+            System.out.println("here");
             session.setAttribute("mails", mails);
             request.getRequestDispatcher("jspFiles/displayMails.jsp").forward(request, response);
         } catch (SQLException e) {

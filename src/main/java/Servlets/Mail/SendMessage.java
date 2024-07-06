@@ -38,7 +38,6 @@ public class SendMessage extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("here");
         request.getRequestDispatcher("jspFiles/newMessageForm.jsp").forward(request, response);
     }
 }

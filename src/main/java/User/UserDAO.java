@@ -17,6 +17,7 @@ public class UserDAO {
         stm.setString(2, user.getEmail());
         stm.setString(3, user.getPassword());
         stm.executeUpdate();
+        stm.executeUpdate();
     }
 
     public String getUserId(String username) throws SQLException{
@@ -84,7 +85,7 @@ public class UserDAO {
                 result.add(user2_id);
             }
         }
-        con.close();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return result;
     }
 
@@ -98,7 +99,7 @@ public class UserDAO {
             String user1_id = rs.getString("user1_id");
             result.add(user1_id);
         }
-        con.close();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return result;
     }
 
@@ -122,7 +123,7 @@ public class UserDAO {
         PreparedStatement statementTest = conn.prepareStatement(queryTest);
         ResultSet rs = statementTest.executeQuery();
         boolean ans = !rs.next();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return ans;
     }
 
@@ -134,7 +135,7 @@ public class UserDAO {
             statement.setString(1, sender_id);
             statement.setString(2, reciever_id);
             statement.executeUpdate();
-            con.close();
+            DataBaseConnectionPool.getInstance().closeConnection(con);
             return true;
         }
         return false;
@@ -146,7 +147,7 @@ public class UserDAO {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         boolean ans = rs.next();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return ans;
     }
 
@@ -156,7 +157,7 @@ public class UserDAO {
             String query = "UPDATE relations_table SET isPending = 0 WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id;
             PreparedStatement statement = conn.prepareStatement(query);
             statement.executeUpdate();
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
 
@@ -166,7 +167,7 @@ public class UserDAO {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         boolean ans = rs.next();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return ans;
     }
 
@@ -179,7 +180,7 @@ public class UserDAO {
             statement.setString(2, user1_id);
             statement.setString(3, user2_id);
             statement.executeUpdate();
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
 
@@ -189,7 +190,7 @@ public class UserDAO {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         boolean ans = rs.next();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return ans;
     }
 
@@ -202,7 +203,7 @@ public class UserDAO {
             preparedStatement.setString(2, user2_id);
             preparedStatement.setString(3, quiz_id);
             preparedStatement.executeUpdate();
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
 
@@ -214,7 +215,7 @@ public class UserDAO {
         statement.setString(2, receiver_id);
         statement.setString(3, text);
         statement.executeUpdate();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
     }
 
     public ArrayList<Challenge> getChallengesSentForUser(String user_id) throws SQLException {
@@ -229,7 +230,7 @@ public class UserDAO {
             Challenge newChallenge = new Challenge(quiz_id, user1_id, user_id);
             result.add(newChallenge);
         }
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return result;
     }
 
@@ -244,10 +245,11 @@ public class UserDAO {
             Date send_date = rs.getDate("send_date");
             String sender_id = rs.getString("sender_id");
             String receiver_id = rs.getString("receiver_id");
-            Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id);
+            String mail_id = rs.getString("mail_id");
+            Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id, mail_id);
             result.add(newMail);
         }
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return result;
     }
 
@@ -262,10 +264,30 @@ public class UserDAO {
             Date send_date = rs.getDate("send_date");
             String sender_id = rs.getString("sender_id");
             String receiver_id = rs.getString("receiver_id");
-            Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id);
+            int mail_id = rs.getInt("mail_id");
+            String mail_id_str = "" + mail_id;
+            Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id, mail_id_str);
             result.add(newMail);
         }
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return result;
+    }
+
+    public Mail getMailById(String mail_id) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM mails_table WHERE mail_id = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, mail_id);
+        ResultSet rs = stm.executeQuery();
+        Mail mail = null;
+        if (rs.next()) {
+            String mail_text = rs.getString("mail_text");
+            Date send_date = rs.getDate("send_date");
+            String sender_id = rs.getString("sender_id");
+            String receiver_id = rs.getString("receiver_id");
+            mail = new Mail(mail_text, send_date, sender_id, receiver_id, mail_id);
+        }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
+        return mail;
     }
 }

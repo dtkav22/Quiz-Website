@@ -7,11 +7,13 @@ public class Mail {
     private Date send_date;
     private String sender_id;
     private String receiver_id;
-    public Mail(String mail_text, Date send_date, String sender_id, String receiver_id){
+    private String mail_id;
+    public Mail(String mail_text, Date send_date, String sender_id, String receiver_id, String mail_id){
         this.mail_text = mail_text;
         this.send_date = send_date;
         this.sender_id = sender_id;
         this.receiver_id = receiver_id;
+        this.mail_id = mail_id;
     }
 
     public String getMail_text(){
@@ -29,4 +31,6 @@ public class Mail {
     public String getReceiver_id(){
         return receiver_id;
     }
+
+    public String getMail_id(){ return mail_id; }
 }

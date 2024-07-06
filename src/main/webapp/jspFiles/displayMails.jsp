@@ -27,9 +27,17 @@
                 <% for (Mail mail : mails) { %>
                 <li>
                     <div class="mail-item">
-                        <p><strong>From: </strong><%= mail.getSender_id() %></p>
-                        <p><strong>Date: </strong><%= mail.getSend_date() %></p>
-                        <p><%= mail.getMail_text() %></p>
+
+                        <form action="openMail" method="get">
+                            <button type="submit" class="mail-link">
+                                <input type="hidden" name="mailId" value="<%= mail.getMail_id() %>">
+
+                                <p><strong>From: </strong><%= mail.getSender_id() %></p>
+                                <p><strong>Date: </strong><%= mail.getSend_date() %></p>
+                                <p><%= mail.getMail_text() %></p>
+
+                            </button>
+                        </form>
                     </div>
                 </li>
                 <% } %>
