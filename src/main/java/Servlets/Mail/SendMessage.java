@@ -18,26 +18,32 @@ import java.sql.SQLException;
 public class SendMessage extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user_id = (String) request.getSession().getAttribute("user_id");
+        System.out.println("here");
+        HttpSession session = request.getSession(false);
+        String user_id = (String) session.getAttribute("userId");
+        System.out.println(user_id);
         String recipientUsername = request.getParameter("recipientUsername");
+        System.out.println(recipientUsername);
         String mail_text = request.getParameter("mail_text");
+        System.out.println(mail_text);
         UserDAO dao = new UserDAO();
         String receiver_id;
         try {
             receiver_id = dao.getUserId(recipientUsername);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
+            System.out.println(receiver_id);
             dao.sendMail(user_id, receiver_id, mail_text);
+            System.out.println("Mail sent");
+            request.setAttribute("successMessage", "Your mail has successfully been sent.");
+            System.out.println("Here!");
+            request.getRequestDispatcher("jspFiles/mail-sent.jsp").forward(request, response);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            request.setAttribute("errorMessage", "An error occurred while sending your message. Please try again.");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-
-        request.setAttribute("successMessage", "Your mail has successfully been sent.");
-        request.getRequestDispatcher("mail-sent.jsp").forward(request, response);
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse responses){
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("here");
+        request.getRequestDispatcher("jspFiles/newMessageForm.jsp").forward(request, response);
     }
 }

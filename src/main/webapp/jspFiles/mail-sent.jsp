@@ -18,10 +18,13 @@
         <div class="success-message">
             <p>Your mail has successfully been sent.</p>
         </div>
-        <div class="links">
-            <a href="newMessageForm.jsp">Send Another Message</a>
-            <br>
-            <a href="displayMails.jsp">Go to Inbox</a>
+        <div class="button-container">
+            <form action="sendMessage" method="get">
+                <button type="submit" class="newMessage">Send another Mail</button>
+            </form>
+            <form action="inbox" method="get">
+                <button type="submit" class="inbox">Go to inbox</button>
+            </form>
         </div>
     </div>
 </div>
