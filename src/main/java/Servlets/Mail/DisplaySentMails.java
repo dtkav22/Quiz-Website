@@ -19,11 +19,9 @@ public class DisplaySentMails extends HttpServlet {
         HttpSession session = request.getSession(false);
         String user_id = (String) session.getAttribute("userId");
         UserDAO dao = new UserDAO();
-        System.out.println("hi");
         try {
             ArrayList<Mail> mails = dao.getSentMailsForUser(user_id);
             session.setAttribute("mails", mails);
-            System.out.println("here");
             request.getRequestDispatcher("jspFiles/sentMails.jsp").forward(request, response);
         } catch (SQLException e) {
             System.out.println("Something went wrong.");

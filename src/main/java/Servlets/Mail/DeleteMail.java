@@ -16,7 +16,6 @@ public class DeleteMail extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String mail_id = (String) session.getAttribute("mailId");
-        System.out.println("here");
         UserDAO dao = new UserDAO();
         try {
             dao.deleteMail(mail_id);
