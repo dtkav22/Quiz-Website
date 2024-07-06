@@ -24,7 +24,15 @@
             <% ArrayList<Mail> mails = (ArrayList<Mail>) session.getAttribute("mails"); %>
             <% if (mails != null && !mails.isEmpty()) { %>
             <ul>
-                <% for (Mail mail : mails) { %>
+                <% for (Mail mail : mails) {
+                    UserDAO dao = new UserDAO();
+                    String sender_username;
+                    try {
+                        sender_username = dao.getUser(mail.getSender_id()).getUserName();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                %>
                 <li>
                     <div class="mail-item">
 
@@ -32,7 +40,7 @@
                             <button type="submit" class="mail-link">
                                 <input type="hidden" name="mailId" value="<%= mail.getMail_id() %>">
 
-                                <p><strong>From: </strong><%= mail.getSender_id() %></p>
+                                <p><strong>From: </strong><%= sender_username %></p>
                                 <p><strong>Date: </strong><%= mail.getSend_date() %></p>
                                 <p><%= mail.getMail_text() %></p>
 
