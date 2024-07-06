@@ -32,6 +32,9 @@
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
+
+                    String Subject = mail.getMail_Subject();
+                    if(Subject == null) Subject = "";
                 %>
                 <li>
                     <div class="mail-item">
@@ -42,7 +45,7 @@
 
                                 <p><strong>From: </strong><%= sender_username %></p>
                                 <p><strong>Date: </strong><%= mail.getSend_date() %></p>
-                                <p><%= mail.getMail_Subject() %></p>
+                                <p><%= Subject %></p>
 
                             </button>
                         </form>

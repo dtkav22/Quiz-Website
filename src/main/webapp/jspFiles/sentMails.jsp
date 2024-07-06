@@ -31,17 +31,20 @@
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
+
+                    String Subject = mail.getMail_Subject();
+                    if(Subject == null) Subject = "";
                 %>
                 <li>
                     <div class="mail-item">
 
-                        <form action="openMail" method="get">
+                        <form action="openSentMail" method="get">
                             <button type="submit" class="mail-link">
                                 <input type="hidden" name="mailId" value="<%= mail.getMail_id() %>">
 
                                 <p><strong>To: </strong><%= receiver_username %></p>
                                 <p><strong>Date: </strong><%= mail.getSend_date() %></p>
-                                <p><%= mail.getMail_Subject() %></p>
+                                <p><%= Subject %></p>
 
                             </button>
                         </form>
