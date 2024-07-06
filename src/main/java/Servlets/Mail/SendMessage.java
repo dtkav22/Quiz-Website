@@ -21,6 +21,7 @@ public class SendMessage extends HttpServlet {
         HttpSession session = request.getSession(false);
         String user_id = (String) session.getAttribute("userId");
         String recipientUsername = request.getParameter("recipientUsername");
+        String Subject = request.getParameter("Subject");
         String mail_text = request.getParameter("mail_text");
         UserDAO dao = new UserDAO();
         String receiver_id;
@@ -29,8 +30,7 @@ public class SendMessage extends HttpServlet {
             if(receiver_id == null) {
                 request.getRequestDispatcher("jspFiles/error.jsp").forward(request, response);
             }
-            dao.sendMail(user_id, receiver_id, mail_text);
-            //request.setAttribute("successMessage", "Your mail has successfully been sent.");
+            dao.sendMail(user_id, receiver_id, mail_text, Subject);
             request.getRequestDispatcher("jspFiles/mail-sent.jsp").forward(request, response);
         } catch (SQLException e) {
             System.out.println("Something went wrong.");

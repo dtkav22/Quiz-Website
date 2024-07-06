@@ -42,7 +42,7 @@
 
                                 <p><strong>From: </strong><%= sender_username %></p>
                                 <p><strong>Date: </strong><%= mail.getSend_date() %></p>
-                                <p><%= mail.getMail_text() %></p>
+                                <p><%= mail.getMail_Subject() %></p>
 
                             </button>
                         </form>

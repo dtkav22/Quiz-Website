@@ -207,13 +207,14 @@ public class UserDAO {
         }
     }
 
-    public void sendMail(String sender_id, String receiver_id, String text) throws SQLException {
+    public void sendMail(String sender_id, String receiver_id, String text, String Subject) throws SQLException {
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "INSERT INTO mails_table (sender_id, receiver_id, mail_text) VALUES (?, ?, ?)";
+        String query = "INSERT INTO mails_table (sender_id, receiver_id, mail_text, mail_subject) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, sender_id);
         statement.setString(2, receiver_id);
         statement.setString(3, text);
+        statement.setString(4, Subject);
         statement.executeUpdate();
         DataBaseConnectionPool.getInstance().closeConnection(conn);
     }

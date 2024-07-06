@@ -22,6 +22,10 @@
                 <input type="text" id="recipientUsername" name="recipientUsername" required>
             </div>
             <div>
+                <label for="Subject">Subject:</label>
+                <input type="text" id="Subject" name="Subject">
+            </div>
+            <div>
                 <label for="mail_text">Message:</label>
                 <textarea id="mail_text" name="mail_text" rows="5" cols="40" required></textarea>
             </div>

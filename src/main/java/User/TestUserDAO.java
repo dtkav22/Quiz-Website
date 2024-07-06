@@ -253,7 +253,7 @@ public class TestUserDAO extends TestCase {
         String sender_id = "2";
         String receiver_id = "3";
         String mail_text = "Hi!";
-        userDAO.sendMail(sender_id, receiver_id, mail_text);
+        userDAO.sendMail(sender_id, receiver_id, mail_text, null);
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM mails_table WHERE sender_id = ? AND receiver_id = ? AND mail_text = ?";
         PreparedStatement statement = con.prepareStatement(query);
