@@ -111,6 +111,9 @@
         <form action="sendMessage" method="get">
             <button type="submit" class="mail">New Message</button>
         </form>
+        <form action="inbox" method="get">
+            <button type="submit" class="inbox">Go to inbox</button>
+        </form>
     </div>
 
 </div>
