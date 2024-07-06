@@ -8,6 +8,17 @@
 <html>
 <head>
     <title>Profile Page</title>
+    <style>
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+    </style>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../user/script.js"></script>
@@ -131,6 +142,13 @@
             </div>
             <%}%>
         </div>
+
+        <div class="section">
+            <div class="noClick-section-title">Search Other User</div>
+                <input type="text" id="fusername" name="fusername">
+                <button type="button" class="go-back" onclick="sendToLogin()">Search</button>
+        </div>
+
     </div>
 
 

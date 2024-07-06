@@ -28,6 +28,9 @@ public class SendRequest extends HttpServlet {
             if(type.equals("friend")) {
                 System.out.println("request added in db");
                 dao.sendFriendRequest(userId, friendId);
+            } else if(type.equals("challenge")) {
+                String quizId = request.getParameter("quiz_id");
+                dao.sendChallenge(userId, friendId, quizId);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

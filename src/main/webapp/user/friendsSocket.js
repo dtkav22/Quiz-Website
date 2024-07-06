@@ -29,7 +29,4 @@ window.onload = function() {
 
 function getFriendRequests() {
     $('#friendsRequest').load(document.URL +  ' #friendsRequest');
-    for(let i = 0; i < 10000; i++) {
-        console.log(i);
-    }
 }

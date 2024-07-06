@@ -81,7 +81,27 @@ function sendFriendRequest(friendId) {
             console.error("Error:", error);
         }
     });
-    for(let i = 0; i < 10000; i++) {
-        console.log(i);
-    }
+}
+
+function sendToLogin() {
+    let fusername = document.getElementById("fusername").value;
+    console.log(fusername);
+    $.ajax({
+        type: "GET",
+        url: "findProfile",
+        data: {
+            fusername: fusername,
+            type: "friend"
+        },
+        success: function(response) {
+            if (response.error) {
+                alert("Error: " + response.error);
+            } else {
+                window.location.href = "/profilePage?profile_id=" + response.profile_id;
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX error: " + status + " - " + error);
+        }
+    });
 }
