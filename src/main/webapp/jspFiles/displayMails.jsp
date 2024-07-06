@@ -12,43 +12,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Inbox</title>
+    <title>Display Mails</title>
     <link rel="stylesheet" href="../Mail/InboxStyle.css">
 </head>
 <body>
 <div id="wrapper">
     <div id="content">
         <h1>Inbox</h1>
-        <div id="inbox-messages">
-            <%
-                String userID = (String) request.getSession().getAttribute("user_id");
-                UserDAO dao = new UserDAO();
-                ArrayList<Mail> mails = null;
-                try {
-                    mails = dao.getReceivedMailsForUser(userID);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                if (mails.isEmpty()) {
-            %>
-            <div class="no-messages">You have no messages.</div>
-            <%
-            } else {
-                for (Mail mail : mails) {
-            %>
-            <div class="mail">
-                <div class="mail-header">
-                    <span class="mail-date">Date: <%= mail.getSend_date() %></span>
-                    <span class="mail-from">From: <%= mail.getSender_id() %></span>
-                </div>
-                <div class="mail-body">
-                    <p><%= mail.getMail_text() %></p>
-                </div>
-            </div>
-            <%
-                    }
-                }
-            %>
+        <div class="mail-list">
+            <%-- Retrieve mails attribute from session --%>
+            <% ArrayList<Mail> mails = (ArrayList<Mail>) session.getAttribute("mails"); %>
+            <% if (mails != null && !mails.isEmpty()) { %>
+            <ul>
+                <% for (Mail mail : mails) { %>
+                <li>
+                    <div class="mail-item">
+                        <p><strong>From: </strong><%= mail.getSender_id() %></p>
+                        <p><strong>Date: </strong><%= mail.getSend_date() %></p>
+                        <p><%= mail.getMail_text() %></p>
+                    </div>
+                </li>
+                <% } %>
+            </ul>
+                <% } else { %>
+            <p>You have no mails yet.</p>
+            <%}%>
+        </div>
+        <div class="button-container">
+            <form action="sendMessage" method="get">
+                <button type="submit" class="newMessage">Send New Message</button>
+            </form>
+            <form action="UserHomePage" method="get">
+                <button type="submit" class="homepage">Go to homepage</button>
+            </form>
         </div>
     </div>
 </div>

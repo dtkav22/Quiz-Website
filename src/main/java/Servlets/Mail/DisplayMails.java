@@ -17,16 +17,15 @@ import java.util.ArrayList;
 public class DisplayMails extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user_id = (String) request.getSession().getAttribute("userID");
+        HttpSession session = request.getSession(false);
+        String user_id = (String) session.getAttribute("userId");
         UserDAO dao = new UserDAO();
         try {
             ArrayList<Mail> mails = dao.getReceivedMailsForUser(user_id);
-            request.setAttribute("mails", mails);
+            session.setAttribute("mails", mails);
             request.getRequestDispatcher("jspFiles/displayMails.jsp").forward(request, response);
         } catch (SQLException e) {
-            e.printStackTrace();
-            request.setAttribute("errorMessage", "An error occurred while retrieving your mails. Please try again.");
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            System.out.println("Something went wrong.");
         }
     }
 
