@@ -294,4 +294,13 @@ public class UserDAO {
         DataBaseConnectionPool.getInstance().closeConnection(con);
         return mail;
     }
+
+    public void deleteMail(String mail_id) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "DELETE FROM mails_table WHERE mail_id = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, mail_id);
+        stm.executeUpdate();
+    }
+
 }

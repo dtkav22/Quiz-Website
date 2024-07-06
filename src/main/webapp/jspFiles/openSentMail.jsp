@@ -46,6 +46,9 @@
             <form action="inbox" method="get">
                 <button type="submit" class="back">Back to Inbox</button>
             </form>
+            <form action="deleteMail" method="post">
+                <button type="submit" class="delete">Delete this mail</button>
+            </form>
         </div>
     </div>
 </div>
