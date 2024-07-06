@@ -241,12 +241,13 @@ public class UserDAO {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
+            String subject = rs.getString("mail_subject");
             String mail_text = rs.getString("mail_text");
             Date send_date = rs.getDate("send_date");
             String sender_id = rs.getString("sender_id");
             String receiver_id = rs.getString("receiver_id");
             String mail_id = rs.getString("mail_id");
-            Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id, mail_id);
+            Mail newMail = new Mail(subject, mail_text, send_date, sender_id, receiver_id, mail_id);
             result.add(newMail);
         }
         DataBaseConnectionPool.getInstance().closeConnection(conn);
@@ -260,13 +261,14 @@ public class UserDAO {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
+            String subject = rs.getString("mail_subject");
             String mail_text = rs.getString("mail_text");
             Date send_date = rs.getDate("send_date");
             String sender_id = rs.getString("sender_id");
             String receiver_id = rs.getString("receiver_id");
             int mail_id = rs.getInt("mail_id");
             String mail_id_str = "" + mail_id;
-            Mail newMail = new Mail(mail_text, send_date, sender_id, receiver_id, mail_id_str);
+            Mail newMail = new Mail(subject, mail_text, send_date, sender_id, receiver_id, mail_id_str);
             result.add(newMail);
         }
         DataBaseConnectionPool.getInstance().closeConnection(conn);
@@ -281,11 +283,12 @@ public class UserDAO {
         ResultSet rs = stm.executeQuery();
         Mail mail = null;
         if (rs.next()) {
+            String subject = rs.getString("mail_subject");
             String mail_text = rs.getString("mail_text");
             Date send_date = rs.getDate("send_date");
             String sender_id = rs.getString("sender_id");
             String receiver_id = rs.getString("receiver_id");
-            mail = new Mail(mail_text, send_date, sender_id, receiver_id, mail_id);
+            mail = new Mail(subject, mail_text, send_date, sender_id, receiver_id, mail_id);
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);
         return mail;

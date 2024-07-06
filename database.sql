@@ -32,6 +32,7 @@ VALUES ('duta', 'tkavadzedimitri@gmail.com', '798fa27c4d4fb5b1158a1d5f2339edc0a2
 
 CREATE TABLE mails_table(
                             mail_id INT AUTO_INCREMENT,
+                            mail_subject TEXT DEFAULT (NULL),
                             mail_text TEXT DEFAULT(NULL),
                             send_date DATE DEFAULT (CURRENT_DATE),
                             sender_id INT NOT NULL,
