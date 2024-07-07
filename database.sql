@@ -105,8 +105,8 @@ CREATE TABLE performances_table(
     user_id INT NOT NULL ,
     quiz_id INT NOT NULL ,
     score DOUBLE NOT NULL,
-    date DATETIME NOT NULL,
-    used_time TIME NOT NULL,
+    date DATETIME DEFAULT (CURRENT_DATE),
+    used_time VARCHAR(10) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users_table(user_id),
     FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
 );

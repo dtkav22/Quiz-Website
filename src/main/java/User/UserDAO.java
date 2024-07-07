@@ -3,12 +3,8 @@ package User;
 import DataBaseConnectionPool.DataBaseConnectionPool;
 
 import java.awt.image.AreaAveragingScaleFilter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
 
 public class UserDAO {
     public void addUser(User user) throws SQLException {
@@ -19,6 +15,7 @@ public class UserDAO {
         stm.setString(2, user.getEmail());
         stm.setString(3, user.getPassword());
         stm.executeUpdate();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
     }
 
     public String getUserId(String username) throws SQLException{
@@ -50,6 +47,18 @@ public class UserDAO {
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);
         return user;
+    }
+
+    public void addPerformance(Performance performance) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "INSERT INTO performances_table (user_id, quiz_id, score, used_time) VALUES (?, ?, ?, ?)";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, performance.getUser_id());
+        stm.setString(2, performance.getQuiz_id());
+        stm.setDouble(3, performance.getScore());
+        stm.setString(4, performance.getUsed_time());
+        stm.executeUpdate();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
     }
 
     public ArrayList<Performance> getUserPerformanceHistory(String user_id, int size) throws SQLException{
@@ -141,7 +150,7 @@ public class UserDAO {
                 result.add(user2_id);
             }
         }
-        con.close();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return result;
     }
 
@@ -155,7 +164,7 @@ public class UserDAO {
             String user1_id = rs.getString("user1_id");
             result.add(user1_id);
         }
-        con.close();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return result;
     }
 
@@ -169,7 +178,7 @@ public class UserDAO {
             String user2_id = rs.getString("user2_id");
             result.add(user2_id);
         }
-        con.close();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return result;
     }
 
@@ -179,7 +188,7 @@ public class UserDAO {
         PreparedStatement statementTest = conn.prepareStatement(queryTest);
         ResultSet rs = statementTest.executeQuery();
         boolean ans = !rs.next();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return ans;
     }
 
@@ -191,7 +200,7 @@ public class UserDAO {
             statement.setString(1, sender_id);
             statement.setString(2, reciever_id);
             statement.executeUpdate();
-            con.close();
+            DataBaseConnectionPool.getInstance().closeConnection(con);
             return true;
         }
         return false;
@@ -203,7 +212,7 @@ public class UserDAO {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         boolean ans = rs.next();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return ans;
     }
 
@@ -213,7 +222,7 @@ public class UserDAO {
             String query = "UPDATE relations_table SET isPending = 0 WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id;
             PreparedStatement statement = conn.prepareStatement(query);
             statement.executeUpdate();
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
 
@@ -225,7 +234,7 @@ public class UserDAO {
             statement.setString(1, sender_id);
             statement.setString(2, reciever_id);
             statement.executeUpdate();
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
 
@@ -235,7 +244,7 @@ public class UserDAO {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         boolean ans = rs.next();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return ans;
     }
 
@@ -248,7 +257,7 @@ public class UserDAO {
             statement.setString(2, user1_id);
             statement.setString(3, user2_id);
             statement.executeUpdate();
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
 
@@ -258,7 +267,7 @@ public class UserDAO {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         boolean ans = rs.next();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return ans;
     }
 
@@ -271,7 +280,7 @@ public class UserDAO {
             preparedStatement.setString(2, user2_id);
             preparedStatement.setString(3, quiz_id);
             preparedStatement.executeUpdate();
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
 
@@ -284,7 +293,7 @@ public class UserDAO {
             preparedStatement.setString(2, user2_id);
             preparedStatement.setString(3, quiz_id);
             preparedStatement.executeUpdate();
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
 
@@ -297,7 +306,7 @@ public class UserDAO {
         statement.setString(3, text);
         statement.setString(4, subject);
         statement.executeUpdate();
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
     }
 
     public ArrayList<Challenge> getChallengesSentForUser(String user_id) throws SQLException {
@@ -312,7 +321,7 @@ public class UserDAO {
             Challenge newChallenge = new Challenge(quiz_id, user1_id, user_id);
             result.add(newChallenge);
         }
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return result;
     }
 
@@ -332,7 +341,7 @@ public class UserDAO {
             Mail newMail = new Mail(mail_subject, mail_id, mail_text, send_date, sender_id, receiver_id);
             result.add(newMail);
         }
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return result;
     }
 
@@ -352,7 +361,7 @@ public class UserDAO {
             Mail newMail = new Mail(mail_subject, mail_id, mail_text, send_date, sender_id, receiver_id);
             result.add(newMail);
         }
-        conn.close();
+        DataBaseConnectionPool.getInstance().closeConnection(conn);
         return result;
     }
 
@@ -371,7 +380,7 @@ public class UserDAO {
             conn.close();
             return newMail;
         } else {
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
         return null;
     }

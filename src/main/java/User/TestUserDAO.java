@@ -292,4 +292,18 @@ public class TestUserDAO extends TestCase {
         String quiz_id = "2";
         assertEquals(75.0, userDAO.getAverageScoreOnQuiz(quiz_id));
     }
+
+    public void testAddPerformance() {
+        String user_id = "1";
+        String quiz_id = "2";
+        double score = 0;
+        String usedTime = "00:00:00";
+        try {
+            userDAO.addPerformance(new Performance(quiz_id, score, null, user_id, usedTime));
+            ArrayList<Performance> performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 1, "used_time");
+            assertEquals(0.0, performances.get(0).getScore());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
