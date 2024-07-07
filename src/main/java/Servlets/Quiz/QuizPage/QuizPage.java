@@ -7,7 +7,6 @@ import Quiz.QuizTask;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,29 +32,59 @@ public class QuizPage extends HttpServlet {
             }
             if(quiz.isTasksRandomized()) shuffle(tasks);
             ArrayList<String> values = new ArrayList<>();
+            if(!quiz.isOnMultiplePage()) {
+                for(int i = 0; i < tasks.size(); i++) {
+                    values.add("");
+                }
+            }
             session.setAttribute("tasks", tasks);
             session.setAttribute("values", values);
             session.setAttribute("startTime", System.currentTimeMillis());
+            session.setAttribute("isMultiplePage", quiz.isOnMultiplePage());
         }
-        request.getRequestDispatcher("/jspFiles/QuizMultiplePage.jsp").forward(request, response);
+        if((boolean)session.getAttribute("isMultiplePage")) {
+            request.getRequestDispatcher("/jspFiles/QuizMultiplePage.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/jspFiles/QuizOnePage.jsp").forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        ArrayList<QuizTask> tasks = (ArrayList<QuizTask>) session.getAttribute("tasks");
-        String quiz_id = request.getParameter("quiz_id");
         String index = request.getParameter("index");
-        ArrayList<String> values = (ArrayList<String>) session.getAttribute("values");
-        int idx = Integer.parseInt(index);
-        if(values.size() == idx)  {
-            values.add(request.getParameter("answer"));
+        String quiz_id = request.getParameter("quiz_id");
+        if(index != null) {
+            ArrayList<QuizTask> tasks = (ArrayList<QuizTask>) session.getAttribute("tasks");
+            ArrayList<String> values = (ArrayList<String>) session.getAttribute("values");
+            int idx;
+            if((boolean)session.getAttribute("isMultiplePage")) {
+                idx = Integer.parseInt(index);
+                String answer = request.getParameter("answer");
+                if(answer == null) answer = "";
+                if(values.size() == idx)  {
+                    values.add(answer);
+                } else {
+                    values.set(idx, answer);
+                }
+                idx++;
+            } else {
+                idx = tasks.size();
+                String[] answers = request.getParameterValues("answers");
+                for(int i = 0; i < values.size(); i++) {
+                    if(answers[i] == null) answers[i] = "";
+                    values.set(i, answers[i]);
+                }
+            }
+            String url = "/quizPage?quiz_id=" + quiz_id + "&index=" + idx;
+            if(idx == tasks.size()) url = "/SubmitQuiz?quiz_id=" + quiz_id;
+            response.sendRedirect(url);
         } else {
-            values.set(idx, request.getParameter("answer"));
+            session.removeAttribute("tasks");
+            session.removeAttribute("values");
+            session.removeAttribute("startTime");
+            session.removeAttribute("isMultiplePage");
+            response.sendRedirect("/quizPage?quiz_id=" + quiz_id + "&index=0");
         }
-        idx++;
-        String url = "/quizPage?quiz_id=" + quiz_id + "&index=" + idx;
-        if(idx == tasks.size()) url = "/SubmitQuiz?quiz_id=" + quiz_id;
-        response.sendRedirect(url);
     }
 }

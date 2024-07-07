@@ -103,7 +103,7 @@ public class UserDAO {
 
     public ArrayList<Performance> getHighestPerformersOnQuiz(String quiz_id, int size, boolean last_day) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT user_id, MAX(score), (SELECT spt.date FROM performances_table spt Where spt.user_id = pt.user_id AND spt.score = MAX(pt.score))  FROM performances_table pt WHERE pt.quiz_id = ? AND DATE(DATE_ADD(pt.date, INTERVAL 1 DAY)) >= DATE(CURRENT_DATE) GROUP BY pt.user_id ORDER BY MAX(pt.score) DESC";
+        String query = "SELECT user_id, MAX(score), (SELECT MAX(spt.date) FROM performances_table spt Where spt.user_id = pt.user_id AND spt.score = MAX(pt.score) AND spt.quiz_id = pt.quiz_id GROUP BY user_id)  FROM performances_table pt WHERE pt.quiz_id = ? AND DATE(DATE_ADD(pt.date, INTERVAL 1 DAY)) >= DATE(CURRENT_DATE) GROUP BY pt.user_id ORDER BY MAX(pt.score) DESC";
         if(!last_day) {
             query = "SELECT user_id, MAX(score) FROM performances_table WHERE quiz_id = ? GROUP BY user_id ORDER BY MAX(score) DESC";
         }

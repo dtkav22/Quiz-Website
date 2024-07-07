@@ -76,6 +76,7 @@ public class TestUserDAO extends TestCase {
     }
 
     public void testGetPerformanceHistory() throws SQLException {
+        userDAO.addPerformance(new Performance("1", 100, null, "1", "00:00:00"));
         ArrayList<Performance> set = userDAO.getUserPerformanceHistory("1", 100);
         assertEquals("1", set.get(0).getQuiz_id());
         assertEquals(100.0, set.get(0).getScore());
@@ -283,9 +284,8 @@ public class TestUserDAO extends TestCase {
             assertEquals(Integer.toString(i), performances.get(i - 1).getUser_id());
         }
         performances = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, true);
-        assertEquals(String.valueOf(5), performances.get(0).getUser_id());
-        assertEquals(String.valueOf(6), performances.get(1).getUser_id());
-        System.out.println(performances.get(0).getDate());
+        assertEquals("5", performances.get(0).getUser_id());
+        assertEquals("6", performances.get(1).getUser_id());
     }
 
     public void testGetAverageScoreOnQuiz() throws SQLException {

@@ -40,7 +40,7 @@
                 Quiz cur = dao.getQuiz(quiz_id);
         %>
         <div class="quiz-box">
-            <a href="quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
+            <a href="QuizSummaryPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
             <b>Creation Date: <%=cur.getCreationDate()%></b>
         </div>
         <%}%>
