@@ -35,8 +35,10 @@ CREATE TABLE mails_table(
                             mail_subject TEXT DEFAULT (NULL),
                             mail_text TEXT DEFAULT(NULL),
                             send_date DATE DEFAULT (CURRENT_DATE),
+                            send_time TIME DEFAULT (CURRENT_TIME),
                             sender_id INT NOT NULL,
                             receiver_id INT NOT NULL,
+                            -- topMail_id INT DEFAULT(NULL),
                             PRIMARY KEY (mail_id),
                             FOREIGN KEY (sender_id) REFERENCES users_table(user_id),
                             FOREIGN KEY (receiver_id) REFERENCES users_table(user_id)
@@ -49,6 +51,7 @@ VALUES ('Hello!', 3, 2),
        ('I am coding', 2, 3),
        ('and you?', 2, 3),
        ('nothing at all', 3, 2);
+
 
 -- relations table
 

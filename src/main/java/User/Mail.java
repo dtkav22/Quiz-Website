@@ -1,6 +1,7 @@
 package User;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class Mail {
     private String mail_text;
@@ -9,14 +10,18 @@ public class Mail {
     private String receiver_id;
     private String mail_id;
     private String subject;
-    public Mail(String mail_subject, String mail_text, Date send_date, String sender_id, String receiver_id, String mail_id){
+    private Time send_time;
+    public Mail(String mail_subject, String mail_text, Date send_date, String sender_id, String receiver_id, String mail_id, Time send_time){
         this.mail_text = mail_text;
         this.send_date = send_date;
         this.sender_id = sender_id;
         this.receiver_id = receiver_id;
         this.mail_id = mail_id;
         this.subject = mail_subject;
+        this.send_time = send_time;
     }
+
+    public Time getSend_time(){return send_time;}
 
     public String getMail_text(){
         return mail_text;

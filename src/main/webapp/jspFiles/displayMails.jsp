@@ -2,7 +2,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="User.UserDAO" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="User.User" %><%--
+<%@ page import="User.User" %>
+<%@ page import="java.sql.Date" %><%--
   Created by IntelliJ IDEA.
   User: Pavilion
   Date: 7/5/2024
@@ -19,6 +20,14 @@
 <div id="wrapper">
     <div id="content">
         <h1>Inbox</h1>
+
+        <form action="searchMails" method="get">
+            <label for="search_field">Search mails in your inbox by username</label>
+            <input type="text" id="search_field" name="search_field">
+
+            <button type="submit" id="Search" class="Search">Search</button>
+        </form>
+
         <div class="mail-list">
             <%-- Retrieve mails attribute from session --%>
             <% ArrayList<Mail> mails = (ArrayList<Mail>) session.getAttribute("mails"); %>
@@ -44,8 +53,9 @@
                                 <input type="hidden" name="mailId" value="<%= mail.getMail_id() %>">
 
                                 <p><strong>From: </strong><%= sender_username %></p>
-                                <p><strong>Date: </strong><%= mail.getSend_date() %></p>
-                                <p><%= Subject %></p>
+                                <p><strong>Date: </strong><%= mail.getSend_date() %>
+                                <strong>Time: </strong><%= mail.getSend_time() %></p>
+                                <p><strong><%= Subject %></strong></p>
 
                             </button>
                         </form>
@@ -54,7 +64,7 @@
                 <% } %>
             </ul>
                 <% } else { %>
-            <p>You have no mails yet.</p>
+            <p>No mails here.</p>
             <%}%>
         </div>
         <div class="button-container">

@@ -16,13 +16,9 @@ public class Replay extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String user_id = (String) session.getAttribute("userId");
-        System.out.println(user_id);
         String receiver_id = (String) session.getAttribute("receiver_id");
-        System.out.println(receiver_id);
         String Subject = (String) session.getAttribute("subject");
-        System.out.println(Subject);
         String mail_text = request.getParameter("mail_text");
-        System.out.println(mail_text);
         UserDAO dao = new UserDAO();
         try {
             if(receiver_id == null) {

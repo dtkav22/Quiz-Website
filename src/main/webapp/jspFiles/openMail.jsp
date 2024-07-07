@@ -43,14 +43,14 @@
             <% } %>
         </div>
         <div class="button-container">
+            <form action="replay" method="get">
+                <button type="submit" class="replay">Replay</button>
+            </form>
             <form action="inbox" method="get">
                 <button type="submit" class="back">Back to Inbox</button>
             </form>
             <form action="deleteMail" method="post">
                 <button type="submit" class="delete">Delete this mail</button>
-            </form>
-            <form action="replay" method="get">
-                <button type="submit" class="replay">Replay</button>
             </form>
         </div>
     </div>
