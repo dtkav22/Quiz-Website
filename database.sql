@@ -72,7 +72,7 @@ CREATE TABLE quizzes_table (
                                author_id INT NOT NULL,
                                quiz_name VARCHAR(30) NOT NULL,
                                author_description TEXT DEFAULT (NULL),
-                               creation_date DATE DEFAULT(CURRENT_DATE),
+                               creation_date DATE DEFAULT(NOW()),
                                randomize_tasks BIT NOT NULL,
                                multiple_page BIT NOT NULL,
                                PRIMARY KEY (quiz_id),
@@ -105,7 +105,7 @@ CREATE TABLE performances_table(
     user_id INT NOT NULL ,
     quiz_id INT NOT NULL ,
     score DOUBLE NOT NULL,
-    date DATETIME DEFAULT (CURRENT_DATE),
+    date DATETIME DEFAULT (NOW()),
     used_time VARCHAR(10) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users_table(user_id),
     FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)

@@ -35,6 +35,7 @@ public class QuizPage extends HttpServlet {
             ArrayList<String> values = new ArrayList<>();
             session.setAttribute("tasks", tasks);
             session.setAttribute("values", values);
+            session.setAttribute("startTime", System.currentTimeMillis());
         }
         request.getRequestDispatcher("/jspFiles/QuizMultiplePage.jsp").forward(request, response);
     }

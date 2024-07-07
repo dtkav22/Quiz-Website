@@ -13,7 +13,8 @@
 <body>
   <%=request.getParameter("quiz_id")%>
   <form action="../SubmitQuiz" method="post">
-    <input type="submit" value="Submit Quiz">
+      <input type="submit" value="Submit Quiz">
+      <input type="hidden" name="quiz_id" value="<%=request.getParameter("quiz_id")%>">
   </form>
 </body>
 </html>
