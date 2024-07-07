@@ -58,7 +58,7 @@
                         String user_name = userDAO.getUser(performance.getUser_id()).getUserName();
                         double score = performance.getScore();
             %>
-            <li>User Name: <a href="/profilePage?profile_id=<%=userDAO.getUserId(user_name)%>"><%=user_name%></a>, User Score: <%=score%></li>
+            <li>User Name: <a href="/profilePage?profile_id=<%=userDAO.getUserId(user_name)%>"><%=user_name%></a>, User Score: <%=String.format("%.2f",score)%></li>
             <%
                     }
                 } catch (SQLException e) {
@@ -76,7 +76,7 @@
                         double score = performance.getScore();
                         String date = performance.getDate();
             %>
-            <li>User Name: <a href="/profilePage?profile_id=<%=userDAO.getUserId(user_name)%>"><%=user_name%></a>, User Score: <%=score%>, Date: <%=date%></li>
+            <li>User Name: <a href="/profilePage?profile_id=<%=userDAO.getUserId(user_name)%>"><%=user_name%></a>, User Score: <%=String.format("%.2f",score)%>, Date: <%=date%></li>
             <%
                     }
                 } catch (SQLException e) {
@@ -94,7 +94,7 @@
                     throw new RuntimeException(e);
                 }
             %>
-            <%=String.format("%.4f", avg)%>
+            <%=String.format("%.2f", avg)%>
         </p>
         <form method = 'POST' action="../quizPage">
             <input type="hidden" name="quiz_id" value="<%=quiz_id%>">

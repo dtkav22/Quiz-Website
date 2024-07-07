@@ -17,7 +17,7 @@ function showPerformances() {
 
 function addPerformanceInList(performance) {
     const userPerformances = document.getElementById("userPerformances");
-    const score = performance.score;
+    const score = performance.score.toFixed(2);
     const date = performance.date;
     const used_time = performance.used_time;
     const li = document.createElement("li");
