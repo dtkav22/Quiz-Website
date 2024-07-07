@@ -15,6 +15,7 @@ import java.sql.SQLException;
 public class SendRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Handle GET request if necessary
     }
 
     @Override
@@ -24,21 +25,20 @@ public class SendRequest extends HttpServlet {
         String userId = (String) request.getSession().getAttribute("userId");
         UserDAO dao = new UserDAO();
         try {
-            System.out.println("not not request added in db");
-            if(type.equals("friend")) {
-                System.out.println("request added in db");
+            if ("friend".equals(type)) {
+                System.out.println("Request added in db");
                 dao.sendFriendRequest(userId, friendId);
-            } else if(type.equals("challenge")) {
+            } else if ("challenge".equals(type)) {
                 String quizId = request.getParameter("quiz_id");
                 dao.sendChallenge(userId, friendId, quizId);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(friendId + "sent");
+        System.out.println(friendId + " sent");
         FriendsRequestWebSocket.sendFriendRequest(friendId);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"success\":" + true + "}");
+        response.getWriter().write("{\"success\":true}");
     }
 }

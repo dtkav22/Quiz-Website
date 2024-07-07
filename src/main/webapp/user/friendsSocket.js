@@ -1,32 +1,41 @@
 var socket;
 
 function initSocket() {
-    socket = new WebSocket("ws://" + location.host + "/friendRequestsSocket");
+
+    if (socket && socket.readyState === WebSocket.OPEN) {
+        console.log("WebSocket is already open.");
+        return;
+    }
+
+    socket = new WebSocket("ws://" + location.host + "/your-websocket-endpoint");
+
     socket.onmessage = function(event) {
         getFriendRequests();
     };
-    socket.onopen = function (event) {
-        $.ajax({
-            type: "POST",
-            url: "SendId",
-            data: {
-                type: "friends"
-            },
-            success: function(response) {
-                console.log("success");
-            },
-            error: function(error) {
-                console.error("Error:", error);
-            }
-        });
-    }
+
+    socket.onopen = function(event) {
+        console.log("WebSocket connection opened");
+    };
+
+    socket.onclose = function(event) {
+        console.log("WebSocket connection closed");
+    };
+
+    socket.onerror = function(error) {
+        console.error("WebSocket error:", error);
+    };
 }
 
 window.onload = function() {
     initSocket();
-    //getFriendRequests();
+}
+
+window.onbeforeunload = function() {
+    if (socket) {
+        socket.close();
+    }
 }
 
 function getFriendRequests() {
-    $('#friendsRequest').load(document.URL +  ' #friendsRequest');
+    $('#friendsRequest').load(document.URL + ' #friendsRequest');
 }

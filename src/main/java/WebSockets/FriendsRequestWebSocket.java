@@ -1,43 +1,63 @@
 package WebSockets;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.CloseReason;
 import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
 import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
+@ServerEndpoint(value = "/your-websocket-endpoint", configurator = HttpSessionConfigurator.class)
 public class FriendsRequestWebSocket extends Endpoint {
-    public static Session curSession = null;
     private static final Map<String, Session> sessions = Collections.synchronizedMap(new HashMap<>());
-    private static CountDownLatch latch = new CountDownLatch(1);
 
-    public static void sendId(String userId) throws InterruptedException {
-        latch.await();
-        System.out.println("opened");
-        sessions.put(userId, curSession);
-        if (curSession == null) System.out.println("not open");
-        else System.out.println(curSession.getId() + "cool");
+    @Override
+    public void onOpen(Session session, EndpointConfig config) {
+        System.out.println("WebSocket opened: " + session.getId() + " Map Size: " + sessions.size());
+        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        if (httpSession != null) {
+            String userId = (String) httpSession.getAttribute("userId");
+            if (userId != null) {
+                if (sessions.containsKey(userId)) {
+                    try {
+                        sessions.get(userId).close(new CloseReason(CloseReason.CloseCodes.VIOLATED_POLICY, "New session opened"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                sessions.put(userId, session);
+                System.out.println("Associated user " + userId + " with session " + session.getId());
+            }
+        }
     }
 
     @Override
-    public void onOpen(Session session, EndpointConfig endpointConfig) {
-        System.out.println("socket opened");
-        curSession = session;
-        if (curSession != null) {
-            System.out.println("success");
-        }
-        latch.countDown();
+    public void onClose(Session session, CloseReason reason) {
+        System.out.println("WebSocket closed: " + session.getId() + ". Reason: " + reason);
+        removeSession(session);
+    }
+
+    @Override
+    public void onError(Session session, Throwable thr) {
+        System.err.println("WebSocket error on session " + session.getId() + ": " + thr.getMessage());
+        thr.printStackTrace();
+        removeSession(session);
+    }
+
+    private void removeSession(Session session) {
+        sessions.values().remove(session);
     }
 
     public static void sendFriendRequest(String userId) throws IOException {
-        System.out.println("sent");
         Session session = sessions.get(userId);
         if (session != null && session.isOpen()) {
             session.getBasicRemote().sendText("update");
+        } else {
+            System.out.println("Session is not open for user: " + userId);
         }
     }
 }
