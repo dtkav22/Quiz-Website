@@ -45,6 +45,14 @@
     <filter-name>MyFilter</filter-name>
     <servlet-name>QuizPage</servlet-name>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>QuizSummaryPage</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>SubmitQuizPage</servlet-name>
+  </filter-mapping>
 
   <servlet>
     <servlet-name>SubmitQuizPage</servlet-name>
