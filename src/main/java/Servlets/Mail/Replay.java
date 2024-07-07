@@ -17,14 +17,14 @@ public class Replay extends HttpServlet {
         HttpSession session = request.getSession(false);
         String user_id = (String) session.getAttribute("userId");
         String receiver_id = (String) session.getAttribute("receiver_id");
-        String Subject = (String) session.getAttribute("subject");
+        String headMail_id = (String) session.getAttribute("mailId");
         String mail_text = request.getParameter("mail_text");
         UserDAO dao = new UserDAO();
         try {
             if(receiver_id == null) {
                 request.getRequestDispatcher("jspFiles/error.jsp").forward(request, response);
             }
-            dao.sendMail(user_id, receiver_id, mail_text, Subject);
+            dao.sendMail(user_id, receiver_id, mail_text, null,headMail_id);
             request.getRequestDispatcher("jspFiles/mail-sent.jsp").forward(request, response);
         } catch (SQLException e) {
             System.out.println("Something went wrong.");

@@ -1,6 +1,7 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="User.Mail" %>
-<%@ page import="User.UserDAO" %><%--
+<%@ page import="User.UserDAO" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: Pavilion
   Date: 7/6/2024
@@ -20,24 +21,27 @@
         <h1>Mail Detail</h1>
         <div class="mail-detail">
             <%
-                session = request.getSession(false);
-                String mailId = (String) session.getAttribute("mailId");
-                if (mailId != null) {
+                ArrayList<Mail> replaySet = (ArrayList<Mail>) session.getAttribute("replaySet");
+
+                if(replaySet != null && !replaySet.isEmpty()){
                     UserDAO dao = new UserDAO();
-                    try {
-                        Mail mail = dao.getMailById(mailId);
-                        String sender_username = dao.getUser(mail.getSender_id()).getUserName();
+                    for(Mail mail : replaySet){
+                        String sender_username;
+                        try {
+                            sender_username = dao.getUser(mail.getSender_id()).getUserName();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
             %>
             <div class="mail-item">
     <p><strong>From: </strong><%= sender_username
     %></p>
-    <p><strong>Date: </strong><%= mail.getSend_date() %></p>
+    <p><strong>Date: </strong><%= mail.getSend_date() %>
+        <strong>Time: </strong><%= mail.getSend_time() %></p>
     <p><%= mail.getMail_text() %></p>
 </div>
 <%
-                } catch (SQLException e) {
-                out.println("Error retrieving mail: " + e.getMessage());
-            }
+    }
             } else { %>
             <p>No mail selected.</p>
             <% } %>

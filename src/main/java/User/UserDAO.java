@@ -204,14 +204,15 @@ public class UserDAO {
         }
     }
 
-    public void sendMail(String sender_id, String receiver_id, String text, String Subject) throws SQLException {
+    public void sendMail(String sender_id, String receiver_id, String text, String Subject, String headMail_id) throws SQLException {
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "INSERT INTO mails_table (sender_id, receiver_id, mail_text, mail_subject) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO mails_table (sender_id, receiver_id, mail_text, mail_subject, headMail_id) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, sender_id);
         statement.setString(2, receiver_id);
         statement.setString(3, text);
         statement.setString(4, Subject);
+        statement.setString(5, headMail_id);
         statement.executeUpdate();
         DataBaseConnectionPool.getInstance().closeConnection(conn);
     }
@@ -235,7 +236,7 @@ public class UserDAO {
     public ArrayList<Mail> getSentMailsForUser(String user_id) throws SQLException {
         ArrayList<Mail> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE sender_id = " + user_id + " ORDER BY send_date DESC, send_time DESC"; // + " AND topMail_id = NULL ORDER BY send_date DESC";
+        String query = "SELECT * FROM mails_table WHERE sender_id = " + user_id + " AND headMail_id IS NULL ORDER BY send_date DESC, send_time DESC"; // + " AND topMail_id = NULL ORDER BY send_date DESC";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
@@ -246,7 +247,8 @@ public class UserDAO {
             String receiver_id = rs.getString("receiver_id");
             String mail_id = rs.getString("mail_id");
             Time send_time = rs.getTime("send_time");
-            Mail newMail = new Mail(subject, mail_text, send_date, sender_id, receiver_id, mail_id, send_time);
+            String headMail_id = rs.getString("headMail_id");
+            Mail newMail = new Mail(headMail_id, subject, mail_text, send_date, sender_id, receiver_id, mail_id, send_time);
             result.add(newMail);
         }
         DataBaseConnectionPool.getInstance().closeConnection(conn);
@@ -256,7 +258,7 @@ public class UserDAO {
     public ArrayList<Mail> getSentMailsForUserTo(String user_id, String receiver_id) throws SQLException {
         ArrayList<Mail> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE sender_id = " + user_id + " AND receiver_id = " + receiver_id + " ORDER BY send_date DESC, send_time DESC";
+        String query = "SELECT * FROM mails_table WHERE sender_id = " + user_id + " AND receiver_id = " + receiver_id + " AND headMail_id IS NULL ORDER BY send_date DESC, send_time DESC";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
@@ -267,7 +269,8 @@ public class UserDAO {
             String receiverId = rs.getString("receiver_id");
             String mail_id = rs.getString("mail_id");
             Time send_time = rs.getTime("send_time");
-            Mail newMail = new Mail(subject, mail_text, send_date, senderId, receiverId, mail_id, send_time);
+            String headMail_id = rs.getString("headMail_id");
+            Mail newMail = new Mail(headMail_id, subject, mail_text, send_date, senderId, receiverId, mail_id, send_time);
             result.add(newMail);
         }
         DataBaseConnectionPool.getInstance().closeConnection(conn);
@@ -277,7 +280,7 @@ public class UserDAO {
     public ArrayList<Mail> getReceivedMailsForUser(String user_id) throws SQLException {
         ArrayList<Mail> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE receiver_id = " + user_id + " ORDER BY send_date DESC, send_time DESC";
+        String query = "SELECT * FROM mails_table WHERE receiver_id = " + user_id + " AND headMail_id IS NULL ORDER BY send_date DESC, send_time DESC";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
@@ -288,7 +291,8 @@ public class UserDAO {
             String receiver_id = rs.getString("receiver_id");
             String mail_id = rs.getString("mail_id");
             Time send_time = rs.getTime("send_time");
-            Mail newMail = new Mail(subject, mail_text, send_date, sender_id, receiver_id, mail_id, send_time);
+            String headMail_id = rs.getString("headMail_id");
+            Mail newMail = new Mail(headMail_id, subject, mail_text, send_date, sender_id, receiver_id, mail_id, send_time);
             result.add(newMail);
         }
         DataBaseConnectionPool.getInstance().closeConnection(conn);
@@ -298,7 +302,7 @@ public class UserDAO {
     public ArrayList<Mail> getReceivedMailsForUserFrom(String user_id, String sender_id) throws SQLException {
         ArrayList<Mail> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE receiver_id = " + user_id + " AND sender_id = " + sender_id + " ORDER BY send_date DESC, send_time DESC";
+        String query = "SELECT * FROM mails_table WHERE receiver_id = " + user_id + " AND sender_id = " + sender_id + " AND headMail_id IS NULL ORDER BY send_date DESC, send_time DESC";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
@@ -309,7 +313,8 @@ public class UserDAO {
             String receiver_id = rs.getString("receiver_id");
             String mail_id = rs.getString("mail_id");
             Time send_time = rs.getTime("send_time");
-            Mail newMail = new Mail(subject, mail_text, send_date, senderId, receiver_id, mail_id, send_time);
+            String headMail_id = rs.getString("headMail_id");
+            Mail newMail = new Mail(headMail_id, subject, mail_text, send_date, senderId, receiver_id, mail_id, send_time);
             result.add(newMail);
         }
         DataBaseConnectionPool.getInstance().closeConnection(conn);
@@ -330,7 +335,8 @@ public class UserDAO {
             String sender_id = rs.getString("sender_id");
             String receiver_id = rs.getString("receiver_id");
             Time send_time = rs.getTime("send_time");
-            mail = new Mail(subject, mail_text, send_date, sender_id, receiver_id, mail_id, send_time);
+            String headMail_id = rs.getString("headMail_id");
+            mail = new Mail(headMail_id, subject, mail_text, send_date, sender_id, receiver_id, mail_id, send_time);
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);
         return mail;
@@ -338,32 +344,37 @@ public class UserDAO {
 
     public void deleteMail(String mail_id) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "DELETE FROM mails_table WHERE mail_id = ?";
+        String query = "DELETE FROM mails_table WHERE headMail_id = ?";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, mail_id);
         stm.executeUpdate();
+        String headQuery = "DELETE FROM mails_table WHERE mail_id = ?";
+        PreparedStatement statement = con.prepareStatement(headQuery);
+        statement.setString(1, mail_id);
+        statement.executeUpdate();
         DataBaseConnectionPool.getInstance().closeConnection(con);
     }
 
 
-//    public ArrayList<Mail>  getReplaysForMail(String mail_id) throws SQLException {
-//        Connection con = DataBaseConnectionPool.getInstance().getConnection();
-//        String query = "SELECT * FROM mails_table WHERE topMail_id = ? ORDER BY send_date DESC AND mail_id DESC";
-//        PreparedStatement stm = con.prepareStatement(query);
-//        stm.setString(1, mail_id);
-//        ResultSet rs = stm.executeQuery();
-//        ArrayList<Mail> replays = new ArrayList<>();
-//        replays.add(getMailById(mail_id));
-//        while(rs.next()){
-//            String mail_text = rs.getString("replay_text");
-//            Date send_date = rs.getDate("send_date");
-//            String sender_id = rs.getString("sender_id");
-//            String receiver_id = rs.getString("receiver_id");
-//            String newmail_id = rs.getString("mail_id");
-//            Mail newMail = new Mail(null, mail_text, send_date, sender_id, receiver_id, newmail_id);
-//            replays.add(newMail);
-//        }
-//        return replays;
-//    }
+    public ArrayList<Mail>  getReplaysForMail(String mail_id) throws SQLException {
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM mails_table WHERE headMail_id = ? ORDER BY send_date, send_time";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, mail_id);
+        ResultSet rs = stm.executeQuery();
+        ArrayList<Mail> replays = new ArrayList<>();
+        replays.add(getMailById(mail_id));
+        while(rs.next()){
+            String mail_text = rs.getString("mail_text");
+            Date send_date = rs.getDate("send_date");
+            String sender_id = rs.getString("sender_id");
+            String receiver_id = rs.getString("receiver_id");
+            String newmail_id = rs.getString("mail_id");
+            Time send_time = rs.getTime("send_time");
+            Mail newMail = new Mail(mail_id, null, mail_text, send_date, sender_id, receiver_id, newmail_id, send_time);
+            replays.add(newMail);
+        }
+        return replays;
+    }
 
 }

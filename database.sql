@@ -38,8 +38,9 @@ CREATE TABLE mails_table(
                             send_time TIME DEFAULT (CURRENT_TIME),
                             sender_id INT NOT NULL,
                             receiver_id INT NOT NULL,
-                            -- topMail_id INT DEFAULT(NULL),
+                            headMail_id INT DEFAULT(NULL),
                             PRIMARY KEY (mail_id),
+                            FOREIGN KEY (headMail_id) REFERENCES mails_table(mail_id),
                             FOREIGN KEY (sender_id) REFERENCES users_table(user_id),
                             FOREIGN KEY (receiver_id) REFERENCES users_table(user_id)
 );

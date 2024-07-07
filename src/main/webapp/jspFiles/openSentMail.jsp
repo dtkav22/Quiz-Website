@@ -1,6 +1,7 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="User.Mail" %>
-<%@ page import="User.UserDAO" %><%--
+<%@ page import="User.UserDAO" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: Pavilion
   Date: 7/6/2024
@@ -20,13 +21,33 @@
         <h1>Mail Detail</h1>
         <div class="mail-detail">
             <%
-                session = request.getSession(false);
-                String mailId = (String) session.getAttribute("mailId");
-                if (mailId != null) {
-                    UserDAO dao = new UserDAO();
-                    try {
-                        Mail mail = dao.getMailById(mailId);
-                        String receiver_username = dao.getUser(mail.getReceiver_id()).getUserName();
+                ArrayList<Mail> replaySet = (ArrayList<Mail>) session.getAttribute("replaySet");
+                String sender_username = "";
+                UserDAO dao = new UserDAO();
+                    if(replaySet.size()>1){
+                        for(Mail mail : replaySet){
+                            try {
+                                sender_username = dao.getUser(mail.getSender_id()).getUserName();
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+            %>
+            <div class="mail-item">
+                <p><strong>From: </strong><%= sender_username
+                %></p>
+                <p><strong>Date: </strong><%= mail.getSend_date() %></p>
+                <p><%= mail.getMail_text() %></p>
+            </div>
+            <%
+                        }
+                    } else if(replaySet.size() == 1){
+                        Mail mail = replaySet.get(0);
+                String receiver_username;
+                try {
+                    receiver_username = dao.getUser(mail.getReceiver_id()).getUserName();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             %>
             <div class="mail-item">
                 <p><strong>To: </strong><%= receiver_username
@@ -35,10 +56,7 @@
                 <p><%= mail.getMail_text() %></p>
             </div>
             <%
-                } catch (SQLException e) {
-                    out.println("Error retrieving mail: " + e.getMessage());
-                }
-            } else { %>
+                        } else { %>
             <p>No mail selected.</p>
             <% } %>
         </div>

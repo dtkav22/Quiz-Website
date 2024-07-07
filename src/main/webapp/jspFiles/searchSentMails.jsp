@@ -45,6 +45,24 @@
 
                     String Subject = mail.getMail_Subject();
                     if(Subject == null) Subject = "";
+                    String chat;
+                    ArrayList<Mail> replays;
+                    try {
+                        replays = dao.getReplaysForMail(mail.getMail_id());
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    session.setAttribute("replaySet", replays);
+                    int numReplays;
+                    try {
+                        numReplays = dao.getReplaysForMail(mail.getMail_id()).size();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if(numReplays>1) chat = numReplays +  " replays";
+                    else{
+                        chat = "";
+                    }
                 %>
                 <li>
                     <div class="mail-item">
@@ -53,10 +71,11 @@
                             <button type="submit" class="mail-link">
                                 <input type="hidden" name="mailId" value="<%= mail.getMail_id() %>">
 
+                                <p><strong><%= Subject %></strong></p>
                                 <p><strong>To: </strong><%= receiver_username %></p>
                                 <p><strong>Date: </strong><%= mail.getSend_date() %>
                                     <strong>Time: </strong><%= mail.getSend_time() %></p>
-                                <p><strong><%= Subject %></strong></p>
+                                <p><%= chat %></p>
 
                             </button>
                         </form>

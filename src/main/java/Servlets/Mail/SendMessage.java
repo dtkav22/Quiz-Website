@@ -30,7 +30,7 @@ public class SendMessage extends HttpServlet {
             if(receiver_id == null) {
                 request.getRequestDispatcher("jspFiles/error.jsp").forward(request, response);
             }
-            dao.sendMail(user_id, receiver_id, mail_text, Subject);
+            dao.sendMail(user_id, receiver_id, mail_text, Subject, null);
             request.getRequestDispatcher("jspFiles/mail-sent.jsp").forward(request, response);
         } catch (SQLException e) {
             System.out.println("Something went wrong.");
