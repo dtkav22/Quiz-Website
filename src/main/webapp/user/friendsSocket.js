@@ -10,7 +10,8 @@ function initSocket() {
     socket = new WebSocket("ws://" + location.host + "/your-websocket-endpoint");
 
     socket.onmessage = function(event) {
-        getFriendRequests();
+        const message = JSON.parse(event.data);
+        getFriendRequests(message);
     };
 
     socket.onopen = function(event) {
@@ -36,6 +37,7 @@ window.onbeforeunload = function() {
     }
 }
 
-function getFriendRequests() {
+function getFriendRequests(sender_id) {
     $('#friendsRequest').load(document.URL + ' #friendsRequest');
+    $('#profileInfo-' + sender_id).load(document.URL + ' #profileInfo-' + sender_id);
 }

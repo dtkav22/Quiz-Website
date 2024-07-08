@@ -52,12 +52,12 @@ public class FriendsRequestWebSocket extends Endpoint {
         sessions.values().remove(session);
     }
 
-    public static void sendFriendRequest(String userId) throws IOException {
-        Session session = sessions.get(userId);
+    public static void sendFriendRequest(String friendId, String myId) throws IOException {
+        Session session = sessions.get(friendId);
         if (session != null && session.isOpen()) {
-            session.getBasicRemote().sendText("update");
+            session.getBasicRemote().sendText(myId);
         } else {
-            System.out.println("Session is not open for user: " + userId);
+            System.out.println("Session is not open for user: " + friendId);
         }
     }
 }

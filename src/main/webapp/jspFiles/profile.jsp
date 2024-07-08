@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../user/script.js"></script>
+    <script src="../user/friendsSocket.js"></script>
 </head>
 <body>
 <header>Profile Page</header>
@@ -41,7 +42,7 @@
 <div class="container">
     <h1>Welcome to Your Dashboard</h1>
 
-    <div class="section">
+    <div class="section" id="profileInfo-<%=profile_id%>">
         <div class="noClick-section-title"><%=owner%> Information</div> <br>
             <div class="quiz-box">
                 <hb>Username: </hb>
@@ -58,6 +59,7 @@
                 <hb>Status: </hb>
                 <hb><%=(areFriends ? "Friends" : "Not Friends")%></hb>
             </div>
+
 
             <%
                 if(userDao.canSendFriendRequest(user_id, profile_id)) {

@@ -36,7 +36,7 @@ public class SendRequest extends HttpServlet {
             throw new RuntimeException(e);
         }
         System.out.println(friendId + " sent");
-        FriendsRequestWebSocket.sendFriendRequest(friendId);
+        FriendsRequestWebSocket.sendFriendRequest(friendId, userId);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"success\":true}");
