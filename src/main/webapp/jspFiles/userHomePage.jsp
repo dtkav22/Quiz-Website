@@ -92,7 +92,7 @@
                     User cur = userDao.getUser(mail.getSender_id());
             %>
             <div class="quiz-box">
-                <a href="mailPage?mail_id=<%= mail.getMail_id() %>"><%=mail.getMail_subject()%></a>
+                <a href="openMail?mailId=<%= mail.getMail_id() %>"><%=mail.getMail_Subject()%></a>
                 <a href="profilePage?profile_id=<%= mail.getSender_id() %>"><%= "Sent by: " + cur.getUserName() %></a>
             </div>
             <%}%>

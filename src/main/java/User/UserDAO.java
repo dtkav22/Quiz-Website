@@ -440,27 +440,6 @@ public class UserDAO {
         return result;
     }
 
-    public Mail getMail(String mail_id) throws SQLException {
-        System.out.println("Getting mail");
-        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT * FROM mails_table WHERE mail_id = " + mail_id;
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        if(rs.next()){
-            String mail_text = rs.getString("mail_text");
-            Date send_date = rs.getDate("send_date");
-            String sender_id = rs.getString("sender_id");
-            String receiver_id = rs.getString("receiver_id");
-            String mail_subject = rs.getString("mail_subject");
-            Mail newMail = new Mail(mail_subject, mail_id, mail_text, send_date, sender_id, receiver_id);
-            DataBaseConnectionPool.getInstance().closeConnection(conn);
-            return newMail;
-        } else {
-            DataBaseConnectionPool.getInstance().closeConnection(conn);
-        }
-        return null;
-    }
-
     public ArrayList<Performance> getFriendsPerformances(String user_id, int size) throws SQLException {
         System.out.println("Getting friends performances");
         String query = "SELECT * FROM performances_table " +
