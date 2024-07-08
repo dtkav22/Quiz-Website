@@ -17,7 +17,7 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit" id="register_button2" class="register_button2">Register</button>
+            <button type="button" id="register_button2" class="register_button2">Register</button>
         </form>
         <div id="error"></div>
     </div>
