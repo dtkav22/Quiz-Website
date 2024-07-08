@@ -11,6 +11,7 @@
 <html>
 <head>
     <title>Quiz Page</title>
+    <link rel="stylesheet" href="../quizPage/styles.css">
 </head>
 <body>
 <form action="../quizPage" method="post">

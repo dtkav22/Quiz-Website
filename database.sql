@@ -150,7 +150,8 @@ INSERT into tasks_table (task_type, quiz_id)
 VALUES (0, 1),
        (1, 1),
        (2, 1),
-       (0, 1);
+       (0, 1),
+       (0, 2);
 
 -- questions table
 
@@ -166,7 +167,8 @@ INSERT INTO questions_table(task_id, question_text, image)
 VALUES(1, 'Who was the first president of Geeorgia?', NULL),
       (4, 'What year was john f kennedy assassinated?', NULL),
       (2, '______ is a fictional detective created by Arthur Conan Doyle.', NULL),
-      (3, 'In which year did America gain independence from Britain?', NULL);
+      (3, 'In which year did America gain independence from Britain?', NULL),
+      (5, 'test', NULL);
 
 -- answers table
 
@@ -186,11 +188,9 @@ VALUES(1, 'Zviad Gamsaxurdia', 1, 0),
       (4, '1774', 0, 0),
       (4, '1776', 1, 0),
       (4, '1789', 0, 0),
-      (4, '1821', 0, 0);
+      (4, '1821', 0, 0),
+      (5, 'test', 1, 0);
 
 -- selects
-
-select * from performances_table;
-
 
 
