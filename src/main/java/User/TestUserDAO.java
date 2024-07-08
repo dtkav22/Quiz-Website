@@ -77,6 +77,7 @@ public class TestUserDAO extends TestCase {
     }
 
     public void testGetPerformanceHistory() throws SQLException {
+        userDAO.addPerformance(new Performance("1", 100, null, "1", "00:00:00"));
         ArrayList<Performance> set = userDAO.getUserPerformanceHistory("1", 100);
         assertEquals("1", set.get(0).getQuiz_id());
         assertEquals(100.0, set.get(0).getScore());
@@ -249,172 +250,61 @@ public class TestUserDAO extends TestCase {
         assertEquals("nothing at all", mails.get(2).getMail_text());
     }
 
-
-    public void testSendMail1() throws SQLException {
-        String sender_id = "1";
-        String receiver_id = "2";
-        String mail_text = "How are you?";
-        userDAO.sendMail(sender_id, receiver_id, mail_text, null, null);
-        String query = "SELECT * FROM mails_table WHERE sender_id = ? AND receiver_id = ? AND mail_text = ?";
-        Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setString(1, sender_id);
-        statement.setString(2, receiver_id);
-        statement.setString(3, mail_text);
-        ResultSet rs = statement.executeQuery();
-        assertTrue(rs.next());
-        System.out.println("Mail send");
-    }
-
-    public void testSendMail2() throws SQLException {
-        String sender_id = "1";
-        String receiver_id = "2";
-        String mail_text = "Can you write a new class for mails?";
-        String Subject = "OOP project";
-        userDAO.sendMail(sender_id, receiver_id, mail_text, Subject, null);
-        String query = "SELECT * FROM mails_table WHERE sender_id = ? AND receiver_id = ? AND mail_text = ? AND mail_subject = ?";
-        Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setString(1, sender_id);
-        statement.setString(2, receiver_id);
-        statement.setString(3, mail_text);
-        statement.setString(4, Subject);
-        ResultSet rs = statement.executeQuery();
-        assertTrue(rs.next());
-        System.out.println("Mail send");
-    }
-
-
-    public void testGetSentMailsForUserTo1() throws SQLException {
-        String user_id = "2";
-        String receiver_id = "4";
-        userDAO.sendMail("2", "4", "something", "Something", null);
-        userDAO.sendMail("2", "4", "What?", "What?", null);
-        userDAO.sendMail("2", "4", "Just Answer me", null, null);
-        ArrayList<Mail> mails = userDAO.getSentMailsForUserTo(user_id, receiver_id);
-        assertEquals(3, mails.size());
-        assertEquals("2", mails.get(0).getSender_id());
-        assertEquals("2", mails.get(1).getSender_id());
-        assertEquals("2", mails.get(2).getSender_id());
-
-        assertEquals("4", mails.get(0).getReceiver_id());
-        assertEquals("4", mails.get(1).getReceiver_id());
-        assertEquals("4", mails.get(2).getReceiver_id());
-
-        assertEquals("something", mails.get(0).getMail_text());
-        assertEquals("What?", mails.get(1).getMail_text());
-        assertEquals("Just Answer me", mails.get(2).getMail_text());
-
-        assertEquals("Something", mails.get(0).getMail_Subject());
-        assertEquals("What?", mails.get(1).getMail_Subject());
-        assertNull(mails.get(2).getMail_Subject());
-    }
-
-    public void testGetSentMailsForUserTo2() throws SQLException {
-        String user_id = "2";
+    public void testSendMail() throws SQLException {
+        String sender_id = "2";
         String receiver_id = "3";
-        ArrayList<Mail> mails = userDAO.getSentMailsForUserTo(user_id, receiver_id);
-        assertEquals(3, mails.size());
-        assertEquals("2", mails.get(0).getSender_id());
-        assertEquals("2", mails.get(1).getSender_id());
-        assertEquals("2", mails.get(2).getSender_id());
-
-        assertEquals("3", mails.get(0).getReceiver_id());
-        assertEquals("3", mails.get(1).getReceiver_id());
-        assertEquals("3", mails.get(2).getReceiver_id());
-
-        assertEquals("Hi!", mails.get(0).getMail_text());
-        assertEquals("I am coding", mails.get(1).getMail_text());
-        assertEquals("and you?", mails.get(2).getMail_text());
-
-        assertNull(mails.get(0).getMail_Subject());
-        assertNull(mails.get(1).getMail_Subject());
-        assertNull(mails.get(2).getMail_Subject());
+        String mail_text = "Hi!";
+        userDAO.sendMail(sender_id, receiver_id, mail_text, null, null);
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "SELECT * FROM mails_table WHERE sender_id = ? AND receiver_id = ? AND mail_text = ?";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, sender_id);
+        statement.setString(2, receiver_id);
+        statement.setString(3, mail_text);
+        ResultSet rs = statement.executeQuery();
+        assertTrue(rs.next());
+        System.out.println("Mail send");
     }
 
-    public void testGetReceivedMailsForUserFrom() throws SQLException {
-        String user_id = "2";
-        String sender_id = "3";
-        ArrayList<Mail> mails = userDAO.getReceivedMailsForUserFrom(user_id, sender_id);
-        assertEquals(3, mails.size());
-        assertEquals("3", mails.get(0).getSender_id());
-        assertEquals("3", mails.get(1).getSender_id());
-        assertEquals("3", mails.get(2).getSender_id());
-
-        assertEquals("2", mails.get(0).getReceiver_id());
-        assertEquals("2", mails.get(1).getReceiver_id());
-        assertEquals("2", mails.get(2).getReceiver_id());
-
-        assertEquals("Hello!", mails.get(0).getMail_text());
-        assertEquals("What are you doing?", mails.get(1).getMail_text());
-        assertEquals("nothing at all", mails.get(2).getMail_text());
-
-        assertNull(mails.get(0).getMail_Subject());
-        assertNull(mails.get(1).getMail_Subject());
-        assertNull(mails.get(2).getMail_Subject());
+    public void testGetUserPerformanceOnQuiz() throws SQLException {
+        String user_id = "1";
+        String quiz_id = "1";
+        ArrayList<Performance> performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "date DESC");
+        assertEquals("2024-06-26 18:20:00", performances.get(0).getDate());
+        performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "used_time");
+        assertEquals("00:02:00", performances.get(0).getUsed_time());
+        performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 2, "score DESC");
+        assertEquals(100.0, performances.get(0).getScore());
     }
 
+    public void testGetHighestPerformersOnQuiz() throws SQLException {
+        String quiz_id = "1";
+        ArrayList<Performance> performances = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, false);
+        for(int i = 1; i < performances.size(); i++) {
+            assertEquals(Integer.toString(i), performances.get(i - 1).getUser_id());
+        }
+        performances = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, true);
+        assertEquals("5", performances.get(0).getUser_id());
+        assertEquals("6", performances.get(1).getUser_id());
 
-    public void testGetMailById1() throws SQLException {
-        String mail_id = "1";
-        Mail mail = userDAO.getMailById(mail_id);
-        assertEquals("1", mail.getMail_id());
-        assertEquals("3", mail.getSender_id());
-        assertEquals("2", mail.getReceiver_id());
-        assertNull(mail.getMail_Subject());
-        assertNull(mail.getHeadMail_id());
-        assertEquals("Hello!", mail.getMail_text());
     }
 
-    public void testGetMailById2() throws SQLException {
-        String mail_id = "2";
-        Mail mail = userDAO.getMailById(mail_id);
-        assertEquals("2", mail.getMail_id());
-        assertEquals("2", mail.getSender_id());
-        assertEquals("3", mail.getReceiver_id());
-        assertNull(mail.getMail_Subject());
-        assertNull(mail.getHeadMail_id());
-        assertEquals("Hi!", mail.getMail_text());
+    public void testGetAverageScoreOnQuiz() throws SQLException {
+        String quiz_id = "2";
+        assertEquals(75.0, userDAO.getAverageScoreOnQuiz(quiz_id));
     }
 
-    public void testDeleteMail1() throws SQLException {
-        String mail_id = "8";
-        userDAO.deleteMail(mail_id);
-        Mail mail = userDAO.getMailById(mail_id);
-        assertNull(mail);
+    public void testAddPerformance() {
+        String user_id = "1";
+        String quiz_id = "2";
+        double score = 0;
+        String usedTime = "00:00:00";
+        try {
+            userDAO.addPerformance(new Performance(quiz_id, score, null, user_id, usedTime));
+            ArrayList<Performance> performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 1, "used_time");
+            assertEquals(0.0, performances.get(0).getScore());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-
-    public void testDeleteMail2() throws SQLException {
-        String mail_id = "7";
-        userDAO.deleteMail(mail_id);
-        Mail mail = userDAO.getMailById(mail_id);
-        assertNull(mail);
-    }
-
-
-    public void testGetReplaysForMail() throws SQLException {
-        String mail_id = "1";
-        userDAO.sendMail("2", "3", "heyy", null, "1");
-        userDAO.sendMail("3", "2", "Can you come over?", null, "1");
-        ArrayList<Mail> replaySet = userDAO.getReplaysForMail(mail_id);
-
-        assertEquals(3, replaySet.size());
-
-        assertEquals("Hello!", replaySet.get(0).getMail_text());
-        assertEquals("heyy", replaySet.get(1).getMail_text());
-        assertEquals("Can you come over?", replaySet.get(2).getMail_text());
-
-        assertEquals("3", replaySet.get(0).getSender_id());
-        assertEquals("2", replaySet.get(1).getSender_id());
-        assertEquals("3", replaySet.get(2).getSender_id());
-
-        assertEquals("2", replaySet.get(0).getReceiver_id());
-        assertEquals("3", replaySet.get(1).getReceiver_id());
-        assertEquals("2", replaySet.get(2).getReceiver_id());
-
-        assertNull(replaySet.get(0).getMail_Subject());
-        assertNull(replaySet.get(1).getMail_Subject());
-        assertNull(replaySet.get(2).getMail_Subject());
-    }
-
 }

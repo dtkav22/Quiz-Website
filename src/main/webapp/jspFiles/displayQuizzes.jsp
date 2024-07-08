@@ -5,9 +5,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%
-    String type = (String) session.getAttribute("type");
+    String type = (String) request.getAttribute("type");
     final int MAX_QUIZZES = 20;
-    String id = (String) session.getAttribute("userId");
+    String id = (String) request.getAttribute("profile_id");
+    String owner = (id.equals((String)session.getAttribute("userId")) ? "Your" : "User's");
     QuizDAO dao = new QuizDAO();
     UserDAO userDao = new UserDAO();
     ArrayList<String> quizzes = null;
@@ -20,7 +21,7 @@
         header = "Popular Quizzes";
     } else if(type.equals("yours")) {
         quizzes = dao.getUserQuizzes(id, MAX_QUIZZES);
-        header = "Your Quizzes";
+        header = owner + " Quizzes";
     } else {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid type parameter");
     }
@@ -39,7 +40,7 @@
                 Quiz cur = dao.getQuiz(quiz_id);
         %>
         <div class="quiz-box">
-            <a href="quizPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
+            <a href="QuizSummaryPage?quiz_id=<%= quiz_id %>"><%= cur.getQuizName() %></a>
             <b>Creation Date: <%=cur.getCreationDate()%></b>
         </div>
         <%}%>
@@ -47,9 +48,10 @@
 
     <div class="button-container">
         <form action="UserHomePage" method="get">
-            <button type="submit" class="go-back">Go Back</button>
+            <button type="submit" class="go-back">Go to Home Page</button>
         </form>
     </div>
+
 </div>
 </body>
 </html>

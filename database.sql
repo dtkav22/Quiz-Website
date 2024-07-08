@@ -45,14 +45,13 @@ CREATE TABLE mails_table(
                             FOREIGN KEY (receiver_id) REFERENCES users_table(user_id)
 );
 
-INSERT INTO mails_table (mail_text, sender_id, receiver_id)
-VALUES ('Hello!', 3, 2),
-       ('Hi!', 2, 3),
-       ('What are you doing?', 3, 2),
-       ('I am coding', 2, 3),
-       ('and you?', 2, 3),
-       ('nothing at all', 3, 2);
-
+INSERT INTO mails_table (mail_subject, mail_text, sender_id, receiver_id)
+VALUES ('j', 'Hello!', 3, 2),
+       ('j', 'Hi!', 2, 3),
+       ('j', 'What are you doing?', 3, 2),
+       ('j', 'I am coding', 2, 3),
+       ('j', 'and you?', 2, 3),
+       ('j', 'nothing at all', 3, 2);
 
 -- relations table
 
@@ -76,7 +75,7 @@ CREATE TABLE quizzes_table (
                                author_id INT NOT NULL,
                                quiz_name VARCHAR(30) NOT NULL,
                                author_description TEXT DEFAULT (NULL),
-                               creation_date DATE DEFAULT(CURRENT_DATE),
+                               creation_date DATE DEFAULT(NOW()),
                                randomize_tasks BIT NOT NULL,
                                multiple_page BIT NOT NULL,
                                PRIMARY KEY (quiz_id),
@@ -106,15 +105,43 @@ VALUES (1,3,2),
 -- performance table
 
 CREATE TABLE performances_table(
-                                   user_id INT NOT NULL ,
-                                   quiz_id INT NOT NULL ,
-                                   score DOUBLE NOT NULL,
-                                   date DATETIME NOT NULL,
-                                   FOREIGN KEY (user_id) REFERENCES users_table(user_id),
-                                   FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
+    user_id INT NOT NULL ,
+    quiz_id INT NOT NULL ,
+    score DOUBLE NOT NULL,
+    date DATETIME DEFAULT (NOW()),
+    used_time VARCHAR(10) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users_table(user_id),
+    FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
 );
-INSERT INTO performances_table (user_id, quiz_id, score, date)
-VALUES (1, 1, 100, '2024-06-26 17:20');
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (1, 1, 100, '2024-06-26 17:20', '00:02:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (2, 1, 100, '2024-06-26 17:20', '00:02:01');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (1, 1, 90.5, '2024-06-26 18:20', '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (2, 1, 99.5, '2024-06-26 18:20', '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (3, 1, 99, '2024-06-26 18:20', '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (4, 1, 80, '2024-06-26 18:20', '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (5, 1, 80, CURRENT_DATE, '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (6, 1, 70,  DATE_ADD(CURRENT_DATE, INTERVAL -1 DAY), '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (1, 2, 80, '2024-06-26 18:20', '00:03:00');
+
+INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
+VALUES (2, 2, 70, '2024-06-26 18:20', '00:03:00');
 
 -- tasks table
 
@@ -129,7 +156,8 @@ INSERT into tasks_table (task_type, quiz_id)
 VALUES (0, 1),
        (1, 1),
        (2, 1),
-       (0, 1);
+       (0, 1),
+       (0, 2);
 
 -- questions table
 
@@ -145,7 +173,8 @@ INSERT INTO questions_table(task_id, question_text, image)
 VALUES(1, 'Who was the first president of Geeorgia?', NULL),
       (4, 'What year was john f kennedy assassinated?', NULL),
       (2, '______ is a fictional detective created by Arthur Conan Doyle.', NULL),
-      (3, 'In which year did America gain independence from Britain?', NULL);
+      (3, 'In which year did America gain independence from Britain?', NULL),
+      (5, 'test', NULL);
 
 -- answers table
 
@@ -161,18 +190,13 @@ CREATE TABLE answers_table (
 INSERT INTO answers_table(question_id, answer_text, isCorrect, answer_order)
 VALUES(1, 'Zviad Gamsaxurdia', 1, 0),
       (2, '1963', 1, 0),
-      (3, 'Sherlock Holmes // Sherlock // Holmes', 1, 0),
+      (3, 'Sherlock Holmes//Sherlock//Holmes', 1, 0),
       (4, '1774', 0, 0),
       (4, '1776', 1, 0),
       (4, '1789', 0, 0),
-      (4, '1821', 0, 0);
+      (4, '1821', 0, 0),
+      (5, 'test', 1, 0);
 
 -- selects
-
-select * from quizzes_table;
-select * from users_table;
-select * from relations_table;
-select * from mails_table;
-
 
 

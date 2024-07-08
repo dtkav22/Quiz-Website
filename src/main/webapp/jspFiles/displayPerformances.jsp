@@ -3,40 +3,55 @@
 <%@ page import="User.UserDAO" %>
 <%@ page import="Quiz.Quiz" %>
 <%@ page import="User.Performance" %>
+<%@ page import="User.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%
-    String type = (String) session.getAttribute("type");
+    String type = (String) request.getAttribute("type");
     final int MAX_QUIZZES = 50;
-    String id = (String) session.getAttribute("userId");
+    String id = (String) request.getAttribute("profile_id");
+    String owner = (id.equals((String)session.getAttribute("userId")) ? "Your" : "User's");
     QuizDAO dao = new QuizDAO();
     UserDAO userDao = new UserDAO();
-    ArrayList<Performance> performances = userDao.getUserPerformanceHistory(id, MAX_QUIZZES);
+    ArrayList<Performance> performances = null;
+    String header = null;
+    if(type.equals("friends")) {
+        performances = userDao.getFriendsPerformances(id, MAX_QUIZZES);
+        header = "Friends Performance History";
+    } else {
+        header = owner + " Performance History";
+        performances = userDao.getUserPerformanceHistory(id, MAX_QUIZZES);
+    }
 %>
 <head>
-    <title>Your Performance History</title>
+    <title><%=header%></title>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
 </head>
 <body>
-<header>Your Performance History</header>
+<header><%=header%></header>
 <div class="container">
     <h1>Your Dashboard</h1>
     <div class="section">
         <%
             for (Performance performance : performances) {
                 Quiz cur = dao.getQuiz(performance.getQuiz_id());
+                User user = userDao.getUser(performance.getUser_id());
         %>
         <div class="quiz-box">
             <a href="quizPage?quiz_id=<%= performance.getQuiz_id() %>"><%= cur.getQuizName() %></a>
             <b>Score: <%= performance.getScore() %></b>
             <b>Date: <%= performance.getDate() %></b>
+            <%
+                if(type.equals("friends")) {
+            %>
+            <a href="profilePage?profile_id=<%= performance.getUser_id() %>"><%= user.getUserName() %>
         </div>
-        <%}%>
+        <%}}%>
     </div>
 
     <div class="button-container">
         <form action="UserHomePage" method="get">
-            <button type="submit" class="go-back">Go Back</button>
+            <button type="submit" class="go-back">Go to Home Page</button>
         </form>
     </div>
 </div>

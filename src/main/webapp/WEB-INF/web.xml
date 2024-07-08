@@ -2,7 +2,10 @@
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-<web-app>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
   <display-name>Archetype Created Web Application</display-name>
 
   <filter>
@@ -43,16 +46,60 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>MyFilter</filter-name>
+    <servlet-name>DisplayRequests</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>DisplayQuizzes</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
     <servlet-name>QuizPage</servlet-name>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>ProfilePage</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>FriendsList</servlet-name>
+  </filter-mapping>
 
+  <listener>
+    <listener-class>WebSockets.FriendsContextListener</listener-class>
+  </listener>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>QuizSummaryPage</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>SubmitQuizPage</servlet-name>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>SubmitQuizPage</servlet-name>
+    <servlet-class>Servlets.Quiz.QuizPage.SubmitQuiz</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PerformancesHandler</servlet-name>
+    <servlet-class>Servlets.Quiz.QuizPage.PerformancesHandler</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuizSummaryPage</servlet-name>
+    <jsp-file>/jspFiles/QuizSummaryPage.jsp</jsp-file>
+  </servlet>
   <servlet>
     <servlet-name>QuizPage</servlet-name>
     <servlet-class>Servlets.Quiz.QuizPage.QuizPage</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>DisplayRequests</servlet-name>
+    <servlet-class>Servlets.UserHomePage.DisplayRequests</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>DisplayQuizzes</servlet-name>
-    <servlet-class>Servlets.Quiz.QuizPage.DisplayQuizzes</servlet-class>
+    <servlet-class>Servlets.UserHomePage.DisplayQuizzes</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UserHomePage</servlet-name>
@@ -74,7 +121,39 @@
     <servlet-name>Register</servlet-name>
     <servlet-class>Servlets.welcome.RegisterServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ProfilePage</servlet-name>
+    <servlet-class>Servlets.UserHomePage.ProfilePage</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FriendsList</servlet-name>
+    <servlet-class>Servlets.UserHomePage.FriendsList</servlet-class>
+  </servlet>
 
+  <servlet-mapping>
+    <servlet-name>SubmitQuizPage</servlet-name>
+    <url-pattern>/SubmitQuiz</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PerformancesHandler</servlet-name>
+    <url-pattern>/PerformancesHandler</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuizSummaryPage</servlet-name>
+    <url-pattern>/QuizSummaryPage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FriendsList</servlet-name>
+    <url-pattern>/friendsList</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProfilePage</servlet-name>
+    <url-pattern>/profilePage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DisplayRequests</servlet-name>
+    <url-pattern>/displayRequests</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DisplayQuizzes</servlet-name>
     <url-pattern>/displayQuizzes</url-pattern>

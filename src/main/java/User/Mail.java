@@ -4,11 +4,12 @@ import java.sql.Date;
 import java.sql.Time;
 
 public class Mail {
+    private String mail_subject;
+    private String mail_id;
     private String mail_text;
     private Date send_date;
     private String sender_id;
     private String receiver_id;
-    private String mail_id;
     private String subject;
     private Time send_time;
     private String headMail_id;
@@ -46,6 +47,7 @@ public class Mail {
     }
 
     public String getMail_id(){ return mail_id; }
+
     public String getHeadMail_id(){
         return headMail_id;
     }
