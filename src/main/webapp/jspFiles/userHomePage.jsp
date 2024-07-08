@@ -179,7 +179,14 @@
             <button type="submit" class="logout">Logout</button>
         </form>
 
+        <form action="sendMessage" method="get">
+            <button type="submit" class="mail">New Message</button>
+        </form>
+        <form action="inbox" method="get">
+            <button type="submit" class="inbox">Go to Inbox</button>
+        </form>
     </div>
+
 </div>
 </body>
 </html>

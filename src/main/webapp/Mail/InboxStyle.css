@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Wrapper styles */
+#wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+/* Content styles */
+#content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Heading styles */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+/* Mail list styles */
+.mail-list {
+    margin-bottom: 20px;
+}
+
+.mail-item {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.mail-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mail-item p {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.mail-item p strong {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Button container styles */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* Button styles */
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    outline: none;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Specific button styles */
+.newMessage {
+    background-color: #28a745;
+}
+
+.homepage {
+    background-color: #ffc107;
+    color: #333;
+}
+
+/* Form styles */
+form {
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin: 20px auto;
+}
+
+/* Label styles */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Input styles */
+input[type="text"] {
+    width: calc(100% - 110px); /* Adjust width based on button width */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px; /* Rounded corners on the left side */
+}
+
+/* Submit button styles */
+button.search {
+    width: 100px; /* Fixed width */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 0 4px 4px 0; /* Rounded corners on the right side */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.search:hover {
+    background-color: #45a049;
+}

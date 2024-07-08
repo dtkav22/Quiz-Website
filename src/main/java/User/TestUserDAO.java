@@ -1,6 +1,7 @@
 package User;
 
 import DataBaseConnectionPool.DataBaseConnectionPool;
+import Quiz.QuizTask;
 import junit.framework.TestCase;
 
 import java.sql.Connection;
@@ -253,8 +254,7 @@ public class TestUserDAO extends TestCase {
         String sender_id = "2";
         String receiver_id = "3";
         String mail_text = "Hi!";
-        String subject = "g";
-        userDAO.sendMail(sender_id, receiver_id, mail_text, subject);
+        userDAO.sendMail(sender_id, receiver_id, mail_text, null, null);
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM mails_table WHERE sender_id = ? AND receiver_id = ? AND mail_text = ?";
         PreparedStatement statement = con.prepareStatement(query);

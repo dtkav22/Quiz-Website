@@ -32,12 +32,15 @@ VALUES ('duta', 'tkavadzedimitri@gmail.com', '798fa27c4d4fb5b1158a1d5f2339edc0a2
 
 CREATE TABLE mails_table(
                             mail_id INT AUTO_INCREMENT,
-                            mail_subject VARCHAR(20),
+                            mail_subject TEXT DEFAULT (NULL),
                             mail_text TEXT DEFAULT(NULL),
                             send_date DATE DEFAULT (CURRENT_DATE),
+                            send_time TIME DEFAULT (CURRENT_TIME),
                             sender_id INT NOT NULL,
                             receiver_id INT NOT NULL,
-                            PRIMARY KEY(mail_id),
+                            headMail_id INT DEFAULT(NULL),
+                            PRIMARY KEY (mail_id),
+                            FOREIGN KEY (headMail_id) REFERENCES mails_table(mail_id),
                             FOREIGN KEY (sender_id) REFERENCES users_table(user_id),
                             FOREIGN KEY (receiver_id) REFERENCES users_table(user_id)
 );

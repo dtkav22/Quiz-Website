@@ -22,6 +22,7 @@ public class LoginServlet extends HttpServlet {
         UserDAO dao = new UserDAO();
         try {
             String id = dao.getUserId(username);
+            System.out.println(id);
             if(id == null) {
                 JsonObject jsonResponse = new JsonObject();
                 jsonResponse.addProperty("error", "User not found");
@@ -38,6 +39,8 @@ public class LoginServlet extends HttpServlet {
                     response.getWriter().write(jsonResponse.toString());
                     HttpSession session = request.getSession();
                     session.setAttribute("userId", id);
+                    System.out.println(id);
+                    System.out.println(session.getAttribute("userId"));
                 }
             }
         } catch (SQLException e) {
