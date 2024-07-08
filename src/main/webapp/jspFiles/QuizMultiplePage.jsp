@@ -21,7 +21,7 @@
         int i = Integer.parseInt(index);
         QuizTask quizTask = tasks.get(i);
     %>
-    <form action="../quizPage" method="post">
+    <form action="../quizPage" method="post" class = "wrapper">
         <%
             ArrayList<String> values = (ArrayList<String>) session.getAttribute("values");
             String value = "";

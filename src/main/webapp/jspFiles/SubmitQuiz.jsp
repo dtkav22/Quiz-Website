@@ -9,25 +9,28 @@
 <html>
 <head>
     <title>Submit Quiz</title>
+    <link rel="stylesheet" href="../quizPage/styles.css">
 </head>
 <body>
-    <ol>
-        <%
-            ArrayList<String> values = (ArrayList<String>) session.getAttribute("values");
-            for(String value : values) {
-                out.println("<li>");
-                if(value.isEmpty()) {
-                    out.println("Not Answered");
-                } else {
-                    out.println("Answer Saved");
+    <div class = "wrapper">
+        <ol>
+            <%
+                ArrayList<String> values = (ArrayList<String>) session.getAttribute("values");
+                for(String value : values) {
+                    out.println("<li>");
+                    if(value.isEmpty()) {
+                        out.println("Not Answered");
+                    } else {
+                        out.println("Answer Saved");
+                    }
+                    out.println("</li>");
                 }
-                out.println("</li>");
-            }
-        %>
-    </ol>
-  <form action="../SubmitQuiz" method="post">
-      <input type="submit" value="Submit Quiz">
-      <input type="hidden" name="quiz_id" value="<%=request.getParameter("quiz_id")%>">
-  </form>
+            %>
+        </ol>
+        <form action="../SubmitQuiz" method="post">
+            <input type="submit" value="Submit Quiz">
+            <input type="hidden" name="quiz_id" value="<%=request.getParameter("quiz_id")%>">
+        </form>
+    </div>
 </body>
 </html>

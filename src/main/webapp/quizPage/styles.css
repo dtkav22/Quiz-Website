@@ -8,7 +8,7 @@ body {
     justify-content: center; /*center y axis*/
 }
 
-form {
+.wrapper {
     background-color: white;
     border-radius: 6px;
     box-shadow: 5px 10px;
