@@ -23,8 +23,11 @@ public class QuizDAO {
         stm.setString(1, quiz_id);
         ResultSet res = stm.executeQuery();
         if(res.next()) {
-            return res.getString(1);
+            String ans = res.getString(1);
+            DataBaseConnectionPool.getInstance().closeConnection(con);
+            return ans;
         } else {
+            DataBaseConnectionPool.getInstance().closeConnection(con);
             return null;
         }
     }
@@ -105,6 +108,8 @@ public class QuizDAO {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            DataBaseConnectionPool.getInstance().closeConnection(con);
         }
     }
 

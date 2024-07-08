@@ -39,18 +39,18 @@ public class UserDAO {
      public User getUser(String id) throws SQLException {
         System.out.println("Getting user");
         String query = "SELECT * FROM users_table WHERE user_id = ?";
-        try (Connection con = DataBaseConnectionPool.getInstance().getConnection();
-             PreparedStatement stm = con.prepareStatement(query)) {
-            stm.setString(1, id);
-            try (ResultSet set = stm.executeQuery()) {
-                if (set.next()) {
-                    String username = set.getString("username");
-                    String password = set.getString("password");
-                    String email = set.getString("email");
-                    return new User(username, password, email, true);
-                }
-            }
-        } // try-with-resources will auto close Connection and PreparedStatement
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, id);
+        ResultSet set = stm.executeQuery();
+        if (set.next()) {
+            String username = set.getString("username");
+            String password = set.getString("password");
+            String email = set.getString("email");
+            DataBaseConnectionPool.getInstance().closeConnection(con);
+            return new User(username, password, email, true);
+        }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return null;
     }
 
@@ -251,7 +251,6 @@ public class UserDAO {
             statement.setString(1, sender_id);
             statement.setString(2, reciever_id);
             statement.executeUpdate();
-            DataBaseConnectionPool.getInstance().closeConnection(conn);
             DataBaseConnectionPool.getInstance().closeConnection(conn);
         }
     }
