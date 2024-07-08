@@ -103,9 +103,11 @@ public class UserDAO {
 
     public ArrayList<Performance> getHighestPerformersOnQuiz(String quiz_id, int size, boolean last_day) throws SQLException {
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
-        String query = "SELECT user_id, MAX(score), (SELECT MAX(spt.date) FROM performances_table spt Where spt.user_id = pt.user_id AND spt.score = MAX(pt.score) AND spt.quiz_id = pt.quiz_id GROUP BY user_id)  FROM performances_table pt WHERE pt.quiz_id = ? AND DATE(DATE_ADD(pt.date, INTERVAL 1 DAY)) >= DATE(CURRENT_DATE) GROUP BY pt.user_id ORDER BY MAX(pt.score) DESC";
+        String subQueryDate = "(SELECT MAX(spt.date) FROM performances_table spt Where spt.user_id = pt.user_id AND spt.score = MAX(pt.score) AND spt.quiz_id = pt.quiz_id GROUP BY spt.user_id)";
+        String subQueryUsedTime = "(SELECT MIN(spt.used_time) FROM performances_table spt WHERE spt.user_id = pt.user_id AND spt.score = MAX(pt.score) AND spt.quiz_id = pt.quiz_id GROUP BY spt.user_id) AS USED_TIME";
+        String query = "SELECT user_id, MAX(score), " + subQueryUsedTime + ", " + subQueryDate +  " FROM performances_table pt WHERE pt.quiz_id = ? AND DATE(DATE_ADD(pt.date, INTERVAL 1 DAY)) >= DATE(CURRENT_DATE) GROUP BY pt.user_id ORDER BY MAX(pt.score) DESC, USED_TIME ASC";
         if(!last_day) {
-            query = "SELECT user_id, MAX(score) FROM performances_table WHERE quiz_id = ? GROUP BY user_id ORDER BY MAX(score) DESC";
+            query = "SELECT user_id, MAX(score), " + subQueryUsedTime + " FROM performances_table pt WHERE quiz_id = ? GROUP BY user_id ORDER BY MAX(score) DESC, used_time ASC";
         }
         PreparedStatement statement = con.prepareStatement(query);
         statement.setString(1, quiz_id);
@@ -115,9 +117,10 @@ public class UserDAO {
             if(size == 0) break;
             double score = set.getDouble("MAX(score)");
             String user_id = set.getString("user_id");
+            String used_time = set.getString("used_time");
             String date = null;
-            if(last_day) date = set.getString(3);
-            result.add(new Performance(quiz_id, score, date, user_id, null));
+            if(last_day) date = set.getString(4);
+            result.add(new Performance(quiz_id, score, date, user_id, used_time));
             size--;
         }
         DataBaseConnectionPool.getInstance().closeConnection(con);

@@ -286,6 +286,7 @@ public class TestUserDAO extends TestCase {
         performances = userDAO.getHighestPerformersOnQuiz(quiz_id, 10, true);
         assertEquals("5", performances.get(0).getUser_id());
         assertEquals("6", performances.get(1).getUser_id());
+
     }
 
     public void testGetAverageScoreOnQuiz() throws SQLException {
