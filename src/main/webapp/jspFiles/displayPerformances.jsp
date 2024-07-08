@@ -38,15 +38,16 @@
                 User user = userDao.getUser(performance.getUser_id());
         %>
         <div class="quiz-box">
-            <a href="quizPage?quiz_id=<%= performance.getQuiz_id() %>"><%= cur.getQuizName() %></a>
+            <a href="QuizSummaryPage?quiz_id=<%= performance.getQuiz_id() %>"><%= cur.getQuizName() %></a>
             <b>Score: <%= performance.getScore() %></b>
             <b>Date: <%= performance.getDate() %></b>
             <%
                 if(type.equals("friends")) {
             %>
             <a href="profilePage?profile_id=<%= performance.getUser_id() %>"><%= user.getUserName() %>
+                <%}%>
         </div>
-        <%}}%>
+        <%}%>
     </div>
 
     <div class="button-container">

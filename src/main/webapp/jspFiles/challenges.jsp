@@ -34,7 +34,7 @@
                 String quiz_id = challenge.getQuiz_id();
         %>
         <div class="quiz-box" id=quiz-box-<%=box_id%>>
-            <a href="quizPage?quiz_id=<%= challenge.getQuiz_id() %>"><%= quiz.getQuizName() %></a>
+            <a href="QuizSummaryPage?quiz_id=<%= challenge.getQuiz_id() %>"><%= quiz.getQuizName() %></a>
             <a href="profilePage?profile_id=<%= challenge.getUser1_id() %>"><%= "Sent by: " + cur.getUserName() %></a>
             <form style="display:inline;">
                 <button type="button" class="accept" onclick="handleChallengeRequest(<%=box_id%>,'accept', <%=friend_id%>, <%=quiz_id%>)">Accept</button>
