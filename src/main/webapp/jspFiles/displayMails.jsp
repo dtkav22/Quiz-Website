@@ -51,13 +51,9 @@
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-                    session.setAttribute("replaySet", replays);
+
                     int numReplays;
-                    try {
-                        numReplays = dao.getReplaysForMail(mail.getMail_id()).size();
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    numReplays = replays.size();
                     if(numReplays>1) chat = numReplays +  " replays";
                     else{
                         chat = "";
