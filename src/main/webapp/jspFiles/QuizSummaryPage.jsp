@@ -57,8 +57,9 @@
                     for(Performance performance : performances) {
                         String user_name = userDAO.getUser(performance.getUser_id()).getUserName();
                         double score = performance.getScore();
+                        String used_time = performance.getUsed_time();
             %>
-            <li>User Name: <a href="/profilePage?profile_id=<%=userDAO.getUserId(user_name)%>"><%=user_name%></a>, User Score: <%=String.format("%.2f",score)%></li>
+            <li>User Name: <a href="profilePage?profile_id=<%=userDAO.getUserId(user_name)%>"><%=user_name%></a>, User Score: <%=String.format("%.2f",score)%>, Used Time: <%=used_time%></li>
             <%
                     }
                 } catch (SQLException e) {
@@ -75,8 +76,9 @@
                         String user_name = userDAO.getUser(performance.getUser_id()).getUserName();
                         double score = performance.getScore();
                         String date = performance.getDate();
+                        String used_time = performance.getUsed_time();
             %>
-            <li>User Name: <a href="/profilePage?profile_id=<%=userDAO.getUserId(user_name)%>"><%=user_name%></a>, User Score: <%=String.format("%.2f",score)%>, Date: <%=date%></li>
+            <li>User Name: <a href="profilePage?profile_id=<%=userDAO.getUserId(user_name)%>"><%=user_name%></a>, User Score: <%=String.format("%.2f",score)%>, Used Time: <%=used_time%>, Date: <%=date%></li>
             <%
                     }
                 } catch (SQLException e) {
