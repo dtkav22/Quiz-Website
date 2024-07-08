@@ -15,7 +15,12 @@ import java.util.Date;
 public class SubmitQuiz extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/jspFiles/SubmitQuiz.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        if(session.getAttribute("values") == null) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are not allowed to access this page.");
+        } else {
+            request.getRequestDispatcher("/jspFiles/SubmitQuiz.jsp").forward(request, response);
+        }
     }
     private String convert(long timeUsedInMs) {
         timeUsedInMs /= 1000;
