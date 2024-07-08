@@ -9,7 +9,7 @@ import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpointConfig;
 
 
-public class FriendsContextListener implements ServletContextListener {
+public class RequestContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -17,7 +17,7 @@ public class FriendsContextListener implements ServletContextListener {
         ServletContext sc = sce.getServletContext();
         ServerContainer container = (ServerContainer) sc.getAttribute("javax.websocket.server.ServerContainer");
         ServerEndpointConfig cfg = ServerEndpointConfig.Builder
-                .create(FriendsRequestWebSocket.class, "/friendRequestsSocket").build();
+                .create(RequestWebSocket.class, "/friendRequestsSocket").build();
         try {
             container.addEndpoint(cfg);
         } catch (DeploymentException e) {

@@ -14,7 +14,9 @@
 <html>
 <head>
     <title>QuizSummaryPage</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../quizPage/quizSummaryStyles.css">
+    <script src="../quizPage/script.js"></script>
 </head>
 <body>
     <%
@@ -98,6 +100,11 @@
             %>
             <%=String.format("%.2f", avg)%>
         </p>
+
+        <input type="hidden" id="quizCurId" value="<%=quiz_id%>">
+        <input type="text" id="fusername" name="fusername">
+        <button type="button" onclick="challengeUser()">Challenge User</button>
+
         <form method = 'POST' action="../quizPage">
             <input type="hidden" name="quiz_id" value="<%=quiz_id%>">
             <input type="submit" value="Start Quiz">

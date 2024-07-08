@@ -1,5 +1,8 @@
 package WebSockets;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import javax.servlet.http.HttpSession;
 import javax.websocket.CloseReason;
 import javax.websocket.Endpoint;
@@ -12,8 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ServerEndpoint(value = "/your-websocket-endpoint", configurator = HttpSessionConfigurator.class)
-public class FriendsRequestWebSocket extends Endpoint {
+public class RequestWebSocket extends Endpoint {
     private static final Map<String, Session> sessions = Collections.synchronizedMap(new HashMap<>());
+    private static final Gson gson = new Gson();
 
     @Override
     public void onOpen(Session session, EndpointConfig config) {
@@ -55,7 +59,21 @@ public class FriendsRequestWebSocket extends Endpoint {
     public static void sendFriendRequest(String friendId, String myId) throws IOException {
         Session session = sessions.get(friendId);
         if (session != null && session.isOpen()) {
-            session.getBasicRemote().sendText(myId);
+            JsonObject message = new JsonObject();
+            message.addProperty("type", "friendRequest");
+            message.addProperty("from", myId);
+            session.getBasicRemote().sendText(gson.toJson(message));
+        } else {
+            System.out.println("Session is not open for user: " + friendId);
+        }
+    }
+
+    public static void sendChallengeRequest(String friendId) throws IOException {
+        Session session = sessions.get(friendId);
+        if (session != null && session.isOpen()) {
+            JsonObject message = new JsonObject();
+            message.addProperty("type", "challengeRequest");
+            session.getBasicRemote().sendText(gson.toJson(message));
         } else {
             System.out.println("Session is not open for user: " + friendId);
         }

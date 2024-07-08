@@ -66,7 +66,7 @@
   </filter-mapping>
 
   <listener>
-    <listener-class>WebSockets.FriendsContextListener</listener-class>
+    <listener-class>WebSockets.RequestContextListener</listener-class>
   </listener>
   <filter-mapping>
     <filter-name>MyFilter</filter-name>

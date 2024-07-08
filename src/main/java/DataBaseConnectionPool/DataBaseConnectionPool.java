@@ -38,6 +38,7 @@ public class DataBaseConnectionPool {
     }
 
     public Connection getConnection() {
+        System.out.println("Pool size: " + blockingQueue.size());
         Connection res = null;
         try {
             res = blockingQueue.take();

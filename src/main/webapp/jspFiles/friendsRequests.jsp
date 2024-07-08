@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../user/script.js"></script>
-    <script src="../user/friendsSocket.js"></script>
+    <script src="../user/Socket.js"></script>
     <script>
         function getFriendRequests(sender_id) {
             window.location.reload(true);

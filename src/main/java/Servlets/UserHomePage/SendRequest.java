@@ -1,7 +1,7 @@
 package Servlets.UserHomePage;
 
 import User.UserDAO;
-import WebSockets.FriendsRequestWebSocket;
+import WebSockets.RequestWebSocket;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,15 +23,24 @@ public class SendRequest extends HttpServlet {
             if ("friend".equals(type)) {
                 System.out.println("Request added in db");
                 dao.sendFriendRequest(userId, friendId);
+                RequestWebSocket.sendFriendRequest(friendId, userId);
             } else if ("challenge".equals(type)) {
                 String quizId = request.getParameter("quiz_id");
-                dao.sendChallenge(userId, friendId, quizId);
+                System.out.println("Ideas are:" + userId + friendId + quizId);
+                if(dao.areFriends(userId, friendId)) {
+                    dao.sendChallenge(userId, friendId, quizId);
+                    RequestWebSocket.sendChallengeRequest(friendId);
+                } else {
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write("{\"success\":true, \"message\":\"You are not friends.\"}");
+                    return;
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         System.out.println(friendId + " sent");
-        FriendsRequestWebSocket.sendFriendRequest(friendId, userId);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"success\":true}");

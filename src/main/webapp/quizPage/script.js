@@ -24,3 +24,45 @@ function addPerformanceInList(performance) {
     li.innerHTML = "Score : " + score +  ", Date: " + date + ", Time Used: " + used_time + " hrs.";
     userPerformances.appendChild(li);
 }
+
+function challengeUser() {
+    let fusername = document.getElementById("fusername").value;
+    $.ajax({
+        type: "POST",
+        url: "findProfile",
+        data: {
+            fusername: fusername,
+            type: "friend"
+        },
+        success: function(response) {
+            if (response.error) {
+                alert("Error: " + response.error);
+            } else {
+                sendChallengeRequest(response.profile_id);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX error: " + status + " - " + error);
+        }
+    });
+}
+
+function sendChallengeRequest(friendId) {
+    let quizCurrent = document.getElementById("quizCurId").value;
+    $.ajax({
+        type: "POST",
+        url: "SendRequest",
+        data: {
+            friend_id: friendId,
+            quiz_id: quizCurrent,
+            type: "challenge"
+        },
+        success: function(response) {
+            if(response.message) {
+                alert("You cannot send a challenge. You are not friends with this user.");
+            }
+        },
+        error: function(error) {
+        }
+    });
+}

@@ -11,7 +11,11 @@ function initSocket() {
 
     socket.onmessage = function(event) {
         const message = JSON.parse(event.data);
-        getFriendRequests(message);
+        if(message.type === "challengeRequest") {
+            getChallengeRequests();
+        } else {
+            getFriendRequests(message.from);
+        }
     };
 
     socket.onopen = function(event) {
@@ -37,7 +41,12 @@ window.onbeforeunload = function() {
     }
 }
 
+
 function getFriendRequests(sender_id) {
     $('#friendsRequest').load(document.URL + ' #friendsRequest');
     $('#profileInfo-' + sender_id).load(document.URL + ' #profileInfo-' + sender_id);
+}
+
+function getChallengeRequests() {
+    $('#challengeRequest').load(document.URL + ' #challengeRequest');
 }
