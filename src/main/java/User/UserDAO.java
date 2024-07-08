@@ -110,7 +110,7 @@ public class UserDAO {
             String user2_id = rs.getString("user2_id");
             result.add(user2_id);
         }
-        con.close();
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return result;
     }
 
@@ -374,6 +374,7 @@ public class UserDAO {
             Mail newMail = new Mail(mail_id, null, mail_text, send_date, sender_id, receiver_id, newmail_id, send_time);
             replays.add(newMail);
         }
+        DataBaseConnectionPool.getInstance().closeConnection(con);
         return replays;
     }
 
