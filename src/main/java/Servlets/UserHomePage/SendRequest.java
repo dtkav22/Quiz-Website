@@ -14,11 +14,6 @@ import java.sql.SQLException;
 @WebServlet("/SendRequest")
 public class SendRequest extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Handle GET request if necessary
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String friendId = request.getParameter("friend_id");
         String type = request.getParameter("type");

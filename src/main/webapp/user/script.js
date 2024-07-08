@@ -87,7 +87,7 @@ function sendToLogin() {
     let fusername = document.getElementById("fusername").value;
     console.log(fusername);
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "findProfile",
         data: {
             fusername: fusername,

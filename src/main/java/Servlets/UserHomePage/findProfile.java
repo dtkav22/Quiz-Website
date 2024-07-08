@@ -14,7 +14,7 @@ import java.sql.SQLException;
 @WebServlet("/findProfile")
 public class findProfile extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id;
         String fusername = request.getParameter("fusername");
         System.out.println("fusername: " + fusername);
@@ -33,10 +33,5 @@ public class findProfile extends HttpServlet {
             jsonResponse.addProperty("profile_id", id);
         }
         response.getWriter().write(jsonResponse.toString());
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }
