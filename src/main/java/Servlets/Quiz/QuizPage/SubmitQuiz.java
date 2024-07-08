@@ -22,7 +22,7 @@ public class SubmitQuiz extends HttpServlet {
         long seconds = timeUsedInMs % 60;
         timeUsedInMs /= 60;
         long minutes = timeUsedInMs % 60;
-        long hrs = timeUsedInMs /= 60;
+        long hrs = timeUsedInMs / 60;
         hrs %= 25;
         StringBuilder result = new StringBuilder();
         long[] arr = {hrs, minutes, seconds};
@@ -41,7 +41,9 @@ public class SubmitQuiz extends HttpServlet {
         ArrayList<String> values = (ArrayList<String>) session.getAttribute("values");
         int correct = 0;
         for(int i = 0; i < tasks.size(); i++) {
-            if(tasks.get(i).isCorrectAnswer(values.get(i))) correct++;
+            if(tasks.get(i).isCorrectAnswer(values.get(i))) {
+                correct++;
+            }
         }
         double score = (100.0 * correct) / ((double)tasks.size());
         long timeUsedInMs = System.currentTimeMillis() - ((long)session.getAttribute("startTime"));
@@ -59,5 +61,6 @@ public class SubmitQuiz extends HttpServlet {
         session.removeAttribute("tasks");
         session.removeAttribute("values");
         session.removeAttribute("startTime");
+        session.removeAttribute("isMultiplePage");
     }
 }

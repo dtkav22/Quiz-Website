@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 06.07.2024
@@ -11,7 +11,20 @@
     <title>Submit Quiz</title>
 </head>
 <body>
-  <%=request.getParameter("quiz_id")%>
+    <ol>
+        <%
+            ArrayList<String> values = (ArrayList<String>) session.getAttribute("values");
+            for(String value : values) {
+                out.println("<li>");
+                if(value.isEmpty()) {
+                    out.println("Not Answered");
+                } else {
+                    out.println("Answer Saved");
+                }
+                out.println("</li>");
+            }
+        %>
+    </ol>
   <form action="../SubmitQuiz" method="post">
       <input type="submit" value="Submit Quiz">
       <input type="hidden" name="quiz_id" value="<%=request.getParameter("quiz_id")%>">

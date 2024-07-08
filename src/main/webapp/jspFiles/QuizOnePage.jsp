@@ -55,8 +55,16 @@
                                 j--;
                                 idx = -1;
                             }
-                            if(text.equals(value)) out.println("<label><input type=\"radio\" name=\"answers\" value=\"" + text + "\" autocomplete=\"off\" checked />" + text + "</label>");
-                            else out.println("<label><input type=\"radio\" name=\"answers\" value=\"" + text + "\" autocomplete=\"off\" />" + text + "</label>");
+                            if(value.isEmpty()) {
+                                if(j == 0) {
+                                    out.println("<label><input type=\"radio\" name=\"answers\" value=\"" + text + "\" autocomplete=\"off\" checked />" + text + "</label>");
+                                } else {
+                                    out.println("<label><input type=\"radio\" name=\"answers\" value=\"" + text + "\" autocomplete=\"off\" />" + text + "</label>");
+                                }
+                            } else {
+                                if(text.equals(value)) out.println("<label><input type=\"radio\" name=\"answers\" value=\"" + text + "\" autocomplete=\"off\" checked />" + text + "</label>");
+                                else out.println("<label><input type=\"radio\" name=\"answers\" value=\"" + text + "\" autocomplete=\"off\" />" + text + "</label>");
+                            }
                         }
                         out.println("</li>");
                         break;

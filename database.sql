@@ -187,7 +187,7 @@ CREATE TABLE answers_table (
 INSERT INTO answers_table(question_id, answer_text, isCorrect, answer_order)
 VALUES(1, 'Zviad Gamsaxurdia', 1, 0),
       (2, '1963', 1, 0),
-      (3, 'Sherlock Holmes // Sherlock // Holmes', 1, 0),
+      (3, 'Sherlock Holmes//Sherlock//Holmes', 1, 0),
       (4, '1774', 0, 0),
       (4, '1776', 1, 0),
       (4, '1789', 0, 0),
