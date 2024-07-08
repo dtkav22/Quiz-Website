@@ -26,7 +26,6 @@ public class ChallengeRequest extends HttpServlet {
                 System.out.println("accept");
                 try {
                     userDao.acceptChallenge(friendId, userId, quizId);
-                    response.sendRedirect("/quizPage?quiz_id=" + quizId);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -34,11 +33,14 @@ public class ChallengeRequest extends HttpServlet {
                 System.out.println("reject");
                 try {
                     userDao.rejectChallenge(friendId, userId, quizId);
-                    response.sendRedirect("/UserHomePage");
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             }
         }
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"success\":" + true + "}");
     }
 }

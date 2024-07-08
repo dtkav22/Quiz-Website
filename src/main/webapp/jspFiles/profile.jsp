@@ -8,8 +8,21 @@
 <html>
 <head>
     <title>Profile Page</title>
+    <style>
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+    </style>
     <link rel="stylesheet" type="text/css" href="../user/userhome.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../user/script.js"></script>
+    <script src="../user/friendsSocket.js"></script>
 </head>
 <body>
 <header>Profile Page</header>
@@ -29,7 +42,7 @@
 <div class="container">
     <h1>Welcome to Your Dashboard</h1>
 
-    <div class="section">
+    <div class="section" id="profileInfo-<%=profile_id%>">
         <div class="noClick-section-title"><%=owner%> Information</div> <br>
             <div class="quiz-box">
                 <hb>Username: </hb>
@@ -46,12 +59,29 @@
                 <hb>Status: </hb>
                 <hb><%=(areFriends ? "Friends" : "Not Friends")%></hb>
             </div>
-            <%}%>
+
+
+            <%
+                if(userDao.canSendFriendRequest(user_id, profile_id)) {
+            %>
+            <div id="sendFriendRequest">
+                <form style="display:inline;">
+                <button type="button" class="accept" onclick="sendFriendRequest('<%=profile_id%>')">Send Friend Request</button>
+                </form>
+            </div>
+            <%} else if(userDao.canAcceptFriendRequest(profile_id, user_id)) {%>
+            <div id="quiz-box-<%=profile_id%>">
+                <form style="display:inline;">
+                    <button type="button" class="accept" onclick="handleFriendRequest(false, 'accept', '<%=profile_id%>')">Accept Friend Request</button>
+                    <button type="button" class="reject" onclick="handleFriendRequest(false, 'reject', '<%=profile_id%>')">Reject Friend Request</button>
+                </form>
+            </div>
+        <%}}%>
     </div>
 
     <div class="half-container">
     <div class="section">
-        <div class="section-title" onclick="goToDisplayQuizzes('yours', <%=profile_id%>)"><%=owner%> Quizzes</div>
+        <div class="section-title" onclick="goToDisplayQuizzes('yours', '<%=profile_id%>')"><%=owner%> Quizzes</div>
         <%
             ArrayList<String> quizzes = dao.getUserQuizzes(profile_id, MAX_DISPLAY);
             for (String quiz_id : quizzes) {
@@ -71,7 +101,7 @@
         <%}%>
     </div>
     <div class="section">
-        <div class="section-title" onclick="goToDisplayQuizzes('performance', <%=profile_id%>)"><%=owner%> Performance History</div>
+        <div class="section-title" onclick="goToDisplayQuizzes('performance', '<%=profile_id%>')"><%=owner%> Performance History</div>
         <%
             ArrayList<Performance> performances = userDao.getUserPerformanceHistory(profile_id, MAX_DISPLAY);
             for (Performance performance : performances) {
@@ -95,7 +125,7 @@
 
     <div class="half-container">
         <div class="section">
-            <div class="section-title" onclick="goToFriends(<%=profile_id%>)">Friends List</div>
+            <div class="section-title" onclick="goToFriends('<%=profile_id%>')">Friends List</div>
             <%
                 ArrayList<String> friends = userDao.getFriendsForUser(profile_id);
                 for(int i = 0; i < Math.min(friends.size(), MAX_DISPLAY); i++) {
@@ -114,6 +144,13 @@
             </div>
             <%}%>
         </div>
+
+        <div class="section">
+            <div class="noClick-section-title">Search Other User</div>
+                <input type="text" id="fusername" name="fusername">
+                <button type="button" class="go-back" onclick="sendToLogin()">Search</button>
+        </div>
+
     </div>
 
 

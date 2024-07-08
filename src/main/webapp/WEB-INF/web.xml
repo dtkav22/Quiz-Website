@@ -2,7 +2,10 @@
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-<web-app>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
   <display-name>Archetype Created Web Application</display-name>
 
   <filter>
@@ -43,8 +46,28 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>MyFilter</filter-name>
+    <servlet-name>DisplayRequests</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>DisplayQuizzes</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
     <servlet-name>QuizPage</servlet-name>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>ProfilePage</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>FriendsList</servlet-name>
+  </filter-mapping>
+
+  <listener>
+    <listener-class>WebSockets.FriendsContextListener</listener-class>
+  </listener>
   <filter-mapping>
     <filter-name>MyFilter</filter-name>
     <servlet-name>QuizSummaryPage</servlet-name>

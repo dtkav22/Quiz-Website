@@ -13,6 +13,9 @@ public class DisplayQuizzes extends HttpServlet {
         if(id == null) {
             id = (String) request.getSession().getAttribute("userId");
         }
+        if(type == null) {
+            type = "friends";
+        }
         System.out.println(id);
         request.setAttribute("profile_id", id);
         request.setAttribute("type", type);

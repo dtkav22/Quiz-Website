@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class UserDAO {
     public void addUser(User user) throws SQLException {
+        System.out.println("Adding user");
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         String query = "INSERT INTO users_table (username, email, password) VALUES (?, ?, ?)";
         PreparedStatement stm = con.prepareStatement(query);
@@ -19,6 +20,7 @@ public class UserDAO {
     }
 
     public String getUserId(String username) throws SQLException{
+        System.out.println("Getting user id");
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT user_id FROM users_table WHERE username = ?";
         PreparedStatement stm = con.prepareStatement(query);
@@ -32,21 +34,22 @@ public class UserDAO {
         return id;
     }
 
-    public User getUser(String id) throws SQLException{
-        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+     public User getUser(String id) throws SQLException {
+        System.out.println("Getting user");
         String query = "SELECT * FROM users_table WHERE user_id = ?";
-        PreparedStatement stm = con.prepareStatement(query);
-        stm.setString(1, id);
-        ResultSet set = stm.executeQuery();
-        User user = null;
-        if (set.next()) {
-            String username = set.getString("username");
-            String password = set.getString("password");
-            String email = set.getString("email");
-            user = new User(username, password, email, true);
-        }
-        DataBaseConnectionPool.getInstance().closeConnection(con);
-        return user;
+        try (Connection con = DataBaseConnectionPool.getInstance().getConnection();
+             PreparedStatement stm = con.prepareStatement(query)) {
+            stm.setString(1, id);
+            try (ResultSet set = stm.executeQuery()) {
+                if (set.next()) {
+                    String username = set.getString("username");
+                    String password = set.getString("password");
+                    String email = set.getString("email");
+                    return new User(username, password, email, true);
+                }
+            }
+        } // try-with-resources will auto close Connection and PreparedStatement
+        return null;
     }
 
     public void addPerformance(Performance performance) throws SQLException {
@@ -62,6 +65,7 @@ public class UserDAO {
     }
 
     public ArrayList<Performance> getUserPerformanceHistory(String user_id, int size) throws SQLException{
+        System.out.println("Getting user performance history");
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM performances_table WHERE user_id = ? ORDER BY date DESC;";
         PreparedStatement statement = con.prepareStatement(query);
@@ -139,6 +143,7 @@ public class UserDAO {
     }
 
     public ArrayList<String> getFriendsForUser(String user_id) throws SQLException {
+        System.out.println("Getting friends for user");
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         ArrayList<String> result = new ArrayList<>();
         String query = "SELECT * FROM relations_table WHERE (user1_id = " + user_id + " OR user2_id = " + user_id + ") AND isPending = 0;";
@@ -158,6 +163,7 @@ public class UserDAO {
     }
 
     public ArrayList<String> getFriendRequestsForUser(String user_id) throws SQLException {
+        System.out.println("Getting friend requests for user");
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         ArrayList<String> result = new ArrayList<>();
         String query = "SELECT * FROM relations_table WHERE user2_id = " + user_id + " AND isPending = 1;";
@@ -172,6 +178,7 @@ public class UserDAO {
     }
 
     public ArrayList<String> getSentRequestsForUser(String user_id) throws SQLException {
+        System.out.println("Getting sent requests for user");
         Connection con = DataBaseConnectionPool.getInstance().getConnection();
         ArrayList<String> result = new ArrayList<>();
         String query = "SELECT * FROM relations_table WHERE user1_id = " + user_id + " AND isPending = 1;";
@@ -185,7 +192,8 @@ public class UserDAO {
         return result;
     }
 
-    private boolean canSendFriendRequest(String sender_id, String reciever_id) throws SQLException {
+    public boolean canSendFriendRequest(String sender_id, String reciever_id) throws SQLException {
+        System.out.println("Checking if can send friend request");
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String queryTest = "SELECT * FROM relations_table WHERE (user1_id = " + sender_id + " AND user2_id = " + reciever_id + ") OR (user2_id = " + sender_id + " AND user1_id = " + reciever_id + ")";
         PreparedStatement statementTest = conn.prepareStatement(queryTest);
@@ -196,6 +204,7 @@ public class UserDAO {
     }
 
     public boolean sendFriendRequest(String sender_id, String reciever_id) throws SQLException {
+        System.out.println("Sending friend request");
         if(canSendFriendRequest(sender_id, reciever_id)) {
             Connection con = DataBaseConnectionPool.getInstance().getConnection();
             String query = "INSERT INTO relations_table (user1_id, user2_id, isPending) VALUES (?, ?, 1)";
@@ -209,7 +218,8 @@ public class UserDAO {
         return false;
     }
 
-    private boolean canAcceptFriendRequest(String sender_id, String reciever_id) throws SQLException {
+    public boolean canAcceptFriendRequest(String sender_id, String reciever_id) throws SQLException {
+        System.out.println("Checking if can accept friend request");
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM relations_table WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id + " AND isPending = 1";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -220,6 +230,7 @@ public class UserDAO {
     }
 
     public void acceptFriendRequest(String sender_id, String reciever_id) throws SQLException {
+        System.out.println("Accepting friend request");
         if(canAcceptFriendRequest(sender_id, reciever_id)){
             Connection conn = DataBaseConnectionPool.getInstance().getConnection();
             String query = "UPDATE relations_table SET isPending = 0 WHERE user1_id = " + sender_id + " AND user2_id = " + reciever_id;
@@ -230,6 +241,7 @@ public class UserDAO {
     }
 
     public void rejectFriendRequest(String sender_id, String reciever_id) throws SQLException {
+        System.out.println("Rejecting friend request");
         if (canAcceptFriendRequest(sender_id, reciever_id)) {
             Connection conn = DataBaseConnectionPool.getInstance().getConnection();
             String query = "DELETE FROM relations_table WHERE user1_id = ? AND user2_id = ?";
@@ -242,6 +254,7 @@ public class UserDAO {
     }
 
     public boolean areFriends(String user1_id, String user2_id) throws SQLException {
+        System.out.println("Checking if are friends");
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM relations_table WHERE (user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND isPending = 0) OR (user1_id = " + user2_id + " AND user2_id = " + user1_id + " AND isPending = 0)";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -252,6 +265,7 @@ public class UserDAO {
     }
 
     public void sendChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
+        System.out.println("Sending challenge");
         if(areFriends(user1_id, user2_id)){
             Connection conn = DataBaseConnectionPool.getInstance().getConnection();
             String query = "INSERT INTO challenges_table (quiz_id, user1_id, user2_id) VALUES (?, ?, ?)";
@@ -265,6 +279,7 @@ public class UserDAO {
     }
 
     private boolean canAcceptChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
+        System.out.println("Checking if can accept challenge");
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM challenges_table WHERE user1_id = " + user1_id + " AND user2_id = " + user2_id + " AND quiz_id = " + quiz_id;
         PreparedStatement statement = conn.prepareStatement(query);
@@ -275,6 +290,7 @@ public class UserDAO {
     }
 
     public void acceptChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
+        System.out.println("Accepting challenge");
         if(canAcceptChallenge(user1_id, user2_id, quiz_id)){
             Connection conn = DataBaseConnectionPool.getInstance().getConnection();
             String query = "UPDATE challenges_table SET accepted = 1 WHERE user1_id = ? AND user2_id = ? AND quiz_id = ?";
@@ -288,6 +304,7 @@ public class UserDAO {
     }
 
     public void rejectChallenge(String user1_id, String user2_id, String quiz_id) throws SQLException {
+        System.out.println("Rejecting challenge");
         if(canAcceptChallenge(user1_id, user2_id, quiz_id)){
             Connection conn = DataBaseConnectionPool.getInstance().getConnection();
             String query = "DELETE FROM challenges_table WHERE user1_id = ? AND user2_id = ? AND quiz_id = ?";
@@ -301,6 +318,7 @@ public class UserDAO {
     }
 
     public void sendMail(String sender_id, String receiver_id, String text, String subject) throws SQLException {
+        System.out.println("Sending mail");
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "INSERT INTO mails_table (sender_id, receiver_id, mail_text, mail_subject) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -313,6 +331,7 @@ public class UserDAO {
     }
 
     public ArrayList<Challenge> getChallengesSentForUser(String user_id) throws SQLException {
+        System.out.println("Getting challenges sent for user");
         ArrayList<Challenge> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM challenges_table WHERE user2_id = " + user_id + " AND accepted = 0;";
@@ -329,6 +348,7 @@ public class UserDAO {
     }
 
     public ArrayList<Mail> getSentMailsForUser(String user_id) throws SQLException {
+        System.out.println("Getting sent mails for user");
         ArrayList<Mail> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM mails_table WHERE sender_id = " + user_id + " ORDER BY send_date DESC";
@@ -349,6 +369,7 @@ public class UserDAO {
     }
 
     public ArrayList<Mail> getReceivedMailsForUser(String user_id) throws SQLException {
+        System.out.println("Getting received mails for user");
         ArrayList<Mail> result = new ArrayList<>();
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM mails_table WHERE receiver_id = " + user_id + " ORDER BY send_date DESC";
@@ -369,6 +390,7 @@ public class UserDAO {
     }
 
     public Mail getMail(String mail_id) throws SQLException {
+        System.out.println("Getting mail");
         Connection conn = DataBaseConnectionPool.getInstance().getConnection();
         String query = "SELECT * FROM mails_table WHERE mail_id = " + mail_id;
         PreparedStatement statement = conn.prepareStatement(query);
@@ -380,7 +402,7 @@ public class UserDAO {
             String receiver_id = rs.getString("receiver_id");
             String mail_subject = rs.getString("mail_subject");
             Mail newMail = new Mail(mail_subject, mail_id, mail_text, send_date, sender_id, receiver_id);
-            conn.close();
+            DataBaseConnectionPool.getInstance().closeConnection(conn);
             return newMail;
         } else {
             DataBaseConnectionPool.getInstance().closeConnection(conn);
@@ -389,6 +411,7 @@ public class UserDAO {
     }
 
     public ArrayList<Performance> getFriendsPerformances(String user_id, int size) throws SQLException {
+        System.out.println("Getting friends performances");
         String query = "SELECT * FROM performances_table " +
                 "WHERE user_id IN (SELECT user1_id FROM relations_table WHERE user2_id = ? AND isPending = 0) " +
                 "OR user_id IN (SELECT user2_id FROM relations_table WHERE user1_id = ? AND isPending = 0) " +
