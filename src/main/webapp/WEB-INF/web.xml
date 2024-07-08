@@ -32,6 +32,7 @@
     <filter-name>CacheControlFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
   <filter-mapping>
     <filter-name>MyFilter</filter-name>
     <servlet-name>createQuiz</servlet-name>
@@ -55,6 +56,14 @@
   <filter-mapping>
     <filter-name>MyFilter</filter-name>
     <servlet-name>QuizPage</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>ProfilePage</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <servlet-name>FriendsList</servlet-name>
   </filter-mapping>
 
   <listener>

@@ -8,7 +8,9 @@ public class DisplayRequests extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
-        System.out.println(type);
+        if(type == null) {
+            type = "friends";
+        }
         if(type.equals("mails")) {
             request.getRequestDispatcher("jspFiles/mails.jsp").forward(request, response);
         } else if(type.equals("friends")){

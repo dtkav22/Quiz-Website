@@ -10,6 +10,9 @@ public class ProfilePage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("profile_id");
+        if(id == null) {
+            id = (String) request.getSession().getAttribute("userId");
+        }
         request.setAttribute("profile_id", id);
         request.getRequestDispatcher("jspFiles/profile.jsp").forward(request, response);
     }

@@ -12,6 +12,9 @@ public class FriendsList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("enter");
         String id = request.getParameter("profile_id");
+        if(id == null) {
+            id = (String) request.getSession().getAttribute("userId");
+        }
         request.setAttribute("profile_id", id);
         System.out.println("here");
         System.out.println(id);
