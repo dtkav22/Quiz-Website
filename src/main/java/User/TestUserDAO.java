@@ -74,16 +74,14 @@ public class TestUserDAO extends TestCase {
         id = userDAO.getUserId(user.getUserName());
         userClone = userDAO.getUser(id);
         assertEquals("mate", userClone.getUserName());
+        Connection con = DataBaseConnectionPool.getInstance().getConnection();
+        String query = "DELETE FROM users_table WHERE username= ? OR username= ?";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1,"mate");
+        statement.setString(2, "duta1");
+        statement.executeUpdate();
+        assertNull(userDAO.getUser("0"));
     }
-
-    public void testGetPerformanceHistory() throws SQLException {
-        userDAO.addPerformance(new Performance("1", 100, null, "1", "00:00:00"));
-        ArrayList<Performance> set = userDAO.getUserPerformanceHistory("1", 100);
-        assertEquals("1", set.get(0).getQuiz_id());
-        assertEquals(100.0, set.get(0).getScore());
-        System.out.println(set.get(0).getDate());
-    }
-
     public void testGetFriendsForUser1() throws SQLException {
         ArrayList<String> list = userDAO.getFriendsForUser("2");
         assertEquals(2, list.size());
@@ -265,7 +263,12 @@ public class TestUserDAO extends TestCase {
         assertTrue(rs.next());
         System.out.println("Mail send");
     }
-
+    public void testGetPerformanceHistory() throws SQLException {
+        ArrayList<Performance> set = userDAO.getUserPerformanceHistory("5", 100);
+        assertEquals("1", set.get(0).getQuiz_id());
+        assertEquals(80.0, set.get(0).getScore());
+        System.out.println(set.get(0).getDate());
+    }
     public void testGetUserPerformanceOnQuiz() throws SQLException {
         String user_id = "1";
         String quiz_id = "1";
@@ -297,12 +300,12 @@ public class TestUserDAO extends TestCase {
     public void testAddPerformance() {
         String user_id = "1";
         String quiz_id = "2";
-        double score = 0;
+        double score = 75;
         String usedTime = "00:00:00";
         try {
             userDAO.addPerformance(new Performance(quiz_id, score, null, user_id, usedTime));
             ArrayList<Performance> performances = userDAO.getUserPerformanceOnQuiz(user_id, quiz_id, 1, "used_time");
-            assertEquals(0.0, performances.get(0).getScore());
+            assertEquals(75.0, performances.get(0).getScore());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
