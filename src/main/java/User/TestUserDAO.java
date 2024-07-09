@@ -457,6 +457,18 @@ public class TestUserDAO extends TestCase {
     }
 
 
+    public void testRejectFriendRequest() throws SQLException {
+        userDAO.sendFriendRequest("2", "6");
+        userDAO.rejectFriendRequest("2", "6");
+
+        Connection conn = DataBaseConnectionPool.getInstance().getConnection();
+        String query2 = "SELECT * FROM relations_table WHERE user1_id = 2 AND user2_id = 6";
+        PreparedStatement stm = conn.prepareStatement(query2);
+        ResultSet rs = stm.executeQuery();
+        assertFalse(rs.next());
+    }
+
+
 
 
     public void testGetUserPerformanceOnQuiz() throws SQLException {
