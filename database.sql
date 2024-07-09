@@ -81,9 +81,9 @@ CREATE TABLE quizzes_table (
                                PRIMARY KEY (quiz_id),
                                FOREIGN KEY (author_id) REFERENCES users_table(user_id)
 );
-INSERT into quizzes_table (author_id, multiple_page, randomize_tasks, quiz_name)
-VALUES ('1', 0, 0, "sample quiz"),
-       ('2', 0, 0, "another quiz");
+INSERT into quizzes_table (author_id, multiple_page, randomize_tasks, quiz_name, creation_date)
+VALUES ('1', 0, 0, "sample quiz", "2024-06-26 17:20'"),
+       ('2', 0, 0, "another quiz", "2024-05-26 15:20");
 
 -- challenges table
 
@@ -105,13 +105,13 @@ VALUES (1,3,2),
 -- performance table
 
 CREATE TABLE performances_table(
-    user_id INT NOT NULL ,
-    quiz_id INT NOT NULL ,
-    score DOUBLE NOT NULL,
-    date DATETIME DEFAULT (NOW()),
-    used_time VARCHAR(10) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users_table(user_id),
-    FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
+                                   user_id INT NOT NULL ,
+                                   quiz_id INT NOT NULL ,
+                                   score DOUBLE NOT NULL,
+                                   date DATETIME DEFAULT (NOW()),
+                                   used_time VARCHAR(10) NOT NULL,
+                                   FOREIGN KEY (user_id) REFERENCES users_table(user_id),
+                                   FOREIGN KEY (quiz_id) REFERENCES quizzes_table(quiz_id)
 );
 INSERT INTO performances_table (user_id, quiz_id, score, date, used_time)
 VALUES (1, 1, 100, '2024-06-26 17:20', '00:02:00');
@@ -198,5 +198,4 @@ VALUES(1, 'Zviad Gamsaxurdia', 1, 0),
       (5, 'test', 1, 0);
 
 -- selects
-
 

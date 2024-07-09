@@ -2,6 +2,7 @@ package Quiz;
 
 import junit.framework.TestCase;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -24,6 +25,8 @@ public class TestQuizDAO extends TestCase {
         list.add(task2);
         return new Quiz("1", list, null, null, false, false, "example");
     }
+
+
 
     public void test1() {
         QuizDAO dao = new QuizDAO();
@@ -64,6 +67,63 @@ public class TestQuizDAO extends TestCase {
         String ques = "Who is current world champion in chess?";
         assertEquals(question.getQuestionText(), ques);
         assertNull(dao.getQuiz("1000000"));
+    }
+
+    public void testMaxScore() {
+        QuizDAO dao = new QuizDAO();
+
+        try {
+            assertEquals("100.0", dao.getMaxScore("1"));
+            assertEquals("80.0", dao.getMaxScore("2"));
+            assertNull(dao.getMaxScore("3"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void testGetUserQuizzes() {
+        QuizDAO dao = new QuizDAO();
+        try {
+            assertEquals(1, dao.getUserQuizzes("1", 100).size());
+            assertEquals(1, dao.getUserQuizzes("2", 100).size());
+            assertEquals(0, dao.getUserQuizzes("1", 0).size());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void testGetPopularQuizzes() {
+        QuizDAO dao = new QuizDAO();
+        try {
+            assertEquals(2, dao.getPopularQuizzes(100).size());
+            assertEquals(1, dao.getPopularQuizzes(1).size());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void testQuizzesByDate() {
+        QuizDAO dao = new QuizDAO();
+        try {
+            ArrayList<String> quizzes = dao.getQuizzesByDate(100, true);
+            assertEquals(2, quizzes.size());
+            assertEquals("another quiz", dao.getQuiz(quizzes.get(0)).getQuizName());
+            assertEquals(0, dao.getQuizzesByDate(0, false).size());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void testQuizzesByDate2() {
+        QuizDAO dao = new QuizDAO();
+        try {
+            ArrayList<String> quizzes = dao.getQuizzesByDate(100, false);
+            assertEquals(2, quizzes.size());
+            assertEquals("sample quiz", dao.getQuiz(quizzes.get(0)).getQuizName());
+            assertEquals(0, dao.getQuizzesByDate(0, false).size());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
