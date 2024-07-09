@@ -14,7 +14,6 @@ public class TestUserDAO extends TestCase {
     private User user;
     private UserDAO userDAO;
     public void setUp() {
-        user = new User("duta1", "duta", "example@example", false);
         userDAO = new UserDAO();
     }
 
@@ -64,6 +63,7 @@ public class TestUserDAO extends TestCase {
     }
 
     public void testAddUser() throws SQLException {
+        user = new User("duta1", "duta", "example@example", false);
         userDAO.addUser(user);
         String id = userDAO.getUserId(user.getUserName());
         User userClone = userDAO.getUser(id);
